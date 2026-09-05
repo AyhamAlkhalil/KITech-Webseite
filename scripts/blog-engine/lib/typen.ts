@@ -84,6 +84,37 @@ export interface ThemaImVorrat {
   erledigt?: string;
   /** Notiz für den nächsten Menschen, der hier reinsieht. */
   notiz?: string;
+
+  /**
+   * Themen, deren Wert an der **Aktualität** hängt: ein neues Modell, eine
+   * Ankündigung, eine Rechtsänderung von letzter Woche.
+   *
+   * Ist das Feld gesetzt, holt Schritt 04 zusätzlich zur Suchergebnis-Recherche
+   * frische Seiten über eine Websuche mit Zeitfilter. Das ist der einzige Weg,
+   * auf dem aktuelle Fakten überhaupt in einen Artikel kommen — das schreibende
+   * Modell kennt sie nicht und kann sie nicht kennen.
+   *
+   * ⚠️ Das Feld ersetzt `substanz` **nicht**. Aktualität allein ist kein
+   * Eigenanteil: „Modell X ist erschienen" steht am selben Tag auf hundert
+   * Seiten. Die Meldung ist der Anlass, `substanz` ist der Artikel — eine eigene
+   * Messung am neuen Modell, die gelesene Modellkarte, die Entscheidung, die
+   * daraus folgt. Ein Thema mit `aktualitaet` und `substanz: null` wird genauso
+   * wenig produziert wie jedes andere.
+   */
+  aktualitaet?: ThemaAktualitaet;
+}
+
+/** Siehe `ThemaImVorrat.aktualitaet`. Eigener Export, weil Schritt 04 ihn braucht. */
+export interface ThemaAktualitaet {
+  /**
+   * Die Suchanfrage für die Zeitsuche. Bewusst getrennt vom `zielKeyword`:
+   * Das Zielkeyword ist auf Suchvolumen optimiert („ki modelle vergleich"),
+   * hier braucht es die Formulierung, unter der die Meldung tatsächlich
+   * berichtet wird.
+   */
+  suche: string;
+  /** Zeitfenster: Tag, Woche oder Monat. Firecrawl reicht es als `tbs` durch. */
+  fenster: "qdr:d" | "qdr:w" | "qdr:m";
 }
 
 export interface KeywordDaten {
@@ -156,6 +187,15 @@ export interface GeleseneSeite {
   wortzahl: number;
   /** Überschriften der Seite — daraus entsteht das Bild der Konkurrenz. */
   ueberschriften: string[];
+  /**
+   * Wann die Seite erschien — nur bei Quellen aus der Aktualitätssuche gefüllt,
+   * und dann relativ („8 hours ago"), so wie Firecrawl es liefert.
+   *
+   * Geht mit in den Auftrag an das Modell. Ohne die Angabe kann es eine frische
+   * Meldung nicht von einem alten Ratgebertext unterscheiden — beides ist für
+   * das Modell nur Text.
+   */
+  datum?: string;
 }
 
 export interface RechercheErgebnis {

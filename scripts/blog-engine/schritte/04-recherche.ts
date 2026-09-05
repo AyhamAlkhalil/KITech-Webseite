@@ -1,7 +1,17 @@
 import { MODELL_STRUKTUR, frage, type JsonSchema } from "../lib/claude.js";
-import { FirecrawlKonfigFehler, pruefeUmgebung, seitenLesen } from "../lib/firecrawl.js";
+import {
+  FirecrawlKonfigFehler,
+  pruefeUmgebung,
+  seitenLesen,
+  websucheMitInhalt,
+} from "../lib/firecrawl.js";
 import { melde, warne } from "../lib/protokoll.js";
-import type { GeleseneSeite, RechercheErgebnis, SerpBild } from "../lib/typen.js";
+import type {
+  GeleseneSeite,
+  RechercheErgebnis,
+  SerpBild,
+  ThemaAktualitaet,
+} from "../lib/typen.js";
 
 /**
  * Schritt 04 — Recherche: *Was steht dort tatsächlich drin?*
@@ -241,6 +251,7 @@ function baueAuftrag(keyword: string, serp: SerpBild, gelesen: GeleseneSeite[]):
   gelesen.forEach((seite, index) => {
     teile.push(`--- Seite ${index + 1}: ${seite.domain} ---`);
     teile.push(`Titel: ${seite.titel || "(ohne Titel)"}`);
+    if (seite.datum) teile.push(`Erschienen: vor ${seite.datum} — das ist eine aktuelle Meldung.`);
     teile.push(`URL: ${seite.url}`);
     if (seite.ueberschriften.length > 0) {
       teile.push(`Überschriften: ${seite.ueberschriften.join(" | ")}`);
@@ -365,9 +376,160 @@ function leeresErgebnis(keyword: string, gelesen: GeleseneSeite[] = []): Recherc
  * @param brief Nur das Zielkeyword; mehr braucht dieser Schritt nicht, und
  *   weniger Abhängigkeit heißt: er ist einzeln wiederholbar.
  */
+/**
+ * Wie viele frische Seiten bei einem Thema mit Aktualitätsbezug gelesen werden.
+ *
+ * Vier statt sechs: Eine Zeitsuche liefert zur selben Meldung oft dieselbe
+ * Agenturmeldung in vier Aufmachungen. Der Ertrag fällt schneller ab als bei
+ * einer normalen Ergebnisseite, der Preis nicht — Firecrawl rechnet Suche plus
+ * Volltext, hier also rund sechs Credits.
+ */
+const AKTUELL_MAX = 4;
+
+/**
+ * Liegt eine relative Datumsangabe von Firecrawl im gewünschten Fenster?
+ *
+ * Firecrawl liefert bei der News-Quelle „8 hours ago", „3 days ago",
+ * „2 months ago" — englisch, relativ, nicht normalisiert. Hier wird bewusst
+ * nicht geparst, sondern nur die Einheit gelesen: Das reicht, um „letzte Woche"
+ * von „letztes Jahr" zu unterscheiden, und es bricht nicht, wenn Firecrawl das
+ * Format ändert. Was nicht erkannt wird, gilt als im Fenster — eine Warnung ist
+ * kein Grund, eine lesbare Quelle wegzuwerfen.
+ */
+export function imFenster(datum: string, fenster: "qdr:d" | "qdr:w" | "qdr:m"): boolean {
+  const wert = datum.toLowerCase();
+  const grenze: Record<typeof fenster, RegExp> = {
+    "qdr:d": /\b(minute|hour)s?\b/,
+    "qdr:w": /\b(minute|hour|day)s?\b/,
+    "qdr:m": /\b(minute|hour|day|week)s?\b/,
+  };
+  // „1 month ago" ist bei qdr:m die Kante — als drin gewertet, wie in der Suche.
+  if (fenster === "qdr:m" && /^1\s+month/.test(wert)) return true;
+  if (/\b(year|month|week|day|hour|minute)s?\b/.test(wert)) return grenze[fenster].test(wert);
+  return true;
+}
+
+/**
+ * Frische Seiten zu einem Thema mit Aktualitätsbezug.
+ *
+ * ⚠️ Das ist der **einzige** Weg, auf dem aktuelle Fakten in einen Artikel
+ * kommen. Das schreibende Modell kennt nur seinen Trainingsstand und hält ihn
+ * für die Gegenwart; die Suchergebnis-Recherche (Schritt 03/04) liefert, was
+ * seit Jahren rankt — bei einer Meldung von letzter Woche also nichts. Ohne
+ * diesen Aufruf entstünde ein „News"-Artikel aus dem Gedächtnis.
+ *
+ * Läuft **unabhängig von DataForSEO**: Ist dort das Tagesbudget aufgebraucht,
+ * reicht Schritt 03 ein leeres Suchergebnisbild weiter, und die Recherche hätte
+ * sonst keine einzige Adresse.
+ *
+ * Ein Fehler hier bricht den Lauf nicht ab. Der Artikel entsteht dann aus dem,
+ * was die reguläre Recherche hergibt — und die Warnung steht im Protokoll.
+ */
+async function aktuelleSeiten(
+  aktualitaet: ThemaAktualitaet,
+  keyword: string,
+): Promise<GeleseneSeite[]> {
+  try {
+    /*
+     * ⚠️ **Zwei Aufrufe, nicht einer.** Firecrawl liefert bei `tbs` zusammen mit
+     * `scrapeOptions` **null Treffer** — kein Fehler, keine Meldung, eine leere
+     * Liste. Nachgestellt am 05.09.2026, vier Versuche über zwei Suchanfragen
+     * und zwei Zeitfenster: mit Volltext immer 0, ohne Volltext dieselbe Anfrage
+     * mit Treffern. Wer hier `mitVolltext: true` einträgt, schaltet die
+     * Aktualitätsrecherche stillschweigend ab.
+     *
+     * Also erst die Adressen holen, dann mit `seitenLesen` lesen — was ohnehin
+     * die bessere Leseroutine ist: Sie erkennt Cookie-Wände, Abwehr und zu
+     * kurze Seiten, was der Volltext aus der Suche nicht tut.
+     */
+    const treffer = await websucheMitInhalt(aktualitaet.suche, {
+      limit: AKTUELL_MAX,
+      quellen: ["news"],
+      mitVolltext: false,
+    });
+
+    const brauchbar = treffer.filter((eintrag) => eintrag.url && !istPdf(eintrag.url));
+    const adressen = brauchbar.map((eintrag) => eintrag.url);
+    // Das Erscheinungsdatum kommt nur aus der Trefferliste, nicht aus der
+    // gelesenen Seite — hier gemerkt, um es später zuzuordnen.
+    const datumJeUrl = new Map(brauchbar.map((eintrag) => [eintrag.url, eintrag.datum]));
+
+    if (adressen.length === 0) {
+      warne(
+        `Aktualität „${aktualitaet.suche}" (${aktualitaet.fenster}): kein Treffer im ` +
+          "Zeitfenster. Bei einem Thema, dessen Wert an der Aktualität hängt, ist das ein " +
+          "Grund, es heute nicht zu produzieren.",
+      );
+      return [];
+    }
+
+    const gelesen = await seitenLesen(adressen, { parallel: 3 });
+    const seiten: GeleseneSeite[] = [];
+    for (const eintrag of gelesen) {
+      if (eintrag.ok === false) {
+        warne(`Aktualität: ${eintrag.url} nicht lesbar — ${eintrag.fehler}`);
+        continue;
+      }
+      const seite = eintrag.seite;
+      if (seite.blockiert || seite.wortzahl < MINDEST_WORTZAHL) {
+        warne(
+          `Aktualität: ${seite.url} unbrauchbar ` +
+            `(${seite.blockiert ? `abgewehrt, HTTP ${seite.statusCode}` : `${seite.wortzahl} Wörter`}).`,
+        );
+        continue;
+      }
+      seiten.push({
+        url: seite.url,
+        domain: host(seite.url),
+        titel: seite.titel,
+        inhalt: seite.markdown,
+        wortzahl: seite.wortzahl,
+        ueberschriften: ueberschriftenAus(seite.markdown),
+        datum: datumJeUrl.get(seite.url) || undefined,
+      });
+    }
+
+    if (seiten.length === 0) {
+      warne(
+        `Aktualität „${aktualitaet.suche}": ${adressen.length} Adresse(n) gefunden, aber ` +
+          "keine davon lesbar. Der Artikel entsteht ohne frische Quellen.",
+      );
+      return [];
+    }
+
+    melde(
+      `Aktualität „${aktualitaet.suche}": ${seiten.length} frische Seite(n) gelesen — ` +
+        seiten.map((seite) => `${seite.domain} (${seite.datum || "ohne Datum"})`).join(", "),
+    );
+
+    const zuAlt = seiten.filter((seite) => seite.datum && !imFenster(seite.datum, aktualitaet.fenster));
+    if (zuAlt.length === seiten.length) {
+      warne(
+        `Aktualität „${aktualitaet.suche}": keine Quelle liegt im Fenster ${aktualitaet.fenster} — ` +
+          `älteste bis jüngste: ${seiten.map((seite) => seite.datum).join(", ")}. ` +
+          "Der Artikel entsteht, aber der Aufhänger ist nicht mehr aktuell.",
+      );
+    } else if (zuAlt.length > 0) {
+      warne(
+        `Aktualität: ${zuAlt.length} von ${seiten.length} Quellen liegen ausserhalb von ` +
+          `${aktualitaet.fenster} (${zuAlt.map((seite) => seite.datum).join(", ")}).`,
+      );
+    }
+
+    return seiten;
+  } catch (problem: unknown) {
+    warne(
+      `Aktualität „${aktualitaet.suche}": Zeitsuche fehlgeschlagen — ` +
+        `${problem instanceof Error ? problem.message : String(problem)}. ` +
+        "Der Artikel entsteht ohne frische Quellen.",
+    );
+    return [];
+  }
+}
+
 export async function recherchiere(
   serp: SerpBild,
-  brief: { zielKeyword: string },
+  brief: { zielKeyword: string; aktualitaet?: ThemaAktualitaet },
 ): Promise<RechercheErgebnis> {
   const keyword = brief.zielKeyword.trim() || serp.keyword;
 
@@ -385,13 +547,25 @@ export async function recherchiere(
     throw problem;
   }
 
+  // Frische Quellen zuerst: Sie sind der Grund, aus dem dieses Thema heute
+  // läuft, und sie hängen nicht am DataForSEO-Budget. Ihre Domains sind danach
+  // gesperrt — dieselbe Meldung ein zweites Mal zu lesen kostet einen Credit
+  // und bringt kein Wort.
+  const frisch = brief.aktualitaet ? await aktuelleSeiten(brief.aktualitaet, keyword) : [];
+
   // Je Domain nur eine Seite: Zwei Unterseiten desselben Ratgebers zählen als
   // ein Wettbewerber, kosten aber zwei Credits und verschieben die
   // „Hälfte der Seiten"-Schwelle bei den Pflichtthemen.
-  const gesehen = new Set<string>();
+  const gesehen = new Set<string>(frisch.map((seite) => seite.domain).filter(Boolean));
+  // Frische Seiten zählen gegen dasselbe Budget: Sechs Volltexte sind rund
+  // 12.000 Token Eingabe, und die zahlt jeder Lauf. Mindestens zwei
+  // Wettbewerberseiten bleiben trotzdem — ohne sie fehlt die Vergleichsgröße,
+  // an der die Lücken überhaupt erkannt werden.
+  const serpMax = Math.max(2, SEITEN_MAX - frisch.length);
+
   const urls: string[] = [];
   for (const treffer of serp.treffer) {
-    if (urls.length >= SEITEN_MAX) break;
+    if (urls.length >= serpMax) break;
     if (!treffer.url || istPdf(treffer.url)) continue;
     const domain = host(treffer.url) || treffer.domain;
     if (!domain || gesehen.has(domain)) continue;
@@ -399,7 +573,7 @@ export async function recherchiere(
     urls.push(treffer.url);
   }
 
-  if (urls.length === 0) {
+  if (urls.length === 0 && frisch.length === 0) {
     warne(
       `Recherche „${keyword}": keine lesbare Adresse in den Suchergebnissen ` +
         "(nur PDFs, oder die Ergebnisseite war leer).",
@@ -407,10 +581,10 @@ export async function recherchiere(
     return leeresErgebnis(keyword);
   }
 
-  melde(`Recherche „${keyword}": ${urls.length} Seite(n) werden gelesen.`);
+  if (urls.length > 0) melde(`Recherche „${keyword}": ${urls.length} Seite(n) werden gelesen.`);
 
-  const ergebnisse = await seitenLesen(urls, { parallel: 3 });
-  const gelesen: GeleseneSeite[] = [];
+  const ergebnisse = urls.length > 0 ? await seitenLesen(urls, { parallel: 3 }) : [];
+  const gelesen: GeleseneSeite[] = [...frisch];
 
   for (const eintrag of ergebnisse) {
     if (eintrag.ok === false) {

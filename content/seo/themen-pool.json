@@ -919,5 +919,42 @@
     "substanz": null,
     "prioritaet": 69,
     "notiz": "Braucht mindestens einen regionalen Fall mit Freigabe oder ein aufrufbares Produkt als Beleg. Eine Standortseite ohne Nachweis ist genau das, was die lokale Konkurrenz bereits hat."
+  },
+  {
+    "id": "reasoning-modell-token-falle",
+    "arbeitstitel": "Umstieg auf ein Reasoning-Modell: die Token-Falle, die den Text mitten im Satz abschneidet",
+    "zielKeyword": "reasoning modell kosten",
+    "cluster": "sprachmodelle-im-betrieb",
+    "autor": "ayham-alkhalil",
+    "substanz": {
+      "art": "fehlerbericht",
+      "beschreibung": "OpenAIs `max_completion_tokens` zaehlt die Denk-Token mit, Anthropics `max_tokens` nicht — dieselbe Zahl bedeutet bei beiden Anbietern etwas anderes. Nachgemessen an einer Ein-Wort-Antwort: 19 Token Ausgabe, davon 9 fuers Nachdenken. Wer sein Budget nach der gewuenschten Textlaenge bemisst, bekommt einen Text, der mitten im Satz endet — ohne Fehler, nur mit finish_reason \"length\". Nachts um vier sieht das aus wie ein schlechtes Modell.",
+      "herkunft": "Umstellung der eigenen Blog-Automatik von Anthropic auf OpenAI, dokumentiert im Kopfkommentar von scripts/blog-engine/lib/openai.ts. Die Gegenmassnahme ist ein Faktor von 2 auf das Textbudget bei mindestens 2000 Token — bewusst grosszuegig, weil die Obergrenze nichts kostet, was nicht gebraucht wird, ein abgebrochener Artikel aber den ganzen Lauf.",
+      "material": [
+        "max_tokens wird von den neueren OpenAI-Modellen nicht nur als veraltet behandelt, sondern abgelehnt.",
+        "Der Abbruch meldet sich nicht als Fehler: Der Aufruf gilt als erfolgreich, finish_reason steht auf \"length\".",
+        "Vier echte Laeufe der Automatik, August/September 2026: 15.700 bis 27.400 Token Eingabe, 2.200 bis 14.800 Token Ausgabe je Artikel."
+      ]
+    },
+    "prioritaet": 2,
+    "aktualitaet": {
+      "suche": "reasoning model release tokens pricing",
+      "fenster": "qdr:m"
+    },
+    "notiz": "Der Eigenanteil ist die Messung und der Adapter — die Aktualitaetssuche liefert nur den Aufhaenger (welches Reasoning-Modell gerade neu ist). Vor dem Schreiben pruefen, ob die genannte Modellgeneration noch die aktuelle ist."
+  },
+  {
+    "id": "neues-modell-am-eigenen-prompt-gemessen",
+    "arbeitstitel": "Das neue Modell am eigenen Prompt gemessen: was sich gegenueber der Vorgaengerversion aendert",
+    "zielKeyword": "neues ki modell im unternehmen testen",
+    "cluster": "sprachmodelle-im-betrieb",
+    "autor": "ayham-alkhalil",
+    "substanz": null,
+    "prioritaet": 3,
+    "aktualitaet": {
+      "suche": "neues sprachmodell veroeffentlicht",
+      "fenster": "qdr:w"
+    },
+    "notiz": "⚠️ Die Vorlage fuer wiederkehrende Modell-Artikel — und ausdruecklich noch NICHT produzierbar. Was fehlt, ist der Eigenanteil: derselbe Prompt aus scripts/blog-engine/prompts/schreiben.md gegen altes und neues Modell, mit gemessenen Token, Kosten und dem Ergebnis des Hausstil-Pruefers als Vergleichszahl. Erst wenn dieser Lauf gemacht und die Zahlen eingetragen sind, wird substanz gefuellt. Die Meldung allein ist kein Artikel: \"Modell X ist erschienen\" steht am selben Tag auf hundert Seiten."
   }
 ]

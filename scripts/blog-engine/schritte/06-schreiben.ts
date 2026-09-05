@@ -664,6 +664,21 @@ function fuelleVorlage(
   vorhandene: Artikel[]
 ): string {
   const werte: Record<string, string> = {
+    /*
+     * Das heutige Datum, ausgeschrieben.
+     *
+     * ⚠️ Ohne diesen Wert weiss das Modell nicht, welcher Tag ist. Es kennt nur
+     * seinen Trainingsstand und haelt ihn fuer die Gegenwart — bei einem Thema
+     * mit Aktualitaetsbezug schreibt es dann „seit kurzem" ueber etwas, das ein
+     * Jahr alt ist, oder „demnaechst" ueber einen Termin, der verstrichen ist.
+     * Der Hausstil verlangt ausserdem Abrufdaten an jeder Fremdzahl; die kann
+     * es ohne heutiges Datum nicht setzen.
+     */
+    HEUTE: new Date().toLocaleDateString("de-DE", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    }),
     ZIELKEYWORD: brief.zielKeyword,
     SEKUNDAERKEYWORDS: liste(brief.sekundaerKeywords, "keine"),
     TITELVORSCHLAEGE: aufzaehlung(brief.titelVorschlaege),

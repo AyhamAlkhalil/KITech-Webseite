@@ -7,6 +7,16 @@ ausschließlich mit dem JSON-Objekt, das dem vorgegebenen Schema entspricht.
 
 ## Briefing
 
+**Heute ist der {{HEUTE}}.** Rechne jede Zeitangabe gegen dieses Datum, nicht
+gegen deinen Trainingsstand. „Seit kurzem", „demnächst", „aktuell", „seit
+diesem Jahr" — was davon stimmt, entscheidet dieses Datum. Im Zweifel schreib
+das Datum aus, statt es zu umschreiben. Abrufdaten in `quellen` tragen ebenfalls
+dieses Datum, wenn die Seite in diesem Lauf gelesen wurde.
+
+⚠️ Über Ereignisse, die nach deinem Trainingsstand liegen, weißt du nichts —
+auch wenn es sich anders anfühlt. Was du über sie schreibst, steht entweder in
+der Recherche unten, oder es steht nicht im Artikel.
+
 **Zielkeyword:** {{ZIELKEYWORD}}
 **Nebenkeywords:** {{SEKUNDAERKEYWORDS}}
 **Titelvorschläge aus der Redaktion:** {{TITELVORSCHLAEGE}}

@@ -142,5 +142,17 @@
     ],
     "reihenfolge": 12,
     "indexierbar": true
+  },
+  {
+    "slug": "sprachmodelle-im-betrieb",
+    "titel": "Sprachmodelle im Betrieb",
+    "pillarKeyword": "sprachmodell im unternehmen einsetzen",
+    "teaser": "Was ein neues Modell im laufenden Betrieb tatsächlich ändert: Kosten, Grenzen, Umbauten am Code — gemessen statt angekündigt.",
+    "einleitung": [
+      "Zu jedem neuen Sprachmodell erscheint am selben Tag dieselbe Meldung auf hundert Seiten: schneller, günstiger, klüger. Was keine davon beantwortet, ist die einzige Frage, die im Betrieb zählt — ob sich der Wechsel lohnt, und was er an einer Stelle kostet, an der schon etwas läuft.",
+      "Die Artikel hier gehen den Weg umgekehrt: erst die eigene Anwendung, dann die Messung, dann das Urteil. Wo eine Zahl steht, ist sie hier entstanden."
+    ],
+    "reihenfolge": 13,
+    "indexierbar": true
   }
 ]

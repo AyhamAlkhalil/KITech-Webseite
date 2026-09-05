@@ -761,7 +761,31 @@ export interface WebsucheOptionen {
    * Für einen Blog, der aktuell wirken soll, ist das der wichtigste Parameter
    * überhaupt: Ohne ihn liefert die Suche bevorzugt, was seit Jahren gut
    * rankt. Wirkt nur auf die Quelle `web`.
+   *
+   * ⚠️ **Nicht zusammen mit `mitVolltext: true` benutzen.** Die Kombination
+   * liefert eine **leere Trefferliste** — kein Fehler, kein HTTP-Status, keine
+   * Meldung, nur `[]`. Nachgestellt am 05.09.2026: vier Versuche über zwei
+   * Suchanfragen und die Fenster `qdr:w` und `qdr:m`, mit Volltext immer null
+   * Treffer, dieselbe Anfrage ohne Volltext mit Treffern.
+   *
+   * Wer beides braucht, macht zwei Schritte: hier ohne Volltext suchen, dann
+   * die Adressen an {@link seitenLesen} geben. Kostet dasselbe und erkennt
+   * zusätzlich Cookie-Wände und Abwehr. So macht es `schritte/04-recherche.ts`.
    */
+  /**
+   * Welche Firecrawl-Quellen abgefragt werden. Standard `["web"]`.
+   *
+   * ⚠️ **`["news"]` ist der einzige verlässliche Weg zu aktuellen Quellen.**
+   * Der Zeitfilter {@link WebsucheOptionen.tbs} ist für `qdr:*` kaputt (siehe
+   * dort); die News-Quelle ist es nicht, liefert von sich aus nach Datum
+   * sortiert und füllt zusätzlich {@link Suchtreffer.datum}. Nachgemessen am
+   * 05.09.2026: `sources: ["news"]` fand zu „reasoning model release" als
+   * ersten Treffer die Herstellerseite selbst, acht Stunden alt — also genau
+   * die Primärquelle, die das Substanz-Tor sehen will.
+   *
+   * Firecrawl zählt `limit` **je Quelle**: Zwei Quellen sind doppelte Kosten.
+   */
+  quellen?: Array<"web" | "news">;
   tbs?: string;
   /** Land der Suche, ISO-2. Standard `DE` — Firecrawls Default wäre `US`. */
   land?: string;
@@ -793,16 +817,29 @@ export interface Suchtreffer {
   /** Leer, wenn `mitVolltext: false` gesetzt war oder die Seite blockte. */
   markdown: string;
   wortzahl: number;
+  /**
+   * Wann die Meldung erschien — nur bei `quellen: ["news"]` gefüllt.
+   *
+   * Firecrawl liefert das relativ („8 hours ago", „2 days ago") und nicht
+   * normalisiert. Für den Zweck reicht das: Es beantwortet die Frage, ob eine
+   * Quelle frisch genug ist, ohne dass irgendwo ein Datum geparst werden muss.
+   */
+  datum: string;
+}
+
+interface SuchTrefferRoh {
+  url?: string;
+  title?: string;
+  description?: string;
+  position?: number;
+  markdown?: string;
+  /** Nur bei `sources: ["news"]`. Firecrawl liefert relativ („8 hours ago") oder als Datum. */
+  date?: string;
 }
 
 interface SuchAntwort {
-  web?: Array<{
-    url?: string;
-    title?: string;
-    description?: string;
-    position?: number;
-    markdown?: string;
-  }>;
+  web?: SuchTrefferRoh[];
+  news?: SuchTrefferRoh[];
 }
 
 /**
@@ -835,7 +872,7 @@ export async function websucheMitInhalt(
   const rumpf: Record<string, unknown> = {
     query,
     limit,
-    sources: ["web"],
+    sources: optionen.quellen ?? ["web"],
     country: optionen.land ?? "DE",
   };
   if (optionen.tbs) rumpf.tbs = optionen.tbs;
@@ -858,7 +895,12 @@ export async function websucheMitInhalt(
   // Ältere Fassungen der API geben `data` direkt als Liste zurück, neuere als
   // Objekt mit einer Liste je Quelle. Beide Formen zu lesen kostet drei Zeilen
   // und erspart einen Ausfall beim nächsten API-Update.
-  const roh = Array.isArray(huelle.data) ? huelle.data : (huelle.data as SuchAntwort)?.web ?? [];
+  // Beide Listen zusammenführen: Wer `quellen: ["web", "news"]` fragt, will
+  // beides, und der Aufrufer soll nicht zwei Formen unterscheiden müssen.
+  const daten = huelle.data as SuchAntwort | SuchTrefferRoh[] | undefined;
+  const roh: SuchTrefferRoh[] = Array.isArray(daten)
+    ? daten
+    : [...(daten?.news ?? []), ...(daten?.web ?? [])];
 
   verbrauchBuchen(
     "search",
@@ -874,6 +916,7 @@ export async function websucheMitInhalt(
       position: treffer.position ?? index + 1,
       markdown,
       wortzahl: zaehleWoerter(markdown),
+      datum: treffer.date ?? "",
     };
   });
 }

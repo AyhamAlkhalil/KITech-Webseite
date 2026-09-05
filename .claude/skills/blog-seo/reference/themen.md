@@ -28,6 +28,7 @@ zu Themen, die vorher ein Mensch aufgeschrieben hat.**
 | `fruehestens` / `spaetestens` | nein | ISO-Datum. Stichtage und Saison |
 | `erledigt` | nein | Slug des entstandenen Artikels. Nimmt das Thema aus dem Rennen |
 | `notiz` | nein | Für den nächsten Menschen, der hier reinsieht |
+| `aktualitaet` | nein | `{ suche, fenster }` — holt frische Quellen. Siehe unten |
 
 `substanz` trägt zusätzlich ein optionales `material`: Textbausteine, Zahlen oder
 Codeausschnitte, die **wörtlich** in den Artikel dürfen, weil ein Mensch sie eingetragen und
@@ -36,7 +37,54 @@ damit belegt hat. Alles, was in `material` steht, darf zitiert werden; alles and
 
 ---
 
-## Die zwölf Cluster
+## Themen, deren Wert an der Aktualität hängt
+
+Ein neues Modell, eine Ankündigung, eine Rechtsänderung von letzter Woche. Dafür trägt das
+Thema ein zusätzliches Feld:
+
+```json
+"aktualitaet": {
+  "suche": "reasoning model release",
+  "fenster": "qdr:m"
+}
+```
+
+`suche` ist **nicht** das Zielkeyword. Das Zielkeyword ist auf Suchvolumen optimiert
+(„reasoning modell kosten"), hier braucht es die Formulierung, unter der die Meldung
+tatsächlich berichtet wird. `fenster` ist `qdr:d`, `qdr:w` oder `qdr:m` — Schritt 04 warnt,
+wenn keine gefundene Quelle mehr hineinfällt.
+
+Was dann passiert: Schritt 04 fragt **vor** der regulären Recherche die Nachrichtenquelle ab
+und liest die Treffer. Das läuft unabhängig von DataForSEO — dessen Tagesbudget ist
+erfahrungsgemäß genau dann aufgebraucht, wenn man es braucht. Das Erscheinungsdatum geht mit
+in den Auftrag an das Modell; ohne es ist eine frische Meldung für ein Modell nicht von einem
+alten Ratgebertext zu unterscheiden.
+
+### Aktualität ersetzt Substanz nicht
+
+Das ist der Punkt, an dem diese Sorte Thema kippt. **„Modell X ist erschienen" steht am
+selben Tag auf hundert Seiten** — das ist per Definition commodity content, und ein Feld
+`aktualitaet` ändert daran nichts. Ein Thema mit `aktualitaet` und `substanz: null` wird
+genauso wenig produziert wie jedes andere.
+
+Die Meldung ist der **Anlass**. Der Artikel ist das, was daneben steht:
+
+| Statt | Besser | `substanz.art` |
+|---|---|---|
+| „Modell X ist da" | „Modell X an unserem eigenen Blog-Prompt gemessen: was sich ändert" | `eigene-messung` |
+| „Die Neuerungen im Überblick" | „Was in der Modellkarte steht, das in den Meldungen fehlt" | `primaerquelle` |
+| „Was das für Unternehmen bedeutet" | „Warum wir trotzdem beim alten Modell bleiben — die Rechnung" | `architekturentscheidung` |
+| „Erste Erfahrungen" | „Der Umstieg hat uns X gekostet, hier ist der Fehler" | `fehlerbericht` |
+
+⚠️ **Das schreibende Modell weiß über die Meldung nichts.** Es kennt nur seinen
+Trainingsstand und hält ihn für die Gegenwart. Alles, was im Artikel über das Ereignis steht,
+kommt aus den frisch gelesenen Seiten — oder es steht nicht im Artikel. Wer ein
+Aktualitätsthema ohne `aktualitaet`-Feld einträgt, bekommt einen Artikel, der sich sicher
+anhört und erfunden ist.
+
+---
+
+## Die dreizehn Cluster
 
 Zuordnung: `cluster` im Thema = `slug` in `content/seo/cluster.json`. Volumen- und
 Wettbewerbsangaben sind Schätzbänder aus der SERP-Auswertung vom 19.08.2026, keine Tool-Werte
@@ -56,10 +104,17 @@ Wettbewerbsangaben sind Schätzbänder aus der SERP-Auswertung vom 19.08.2026, k
 | `ki-strategie` | ki strategie mittelstand | hoch, inhaltlich generisch | 2–3/5, Top-of-Funnel |
 | `dokumente-und-belege` | rechnungsverarbeitung automatisieren | hoch bei Kopf-Keywords, long tail offen | 5/5 |
 | `ki-beratung-hannover` | ki beratung hannover | niedrig–mittel lokal | 5/5 |
+| `sprachmodelle-im-betrieb` | sprachmodell im unternehmen einsetzen | hoch bei Modellnamen, **die Betriebssicht ist frei** | 3/5 |
 
 Das stärkste Cluster ist `prozessautomatisierung`: hohe Kaufnähe, und jeder Spoke lässt sich
 mit einem echten Workflow belegen. Das riskanteste ist `eu-ai-act` — dort steht KITech gegen
 Kanzleien, TÜV und Verbände, und dort veralten Zahlen am schnellsten.
+
+`sprachmodelle-im-betrieb` (angelegt 05.09.2026) ist das Zuhause der Themen mit
+`aktualitaet`. Gegen den Modellnamen selbst („gpt-6", „gemini 3.8") ist kein Ankommen —
+dort schreiben am Erscheinungstag alle. Frei ist die Betriebssicht: was der Wechsel an einer
+Stelle kostet, an der schon etwas läuft. Genau die Frage beantwortet keine der Meldungen,
+und sie lässt sich nur mit eigenen Zahlen beantworten.
 
 ---
 

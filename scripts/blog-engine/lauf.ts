@@ -241,7 +241,10 @@ export async function main(): Promise<number> {
       }
 
       schritt(4, "Recherche in den rankenden Seiten");
-      const recherche = await recherchiere(serp, { zielKeyword: thema.zielKeyword });
+      const recherche = await recherchiere(serp, {
+        zielKeyword: thema.zielKeyword,
+        aktualitaet: thema.aktualitaet,
+      });
       melde(
         `${recherche.gelesen.length} Seite(n) gelesen, ${recherche.luecken.length} Lücke(n), ` +
           `${recherche.belege.length} belegbare Fremdzahl(en)`
