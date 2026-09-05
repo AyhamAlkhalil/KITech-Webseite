@@ -1,7 +1,7 @@
 # CLAUDE.md – KITech Software Website
 
 Corporate-Website von **KITech Software UG (haftungsbeschränkt)**, Hannover —
-KI-Beratung und Softwareentwicklung für den Mittelstand.
+Softwareentwicklung und KI-Beratung für den Mittelstand.
 Live: [kitech-software.de](https://kitech-software.de) · Sprache: de_DE ·
 Geschäftsführer: Ayham Alkhalil.
 
@@ -12,6 +12,75 @@ Geschäftsführer: Ayham Alkhalil.
 > nein, gehört es ins Commit.
 
 ---
+
+## Wofür die Website gebaut ist
+
+Ansage Ayham, 05.09.2026. Diese sechs Absätze stehen über den Detailregeln
+weiter unten. Wo eine Regel ihnen widerspricht, gewinnen sie — und die Regel
+gehört korrigiert.
+
+**Sie soll verkaufen, nicht gefallen.** Der Aufbau ist verkaufspsychologisch:
+Beweis vor Behauptung, Referenzen weit vorne, hinter jedem Gedanken ein Knopf.
+Ladezeit und Auffindbarkeit sind Verkaufsargumente — Animation ist keins. Wo
+„sieht besser aus" gegen „lädt schneller" steht, gewinnt schneller.
+
+**IT-Dienstleister, der auch KI macht.** Nicht KI-Agentur. Die Reihenfolge
+*ist* die Positionierung, und sie ist der Grund für den Microsoft-Stack seit
+dem 04.09.2026. ⚠️ Der Bestand steht dagegen: „KI" gegen klassische IT-Begriffe
+**161:4** in `src/data`, `src/config`, `src/views`; „IT-Dienstleister",
+„Systemhaus", „Softwarehaus" **null** Treffer; 11 von 16 indexierbaren Titeln
+führen mit KI. Jede neue Copy verschiebt das Verhältnis in die eine oder die
+andere Richtung — es gibt keine neutrale Zeile. Der Produktname
+**„1:1-KI-Check" bleibt** (Entscheidung 05.09.2026): Er ist das Angebot, nicht
+die Positionierung.
+
+**Tempo ist das Profil, der Preis nicht.** Wir arbeiten schnell, weil wir gut
+in KI sind — das ist die Aussage, und sie ist belegt: ein Portal in 40 Tagen
+live, eines in 60, ein SaaS in zwei Monaten, über 50 Projekte seit dem
+16.01.2026 mit vier Leuten (`data/client-results.ts`, `config/company.ts`).
+⚠️ **Preisaussagen kommen nicht in die Copy** (Entscheidung 05.09.2026): kein
+„günstig", kein „günstiger als", keine Beträge, keine Zusagen wie „Festpreis".
+Den Vorteil rechnet der Leser selbst. Zwei Gründe, beide praktisch: Eine
+Preisangabe ist eine Zusage, die gehalten werden muss, und bei einer
+Vergleichsaussage liegt die Darlegungslast beim Werbenden (§ 5 Abs. 1 UWG) —
+und über den Preis zu verkaufen bricht mit der eigenen H1 „Falsche KI kostet
+mehr als keine KI."
+
+**So wenig erkennbar generierter Text wie möglich.** Die Marker, an denen man
+ihn erkennt und die deshalb nicht ins Produkt gehören: Dreierfiguren
+(„schnell, sauber, verlässlich"), gehäuftes „nicht X, sondern Y",
+Erklärabsätze, die nur die Überschrift umformulieren, Nutzenversprechen ohne
+Zahl, ein Gedankenstrich in jedem zweiten Satz. Gemessen: **15,3
+Gedankenstriche je 1000 Wörter** in der Marketing-Copy gegen **2,2** in der
+handgeschriebenen Datenschutzerklärung desselben Repos. Der Blog ist dabei
+nicht der schlimmste Fall, sondern `src/data`.
+
+**Kürzen heißt Erklärabsätze streichen, nie Belege.** Weg dürfen Fülltext,
+Doppelungen und Platzhalter. Bleiben müssen: die Kennzahlen der Kundenkarten,
+die Beleg-Links der Konformitätsangaben, interne Verweise und CTAs. Sonst wird
+aus „kürzer" eine dünne Seite — und 14 von 39 Sitemap-Adressen stehen bei
+Google ohnehin schon auf „Gefunden – zurzeit nicht indexiert".
+
+⚠️ **An diesem Arbeitsbaum arbeiten ständig mehrere Sessions gleichzeitig.**
+Nicht gelegentlich — im Regelfall. Wer hier etwas ändert, muss damit rechnen,
+dass parallel jemand anderes dieselbe Datei anfasst, und dass die Blog-Automatik
+werktags 6:30 von sich aus committet und deployt. Daraus folgen drei Handgriffe,
+die keine Ausnahme kennen:
+
+1. **Vor jeder Änderung** `git status --short` lesen. Was fremd und uncommittet
+   im Baum liegt, wird nicht angefasst und nicht mitcommittet.
+2. **Immer mit Pathspec committen** (`git commit -m "…" -- <dateien>`), nie den
+   ganzen Index. Ein `git add -A` liefert bei einem Deploy fremde, unfertige
+   Arbeit mit aus.
+3. **Vor dem Deploy** `git log --oneline -3` — ein Deploy liefert alles aus, was
+   gerade in `main` liegt, nicht nur die eigene Änderung.
+
+Besonders kollisionsgefährdet, weil mehrere Themen darauf zugreifen:
+`CLAUDE.md`, `config/navigation.ts`, `data/client-results.ts`,
+`data/testimonials.ts`, `content/wissen/` und `content/seo/themen-pool.json`.
+
+---
+
 
 ## Commands
 
@@ -73,7 +142,7 @@ Path Alias `@/` → `src/`.
 content/            Redaktionelle Inhalte als JSON (von der Blog-Automatik beschrieben)
   wissen/<slug>.json  ein Artikel je Datei, Dateiname = URL
   seo/                autoren.json, cluster.json, themen-pool.json, laeufe/
-public/images/      ALLE inhaltlichen Bilder (team/, referenzen/, og/) — siehe images/README.md
+public/images/      ALLE inhaltlichen Bilder (team/, referenzen/, og/, siegel/) — siehe images/README.md
 scripts/
   blog-engine/      Die Blog-Automatik (lauf.ts, schritte/, lib/, prompts/)
   llms-txt.ts       erzeugt llms.txt + llms-full.txt
@@ -104,10 +173,10 @@ Dockerfile          Multi-Stage, node:22-alpine, standalone, Port 3000 — der a
 
 | Route | Index | Anmerkung |
 |---|---|---|
-| `/` | ja | Hero (**eine** Aussage + CTA), Kundenkarten, Gründerwort + Team, FAQ, CTA |
+| `/` | ja | Hero (**eine** Aussage + CTA, Werkzeug-Spur links), Kundenkarten, Gründerwort + Team, FAQ, Konformität, CTA |
 | `/warum` + zwei Sales Letter | Weiche ja, Letter **nein** | Letter sind Platzhaltertext (`isPlaceholder`) |
 | `/leistungen`, `/solo`, `/enterprise` | ja | Eine Vorlage, zwei Zielgruppen (`data/segments.ts`) |
-| `/referenzen`, `/referenzen/[slug]` | Übersicht ja, Details **nein** | Details `noindex`, solange `openPoints` offen sind |
+| `/referenzen`, `/referenzen/[slug]` | Übersicht ja, Details **nein** | Details `noindex`, solange `openPoints` offen sind. Unter den Karten `MicrosoftLoesungen` — Bauweise, keine Kunden |
 | `/gratis-wissen` + `[slug]`, `/gratis-wissen/thema/[cluster]`, `/gratis-wissen/rss.xml` | ja | Content-Bereich, Server Components. ⚠️ Alle drei liegen **unter** `/gratis-wissen` — `/rss.xml` und `/thema/…` an der Wurzel sind 404 |
 | `/autoren`, `/autoren/[slug]` | ja | `ProfilePage`, Inhalt `content/seo/autoren.json` |
 | `/haltung`, `/kontakt`, `/glossar` + `[slug]` | ja | |
@@ -159,10 +228,39 @@ Enterprise-Stack die Positionierung: **Power Automate**, **Power BI**,
 „Dynamic Sales", und ein „Dynamics BI" gibt es nicht — das BI-Produkt heißt
 Power BI. Auf der Gegenseite sitzt jemand, der die Namen täglich benutzt; ein
 falscher Name kostet mehr Glaubwürdigkeit, als die ganze Liste aufbaut.
-Gepflegt an vier Stellen, die zusammenpassen müssen: `data/services.ts`
+Gepflegt an sechs Stellen, die zusammenpassen müssen: `data/services.ts`
 (`techStack`, Schritt 03), `data/segments.ts` (nur `enterprise` — `/solo`
-behält n8n/Supabase, dort stimmt es), `data/faq.ts` und `sections/WegeBlock.tsx`.
+behält n8n/Supabase, dort stimmt es), `data/faq.ts`, `sections/WegeBlock.tsx`,
+`data/stack-marken.ts` (Hero-Laufband) und `data/microsoft-loesungen.ts`.
 Dazu `knowsAbout` in `getOrganizationSchema()`.
+
+`stack-marken.test.ts` hält davon den Teil unter Test, der sich prüfen lässt:
+Jeder Name im Hero-Laufband, der mit „Power" oder „Dynamics" beginnt, muss
+zeichengenau in `techStack` stehen — und die Reihenfolge muss Microsoft vor n8n
+und Claude führen. Die Reihenfolge ist die Positionierung: „Ich möchte keine
+KI-Agentur sein, sondern eine IT-Agentur, die auch KI macht" (Ansage
+04.09.2026). Stünde Claude vorn, sagte der Hero das Gegenteil.
+
+**Referenz oder Bauweise — nie dazwischen.** `data/client-results.ts` trägt
+Aussagen über einen **Kunden**, `data/microsoft-loesungen.ts` Aussagen über
+**uns**. Der Unterschied ist die ganze Idee: Eine erfundene Kundenreferenz ist
+irreführend nach § 5 Abs. 1, Abs. 2 Nr. 3 UWG, mit Bewertung oder Sternen fällt
+sie unter die Schwarze Liste (Anhang zu § 3 Abs. 3 Nr. 23c UWG). Am 04.09.2026
+sollten drei „Fake-Referenzen" mit Power Automate und CRM entstehen; daraus ist
+auf Rückfrage der Block `MicrosoftLoesungen` auf `/referenzen` geworden — ohne
+Kunden, ohne Kennzahlen, ohne JSON-LD, mit dem Kennzeichnungssatz **vorn**.
+⚠️ Wer einen Eintrag von dort nach `client-results.ts` verschiebt und ihm einen
+Firmennamen gibt, macht aus dem einen das andere.
+
+**Konformitätsangaben nur mit Beleg auf dieser Website.** `data/konformitaet.ts`
+→ jede Zeile verlinkt die Seite, auf der dieselbe Angabe verbindlich steht
+(Datenschutz, Impressum, Selbstcheck). Kein „100 % DSGVO-konform", kein Siegel
+ohne Zertifikat — und **kein pauschales „Ihre Daten bleiben in der EU"**: Die
+Firmenerkennung läuft über ipinfo.io auf US-Servern (Standardvertragsklauseln,
+Art. 46 Abs. 2 lit. c DSGVO), die Datenschutzerklärung benennt das. Echte
+Prüfzeichen kommen nach `public/images/siegel/` (README dort: drei Bedingungen);
+solange die Liste `siegel` leer ist, rendert der Block den Bereich gar nicht —
+**kein Platzhalter**, eine angedeutete Zertifizierung wirkt wie eine vorhandene.
 
 **Naming:** Dateien kebab-case, Komponenten PascalCase, TS-Variablen camelCase,
 Konstanten UPPER_SNAKE.
@@ -319,6 +417,25 @@ Fremde Commits im Push werden protokolliert, nicht zurückgehalten.
 Konfiguration, Entscheidung mit Begründung, Fehler mit Kosten, gelesene
 Primärquelle). **`substanz: null` ⇒ wird nie produziert.** Ist kein Thema mit
 Eigenanteil da, erscheint an dem Tag nichts — vorgesehener Zustand, kein Ausfall.
+
+**Aktuelle KI-Themen: nur mit Eigenanteil** (Entscheidung Ayham, 05.09.2026).
+Der Blog soll die neuesten Modelle und Meldungen behandeln — aber das
+Substanz-Tor bleibt unangetastet. Nicht „Modell X ist erschienen", sondern
+„Modell X an unserem eigenen Blog-Prompt gemessen: was sich ändert"
+(`substanz.art: eigene-messung`) oder „die Modellkarte gelesen"
+(`primaerquelle`). Die Meldung ist der Anlass, der Eigenanteil ist der Artikel.
+
+⚠️ **Dafür fehlen der Engine heute drei Dinge**, alle nachgeprüft:
+`websucheMitInhalt` mit Zeitfilter existiert in `lib/firecrawl.ts`, hat aber
+**null Aufrufer**; `prompts/schreiben.md` kennt 15 Platzhalter, aber keinen für
+das **heutige Datum**; und der Themen-Pool hat unter 69 Themen **kein einziges**
+News-Thema, `cluster.json` keinen Cluster dafür — was den Build abbrechen lässt,
+sobald ein Artikel einen unbekannten Cluster trägt (`lib/wissen/laden.ts`).
+Solange das so ist, schreibt ein „News"-Artikel aus dem Modellwissen von
+`gpt-5.5` über Ereignisse, die das Modell nicht kennen kann. Das ist der
+direkteste Weg zu einer falschen Aussage auf der Seite, die Kompetenz belegen
+soll.
+
 
 **Sechs harte Tore** (jedes bricht Build oder Lauf ab): Substanz · ein Keyword,
 ein Artikel · keine Fremdzahl ohne `quellen` mit URL und Abrufdatum ·
@@ -581,7 +698,7 @@ Companyhouse sind abgeschriebene Registerdaten und antworten Crawlern mit 403.
 
 ## Offen
 
-Stand 01.09.2026.
+Stand 04.09.2026.
 
 | Was | Wer |
 |---|---|
@@ -591,6 +708,8 @@ Stand 01.09.2026.
 | `openPoints` der sechs Referenzfälle — solange sie stehen, ist **keine** Detailseite indexiert | Kundenfreigaben |
 | Themen-Cluster ohne Artikel — `content/seo/cluster.json` gegen `content/wissen/` (5 von 12) | Redaktion |
 | KI-Partner-Verzeichnis der Wirtschaftsförderung Region Hannover: Aufnahme | Ayham |
-| **Microsoft-Referenzen fehlen** — die Positionierung steht seit 04.09.2026 auf Power Automate, Power BI und Dynamics 365, aber `client-results.ts` belegt keinen einzigen Fall daraus. Bis dahin ist es eine Behauptung ohne Beweis | Ayham |
+| **Microsoft-Referenzen fehlen** — die Positionierung steht seit 04.09.2026 auf Power Automate, Power BI und Dynamics 365, aber `client-results.ts` belegt keinen einzigen Fall daraus. `MicrosoftLoesungen` zeigt seither die **Bauweise**; das ersetzt keinen Fall mit Kunde und Zahl. Am stärksten wäre ein anonymisierter echter Fall („Maschinenbauer, 80 Mitarbeiter, Region Hannover") mit gemessenen Zahlen — rechtlich sauber, weil nichts erfunden ist | Ayham |
+| **Siegel-Logos fehlen** — `konformitaet.ts` trägt fünf belegte Angaben, die Liste `siegel` ist leer (angekündigt 04.09.2026: „Die ganzen Siegel werde ich dir geben"). Dateien nach `public/images/siegel/`, die drei Bedingungen stehen im README dort | Ayham |
+| `llms.txt` kennt weder die Microsoft-Bauweise noch den Konformitätsblock — der Generator hat eine feste Quellenliste. KI-Systeme lesen damit eine Positionierung, die auf der Website schon weiter ist | technische Schuld |
 | Sales Letter und `/funnel` tragen Platzhaltertext | Ayham |
 | `/api/funnel-besuch` und `/api/ereignis` gehören zusammengelegt | technische Schuld |
