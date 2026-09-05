@@ -28,6 +28,14 @@
  *
  * OFFEN: Ayhams aktueller Wortlaut ersetzt diese Texte. Nur diese Datei ändern,
  * `Segment.tsx` bleibt unberührt.
+ *
+ * ⚠️ **Keine Preisaussagen** (Ansage Ayham, 05.09.2026). Bis dahin stand in
+ * Schritt 02 „Festpreis, keine offene Rechnung." — live auf /enterprise, und
+ * im Widerspruch zu `data/faq.ts`, wo der Preis erst nach dem Prozess-Audit
+ * fällt. Zwei Aussagen zum Preis, die sich widersprechen, sind schlimmer als
+ * keine: Eine Preisangabe ist eine Zusage, die gehalten werden muss. Das
+ * Profil trägt das Tempo, nicht der Preis — siehe „Wofür die Website gebaut
+ * ist" in CLAUDE.md.
  */
 
 export interface SegmentStep {
@@ -200,7 +208,7 @@ export const enterpriseSegment: SegmentContent = {
       number: "02",
       title: "Entwicklung gegen feste Ziele",
       description:
-        "Gebaut wird gegen vorab vereinbarte Erfolgskriterien, in eurer Cloud- und Governance-Umgebung. Festpreis, keine offene Rechnung.",
+        "Gebaut wird gegen vorab vereinbarte Erfolgskriterien, in eurer Cloud- und Governance-Umgebung.",
     },
     {
       number: "03",

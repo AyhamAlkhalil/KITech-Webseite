@@ -44,10 +44,6 @@ export function CheckEinladung() {
             >
               {checkEinladung.ueberschrift}
             </h2>
-
-            <p className="mt-5 text-pretty text-lead font-normal text-white/70">
-              {checkEinladung.satz}
-            </p>
           </div>
 
           {/*

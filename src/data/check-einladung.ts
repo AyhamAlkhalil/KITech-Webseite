@@ -63,8 +63,6 @@ export interface CheckEinladung {
    * Die Dauer kommt aus `angebot.ts` — die Zahl steht nirgends doppelt.
    */
   ueberschrift: string;
-  /** Genau ein Satz. Mehr wäre der Erklärabsatz, den es hier nicht gibt. */
-  satz: string;
   /** Der Ablauf. Drei Zeilen, nicht vier — die vierte liest keiner mehr. */
   schritte: CheckSchritt[];
   /** Steht klein unter dem Knopf. Räumt die letzten zwei Befürchtungen ab. */
@@ -73,9 +71,6 @@ export interface CheckEinladung {
 
 export const checkEinladung: CheckEinladung = {
   ueberschrift: `Eine falsche Entscheidung merkst du nach Monaten. Das hier dauert ${angebot.dauer}.`,
-
-  satz:
-    "Du erzählst, wie es bei dir läuft. Ich sage dir, wo Automatisierung etwas bringt — und wo nicht.",
 
   schritte: [
     {

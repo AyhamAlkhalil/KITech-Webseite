@@ -273,7 +273,6 @@ Wie eine Zusammenarbeit abläuft, was sie kostet, und was regional an Förderung
 - **[KI-Audit](https://kitech-software.de/glossar/ki-audit)**: Strukturierte Bestandsaufnahme von Prozessen, Daten und Systemen, um KI-Potenziale mit belastbarem Business Case zu identifizieren.
 - **[LLM-Integration](https://kitech-software.de/glossar/llm-integration)**: Anbindung großer Sprachmodelle (Large Language Models) an Geschäftsprozesse und Fachsysteme – inklusive Retrieval, Tool-Use und DSGVO-konformem Betrieb.
 - **[DSGVO-konforme KI](https://kitech-software.de/glossar/dsgvo-konforme-ki)**: KI-Systeme, deren Datenverarbeitung den Anforderungen der DSGVO und des EU AI Act entspricht – mit nachvollziehbarer Rechtsgrundlage und technisch-organisatorischen Maßnahmen.
-- **[MLOps](https://kitech-software.de/glossar/mlops)**: Praktiken und Werkzeuge für den zuverlässigen Betrieb, das Monitoring und die kontinuierliche Verbesserung von KI- und Machine-Learning-Systemen in Produktion.
 - **[Computer Vision](https://kitech-software.de/glossar/computer-vision)**: Teilgebiet der KI, das Computer befähigt, Bilder und Videos zu interpretieren – von Qualitätsprüfung über Dokumentenerkennung bis zur Objekterkennung.
 
 ---

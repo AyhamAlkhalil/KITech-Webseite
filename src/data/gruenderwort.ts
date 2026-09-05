@@ -93,10 +93,7 @@ export const gruenderwort: Gruenderwort = {
   zitat:
     "Ich habe zu oft gesehen, wie sechsstellige Beträge in einer schicken Demo enden statt in der Bilanz. Mittelstand kann sich das nicht leisten.",
 
-  absaetze: [
-    "Deshalb fängt bei uns kein Projekt mit einem Werkzeug an, sondern mit euren Abläufen.",
-    "Was wir bauen, läuft im Tagesgeschäft — nicht in einer Demo. Der Code gehört euch.",
-  ],
+  absaetze: [],
 
   abschluss: "Im 1:1-KI-Check sprichst du mit mir, nicht mit einem Vertrieb.",
 

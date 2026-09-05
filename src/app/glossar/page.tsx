@@ -9,7 +9,7 @@ import Glossar from "@/views/Glossar";
 export const metadata = buildMetadata({
   title: "Glossar – KI-Begriffe verständlich erklärt | KITech Software",
   description:
-    "Sechs Definitionen ohne Buzzwords: KI-Audit, LLM-Integration, DSGVO-konforme KI, MLOps, Computer Vision und ROI-Garantie.",
+    "Fünf Definitionen ohne Buzzwords: KI-Audit, LLM-Integration, DSGVO-konforme KI, Computer Vision und ROI-Garantie.",
   path: "/glossar",
 });
 

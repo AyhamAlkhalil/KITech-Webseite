@@ -70,7 +70,7 @@ export const glossaryTerms: GlossaryTerm[] = [
           "Eine ROI-Garantie funktioniert nur, wenn (1) der Use Case klar abgegrenzt ist, (2) die heutige Baseline messbar erhoben werden kann, (3) der Kunde Daten und Fachexperten bereitstellt und (4) ein KI-Audit den technischen und organisatorischen Reifegrad bestätigt hat.",
       },
     ],
-    related: ["ki-audit", "llm-integration", "mlops"],
+    related: ["ki-audit", "llm-integration"],
     faqs: [
       {
         question: "Was passiert, wenn das ROI-Ziel nicht erreicht wird?",
@@ -113,7 +113,7 @@ export const glossaryTerms: GlossaryTerm[] = [
           "Während klassische KI-Strategieberatung oft auf Vision und Marktanalyse abzielt, ist ein KI-Audit operativ und umsetzungsnah. Es liefert keine Powerpoint-Strategie, sondern konkrete, umsetzbare Maßnahmen mit Aufwand und Nutzen in Euro.",
       },
     ],
-    related: ["roi-garantie", "dsgvo-konforme-ki", "mlops", "computer-vision"],
+    related: ["roi-garantie", "dsgvo-konforme-ki", "computer-vision"],
     faqs: [
       {
         question: "Wie lange dauert ein KI-Audit?",
@@ -151,7 +151,7 @@ export const glossaryTerms: GlossaryTerm[] = [
           "DSGVO-konforme LLM-Integration setzt voraus, dass personenbezogene Daten entweder pseudonymisiert oder ausschließlich in EU-gehosteten Modellen verarbeitet werden. KITech setzt hier auf europäische Cloud-Provider und On-Premise-Optionen sowie auf strikte Daten-Verträge mit den Modell-Anbietern.",
       },
     ],
-    related: ["roi-garantie", "dsgvo-konforme-ki", "mlops"],
+    related: ["roi-garantie", "dsgvo-konforme-ki"],
   },
   {
     slug: "dsgvo-konforme-ki",
@@ -177,33 +177,7 @@ export const glossaryTerms: GlossaryTerm[] = [
           "Der EU AI Act ergänzt die DSGVO durch ein risikobasiertes Klassifikationssystem. Je nach Risikoklasse gelten zusätzliche Pflichten – etwa Risikomanagement, Transparenz, menschliche Aufsicht und Konformitätsbewertung. KI-Systeme mit hohem Risiko unterliegen umfangreichen Dokumentations- und Auditpflichten.",
       },
     ],
-    related: ["ki-audit", "llm-integration", "mlops", "computer-vision"],
-  },
-  {
-    slug: "mlops",
-    term: "MLOps",
-    shortDefinition:
-      "Praktiken und Werkzeuge für den zuverlässigen Betrieb, das Monitoring und die kontinuierliche Verbesserung von KI- und Machine-Learning-Systemen in Produktion.",
-    metaDescription:
-      "MLOps: Definition, Komponenten (Monitoring, Versionierung, CI/CD) und Bedeutung für den dauerhaften Betrieb produktiver KI-Systeme.",
-    sections: [
-      {
-        heading: "Definition",
-        content:
-          "MLOps (Machine Learning Operations) bezeichnet die Gesamtheit aller Praktiken, Prozesse und Werkzeuge, mit denen KI- und Machine-Learning-Systeme zuverlässig in Produktion betrieben, überwacht und weiterentwickelt werden. MLOps überträgt die Prinzipien von DevOps auf den Lebenszyklus von KI-Modellen.",
-      },
-      {
-        heading: "Kernbestandteile",
-        content:
-          "Zu MLOps gehören: Datenversionierung, Modellversionierung, automatisierte Trainings- und Deployment-Pipelines (CI/CD), Modell-Monitoring (Drift, Genauigkeit, Latenz), Feedback-Schleifen für kontinuierliches Lernen sowie Governance- und Audit-Dokumentation.",
-      },
-      {
-        heading: "Warum MLOps für ROI entscheidend ist",
-        content:
-          "Ein KI-Modell ohne MLOps verliert mit der Zeit an Genauigkeit – die reale Welt verändert sich, die Trainingsdaten nicht. Ohne Monitoring bleibt diese Degradation unentdeckt. Erst MLOps macht den in der ROI-Garantie zugesicherten Wertbeitrag dauerhaft messbar und sicherbar.",
-      },
-    ],
-    related: ["roi-garantie", "ki-audit", "llm-integration", "computer-vision"],
+    related: ["ki-audit", "llm-integration", "computer-vision"],
   },
   {
     slug: "computer-vision",
@@ -229,7 +203,7 @@ export const glossaryTerms: GlossaryTerm[] = [
           "Erfolgreiche Computer-Vision-Projekte setzen ausreichende, repräsentative Trainings- oder Beispiel-Daten, definierte Beleuchtungs- und Aufnahmebedingungen sowie eine klare Abgrenzung der zu erkennenden Klassen voraus. Diese Voraussetzungen werden im Rahmen eines KI-Audits geprüft.",
       },
     ],
-    related: ["ki-audit", "mlops", "roi-garantie"],
+    related: ["ki-audit", "roi-garantie"],
   },
 ];
 
