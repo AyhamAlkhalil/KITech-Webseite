@@ -37,4 +37,10 @@
 # --anzahl hoch.
 
 # Blog-Automatik, werktags 6:30 Europe/Berlin
-30 6 * * 1-5 cd /home/deploy/KITech/projects/KITech-Webseite && PATH=/home/deploy/.nvm/versions/node/v22.22.2/bin:/usr/local/bin:/usr/bin:/bin npm run blog:lauf -- --anzahl 1 --auto >> /home/deploy/KITech/projects/KITech-Webseite/.tmp/blog-lauf.log 2>&1
+# ⚠️ `mkdir -p .tmp` steht hier, weil die Umleitung sonst den ganzen Befehl
+# killt: Eine Shell kann nicht in ein Verzeichnis schreiben, das es nicht
+# gibt — npm startet dann gar nicht erst, ohne Spur in einem Log. `.tmp/`
+# steht in .gitignore und verschwindet bei jedem `git clean -fdx`. Genau so
+# ist die Automatik vom 02.09. bis 05.09.2026 stillschweigend ausgefallen,
+# zusammen mit dem Tagesbericht, der dieselbe Umleitung benutzt.
+30 6 * * 1-5 cd /home/deploy/KITech/projects/KITech-Webseite && mkdir -p .tmp && PATH=/home/deploy/.nvm/versions/node/v22.22.2/bin:/usr/local/bin:/usr/bin:/bin npm run blog:lauf -- --anzahl 1 --auto >> /home/deploy/KITech/projects/KITech-Webseite/.tmp/blog-lauf.log 2>&1
