@@ -425,16 +425,32 @@ Substanz-Tor bleibt unangetastet. Nicht „Modell X ist erschienen", sondern
 (`substanz.art: eigene-messung`) oder „die Modellkarte gelesen"
 (`primaerquelle`). Die Meldung ist der Anlass, der Eigenanteil ist der Artikel.
 
-⚠️ **Dafür fehlen der Engine heute drei Dinge**, alle nachgeprüft:
-`websucheMitInhalt` mit Zeitfilter existiert in `lib/firecrawl.ts`, hat aber
-**null Aufrufer**; `prompts/schreiben.md` kennt 15 Platzhalter, aber keinen für
-das **heutige Datum**; und der Themen-Pool hat unter 69 Themen **kein einziges**
-News-Thema, `cluster.json` keinen Cluster dafür — was den Build abbrechen lässt,
-sobald ein Artikel einen unbekannten Cluster trägt (`lib/wissen/laden.ts`).
-Solange das so ist, schreibt ein „News"-Artikel aus dem Modellwissen von
-`gpt-5.5` über Ereignisse, die das Modell nicht kennen kann. Das ist der
-direkteste Weg zu einer falschen Aussage auf der Seite, die Kompetenz belegen
-soll.
+**Wie die Engine an aktuelle Fakten kommt** (gebaut am 05.09.2026). Ein Thema
+kann `aktualitaet: { suche, fenster }` tragen. Dann holt Schritt 04 vor der
+regulären Recherche frische Quellen — **unabhängig von DataForSEO**, dessen
+Budget genau dann aufgebraucht ist, wenn man es braucht. Dazu kennt der
+Schreibprompt jetzt `{{HEUTE}}`: Ohne das Datum hält ein Modell seinen
+Trainingsstand für die Gegenwart und schreibt „seit kurzem" über etwas, das ein
+Jahr alt ist.
+
+⚠️ **Zwei Firecrawl-Fallen, beide antworten mit HTTP 200 und leerer Liste** —
+kein Fehler, keine Meldung, nichts im Protokoll:
+
+1. **Der Zeitfilter `tbs: "qdr:*"` liefert nichts.** Nachgestellt am 05.09.2026
+   über zwei Suchanfragen, beide Fenster, mit und ohne Volltext: immer null.
+   Dieselbe Anfrage ohne `tbs` liefert Treffer. Der Weg zu aktuellen Quellen ist
+   **`quellen: ["news"]`** — die Quelle sortiert von sich aus nach Datum und
+   füllt `Suchtreffer.datum`.
+2. **`tbs` zusammen mit `mitVolltext: true`** ebenso. Deshalb zwei Schritte:
+   suchen ohne Volltext, dann `seitenLesen` — was ohnehin besser ist, weil es
+   Cookie-Wände und Abwehr erkennt.
+
+Erster echter Lauf: `openai.com` (8 h alt), `blog.google` (2 Tage), `hpcwire.com`
+(1 Tag) — 10 belegte Zahlen, 5 Credits. Die Herstellerseite als erster Treffer
+ist genau die `primaerquelle`, die das Substanz-Tor sehen will.
+
+`fenster` ist keine Zierde: `imFenster()` prüft die relative Datumsangabe und
+warnt, wenn keine Quelle mehr hineinfällt (`04-aktualitaet.test.ts`).
 
 
 **Sechs harte Tore** (jedes bricht Build oder Lauf ab): Substanz · ein Keyword,
@@ -474,7 +490,18 @@ die Denk-Token mit, Anthropics `max_tokens` nicht — der Adapter rechnet Spielr
 auf, sonst bricht der Text mit `finish_reason: "length"` ab.
 
 ⚠️ **DataForSEO-Guthaben knapp**, `DATAFORSEO_TAGESLIMIT_USD` steht deshalb auf
-**0,20** — die Bremse muss unter dem Guthaben liegen.
+**0,15** — die Bremse muss **unter dem Guthaben und über den Kosten eines Laufs**
+liegen. Sie stand bis zum 05.09.2026 auf **0,10**, und der günstigste real
+gemessene Lauf kostet **0,11592 $** (`content/seo/laeufe/`): Die Bremse lag unter
+den Mindestkosten, also brach **jede** Abfrage ab, bevor ein einziges
+Suchergebnis kam. Schritt 03 reicht dann ein leeres Bild weiter, Schritt 04 hat
+keine Adresse zu lesen — und der Artikel entsteht aus reinem Modellwissen, ohne
+dass irgendwo ein Fehler steht. Nur zwei Zeilen im Protokoll verraten es:
+`firecrawlCredits: 0`.
+
+⚠️ **Eine zu niedrige Bremse sieht aus wie Sparsamkeit und ist ein Totalausfall.**
+Wer sie senkt, rechnet vorher gegen den günstigsten Lauf in
+`content/seo/laeufe/`.
 
 ---
 
@@ -706,7 +733,7 @@ Stand 04.09.2026.
 | ⚠️ **Bing: 0 verweisende Seiten, `InIndex` fällt** (15 → 13 in vier Tagen). Bing holt die Seiten und behält sie nicht — die Ursache ist fehlende Verlinkung, nicht die Crawl-Rate. Kein Werkzeug löst das; es braucht echte Verweise von außen | Ayham |
 | ProvenExpert-Profil hat **0 Bewertungen** — fünf echte würden zugleich die Sterne auf den Kundenkarten belegen (`deploy/BEWERTUNGEN.md`) | Ayham |
 | `openPoints` der sechs Referenzfälle — solange sie stehen, ist **keine** Detailseite indexiert | Kundenfreigaben |
-| Themen-Cluster ohne Artikel — `content/seo/cluster.json` gegen `content/wissen/` (5 von 12) | Redaktion |
+| Themen-Cluster ohne Artikel — `content/seo/cluster.json` gegen `content/wissen/` (5 von 13) | Redaktion |
 | KI-Partner-Verzeichnis der Wirtschaftsförderung Region Hannover: Aufnahme | Ayham |
 | **Microsoft-Referenzen fehlen** — die Positionierung steht seit 04.09.2026 auf Power Automate, Power BI und Dynamics 365, aber `client-results.ts` belegt keinen einzigen Fall daraus. `MicrosoftLoesungen` zeigt seither die **Bauweise**; das ersetzt keinen Fall mit Kunde und Zahl. Am stärksten wäre ein anonymisierter echter Fall („Maschinenbauer, 80 Mitarbeiter, Region Hannover") mit gemessenen Zahlen — rechtlich sauber, weil nichts erfunden ist | Ayham |
 | **Siegel-Logos fehlen** — `konformitaet.ts` trägt fünf belegte Angaben, die Liste `siegel` ist leer (angekündigt 04.09.2026: „Die ganzen Siegel werde ich dir geben"). Dateien nach `public/images/siegel/`, die drei Bedingungen stehen im README dort | Ayham |
