@@ -14,9 +14,9 @@ import "@/index.css";
  */
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
-  title: "KITech Software – Anwendungspartner für KI im Mittelstand",
+  title: "KITech Software – IT und KI für den Mittelstand, Hannover",
   description:
-    "Wir sind euer Anwendungspartner für KI — von der Anwendung im Tagesgeschäft bis zum messbaren Ergebnis.",
+    "Software, Automatisierung und KI für den Mittelstand — gebaut in Hannover, betrieben in Deutschland.",
   icons: { icon: "/favicon.ico" },
   /* Bestaetigung fuer Search Console und Bing Webmaster Tools. Solange dort
      nichts eingetragen ist, rendert Next.js kein Tag. Siehe config/suchkonsolen.ts. */

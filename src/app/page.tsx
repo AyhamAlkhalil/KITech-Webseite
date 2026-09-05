@@ -16,9 +16,15 @@ import { empfehlungenFuer } from "@/lib/wissen/empfehlungen";
  *
  * Was jetzt dort steht, steht auch auf der Seite: die Aussage aus dem Hero und
  * das Angebot aus `angebot.ts`.
+ *
+ * **Titel gedreht am 05.09.2026.** Er lautete „Anwendungspartner für KI im
+ * Mittelstand" und sagte damit genau das Gegenteil der Positionierung: IT
+ * kam nicht vor. Jetzt steht IT zuerst, KI daneben, Hannover hinten — die
+ * Reihenfolge *ist* die Aussage (siehe „Wofür die Website gebaut ist" in
+ * CLAUDE.md). Die Beschreibung bleibt unangetastet: Sie führt mit Ayhams H1.
  */
 export const metadata = buildMetadata({
-  title: "KITech Software – Anwendungspartner für KI im Mittelstand",
+  title: "KITech Software – IT und KI für den Mittelstand, Hannover",
   description:
     "Falsche KI kostet mehr als keine KI. Wir bauen Automatisierungen und Software, die im Tagesgeschäft läuft — Hannover. Kostenloser 1:1-KI-Check, 30 Minuten.",
   path: "/",

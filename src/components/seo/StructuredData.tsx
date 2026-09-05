@@ -516,16 +516,29 @@ export function getFounderPersonSchema(): SchemaBase {
     sameAs: [
       "https://www.linkedin.com/in/ayham-alkhalil-66bb451b5",
     ],
+    /*
+     * ⚠️ **Muss zu `getOrganizationSchema` passen.** Bis zum 05.09.2026 standen
+     * hier neun Themen, sechs davon KI, und **kein einziges Microsoft-Produkt**
+     * — obwohl der Organisationsknoten am 04.09. auf den Microsoft-Stack
+     * umgestellt wurde. Eine Firma, die Power Automate kann, und ein Gründer,
+     * der es nicht kennt: Das ist derselbe Widerspruch, den ein Leser auch
+     * zwischen zwei Sätzen auf einer Seite bemerken würde, nur maschinenlesbar.
+     *
+     * „MLOps" ist bei der Gelegenheit gefallen — der Begriff kam in keiner
+     * Angebotsdatei vor, und die Glossarseite dazu wurde am selben Tag aus
+     * demselben Grund entfernt. Was hier steht, muss die Website auch anbieten.
+     */
     knowsAbout: [
+      "Microsoft Power Automate",
+      "Microsoft Power BI",
+      "Microsoft Dynamics 365",
+      "Individuelle Softwareentwicklung",
+      "Prozessautomatisierung",
       "Künstliche Intelligenz",
       "KI-Beratung",
-      "Prozessautomatisierung",
-      "Individuelle Softwareentwicklung",
-      "Mittelstandsberatung",
       "Large Language Models",
-      "AI Agents",
-      "MLOps",
       "DSGVO-konforme KI",
+      "Mittelstandsberatung",
     ],
   };
 }
