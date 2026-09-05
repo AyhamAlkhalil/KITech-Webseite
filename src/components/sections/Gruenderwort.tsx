@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Linkedin, UserRound } from "lucide-react";
 import { SITE_CONTAINER } from "@/components/layout/site-container";
-import { founderInfo } from "@/components/sections/FounderPortrait";
 import { company } from "@/config/company";
 import { gruenderwort } from "@/data/gruenderwort";
 import { teamRoster, type TeamMember } from "@/data/team";
@@ -22,6 +21,16 @@ import { teamRoster, type TeamMember } from "@/data/team";
  *
  * Kein Label über der Überschrift, keine Icon-Kacheln, kein zweiter CTA auf den
  * Termin: der Aufruf steht im Hero und im Popup, hier steht der Grund dafür.
+ *
+ * ⚠️ Name, Rolle und LinkedIn kommen aus `config/company.ts`, **nicht** aus
+ * `founderInfo` in `FounderPortrait.tsx`. Diese Datei ist eine Server
+ * Component, `FounderPortrait` trägt `"use client"` — über die Grenze kommt
+ * für einen Nicht-Komponenten-Export ein Modulproxy statt eines Werts. Das
+ * lief unbemerkt live: Im ausgelieferten HTML stand unter dem Zitat
+ * „ — , KITech Software", und der LinkedIn-Anker hatte kein `href`. Kein
+ * Fehler beim Bauen, kein Test, der es sah — nur eine Zuschreibung, die fehlt.
+ * `Haltung.tsx` darf `founderInfo` weiter benutzen: die Datei ist selbst
+ * `"use client"`.
  */
 
 /**
@@ -85,20 +94,20 @@ export function Gruenderwort() {
 
             <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
               <p className="text-[13px] leading-tight text-muted-foreground">
-                <span className="font-semibold text-foreground">{founderInfo.name}</span>
+                <span className="font-semibold text-foreground">{company.founder.name}</span>
                 {" — "}
-                {founderInfo.role}, {company.shortName}
+                {company.founder.role}, {company.shortName}
               </p>
 
               <a
-                href={founderInfo.linkedinUrl}
+                href={company.founder.linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-[13px] text-primary transition-opacity hover:opacity-80"
               >
                 <Linkedin className="h-3.5 w-3.5" aria-hidden="true" />
                 LinkedIn
-                <span className="sr-only">-Profil von {founderInfo.name} (öffnet in neuem Tab)</span>
+                <span className="sr-only">-Profil von {company.founder.name} (öffnet in neuem Tab)</span>
               </a>
             </div>
 
