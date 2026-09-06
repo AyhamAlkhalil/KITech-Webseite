@@ -8,6 +8,7 @@ import { SITE_CONTAINER } from "@/components/layout/site-container";
 import { PageHeading } from "@/components/sections/PageHeading";
 import { CtaBanner } from "@/components/sections/CtaBanner";
 import { ClientResults } from "@/components/sections/ClientResults";
+import { Konformitaet } from "@/components/sections/Konformitaet";
 import {
   StructuredData,
   getWebPageSchema,
@@ -182,6 +183,10 @@ export function Segment({
         heading={content.wissen.heading}
         text={content.wissen.text}
       />
+
+      {/* Derselbe Konformitätsblock wie auf der Startseite — er gilt für beide
+          Zielgruppen und steht auch hier vor dem Abschluss-CTA. */}
+      <Konformitaet />
 
       <CtaBanner
         heading={content.cta.heading}

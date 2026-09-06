@@ -30,7 +30,7 @@ const VERWEISFELDER = ["publisher", "worksFor", "isPartOf", "author", "about", "
 
 const SEITEN = [
   "/", "/warum", "/leistungen", "/solo", "/enterprise", "/referenzen", "/haltung",
-  "/kontakt", "/glossar", "/glossar/mlops", "/gratis-wissen",
+  "/kontakt", "/glossar", "/glossar/ki-audit", "/gratis-wissen",
   "/gratis-wissen/was-ein-ki-setup-im-betrieb-wirklich-ausmacht",
   "/gratis-wissen/thema/ki-strategie", "/autoren", "/autoren/ayham-alkhalil",
   "/impressum", "/datenschutz", "/agb", "/lass-uns-reden",

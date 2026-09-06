@@ -214,6 +214,41 @@
   }
 
   /*
+    Die Spur der Werkzeug-Marken im Hero (StackLaufband.tsx).
+
+    Zwei Richtungen, weil der Block an zwei Stellen steht: am Desktop als
+    schmale Saeule links neben der Ueberschrift, darunter als waagerechtes Band
+    unter dem Knopf. Beide fahren um **die Haelfte** — die Liste steht dort
+    genau zweimal im DOM, danach beginnt sie sichtbar von vorn.
+
+    Das bestehende `.animate-marquee` faehrt dagegen um ein Drittel (drei
+    Kopien, Kundenlaufband). Die Zahl im Keyframe und die Zahl der Kopien im
+    JSX gehoeren zusammen: passt eines nicht zum anderen, springt das Band bei
+    jedem Durchlauf.
+
+    Langsamer als die Kundenkarten (28 s / 24 s statt 25 s bei deutlich
+    kleineren Elementen): Die Spur steht neben der H1 und soll gelesen, nicht
+    verfolgt werden.
+  */
+  @keyframes stack-hoch {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-50%); }
+  }
+
+  .animate-stack-hoch {
+    animation: stack-hoch 28s linear infinite;
+  }
+
+  @keyframes stack-quer {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .animate-stack-quer {
+    animation: stack-quer 24s linear infinite;
+  }
+
+  /*
     ==========================================================================
     Typografie-Utilities
     ==========================================================================
@@ -291,7 +326,9 @@
     }
 
     .animate-pulse-nudge,
-    .animate-marquee {
+    .animate-marquee,
+    .animate-stack-hoch,
+    .animate-stack-quer {
       animation: none;
     }
   }

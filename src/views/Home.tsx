@@ -3,9 +3,11 @@ import { StructuredData, getFAQSchema, getWebPageSchema } from "@/components/seo
 import { PageShell } from "@/components/layout/PageShell";
 import { CallPopup } from "@/components/conversion/CallPopup";
 import { KundenLaufband } from "@/components/sections/KundenLaufband";
+import { StackSaeule, StackBand } from "@/components/sections/StackLaufband";
 import { Gruenderwort } from "@/components/sections/Gruenderwort";
 import { FaqBlock } from "@/components/sections/FaqBlock";
 import { CheckEinladung } from "@/components/sections/CheckEinladung";
+import { Konformitaet } from "@/components/sections/Konformitaet";
 import { faq } from "@/data/faq";
 import { teamRoster } from "@/data/team";
 import { angebot, verfuegbarkeitKurz } from "@/config/angebot";
@@ -143,6 +145,19 @@ export default function Home({
         */}
         <div className="relative mx-auto flex w-full max-w-site flex-col items-center px-[15px] pt-[40px] text-center sm:pt-[70px] lg:pt-[100px] dt:min-h-[432px] dt:pt-[70px]">
           {/*
+            Die Werkzeug-Spur in der freien Spalte links (04.09.2026). Sie steht
+            absolut und ausserhalb des Textflusses — die H1 bleibt damit das
+            erste und einzige, was mittig steht.
+
+            Platz gerechnet, damit sie die Ueberschrift nicht beruehrt: Der
+            Container misst hoechstens 1180 px, davon 30 px Innenabstand, die
+            H1 660 px — es bleiben 245 px je Seite. Bei 1025 px (der Grenze, ab
+            der sie ueberhaupt erscheint) sind es noch 167 px. Die Saeule ist
+            112 px breit; darunter wird die Luft zur Schrift zu knapp.
+          */}
+          <StackSaeule />
+
+          {/*
             Breite so gewählt, dass die Aussage auf zwei Zeilen umbricht — in der
             Vorlage ist die Überschrift zweizeilig, erste Zeile 607 px breit.
             `max-w-[13ch]` ergab drei Zeilen und damit 57,5 px Überlänge.
@@ -186,6 +201,11 @@ export default function Home({
           <p className="mt-3 text-mini font-normal text-muted-foreground">
             Kostenlos · {angebot.dauer} · {verfuegbarkeitKurz()}
           </p>
+
+          {/* Dieselben Marken wie in der Saeule, bis 1024 px als waagerechtes
+              Band — dort gibt es links keine freie Spalte. Traegt zusaetzlich
+              den Satz, den Screenreader auf JEDER Breite vorlesen. */}
+          <StackBand />
 
           {/*
             Handy und Tablet: das Portrait steht unter dem Knopf, mittig und
@@ -255,6 +275,11 @@ export default function Home({
         heading="Wir schreiben auf, was wir wissen."
         text="Kostenlos, ohne Anmeldung — mit den Zahlen und Entscheidungen aus echten Projekten."
       />
+
+      {/* Wie hier gearbeitet wird, mit Beleg je Zeile (04.09.2026). Steht VOR
+          dem letzten Knopf: Wer die Bedenken erst nach der Frage ausräumt,
+          räumt sie zu spät aus. Inhalt: src/data/konformitaet.ts. */}
+      <Konformitaet />
 
       <CheckEinladung />
 

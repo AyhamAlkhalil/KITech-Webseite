@@ -9,6 +9,7 @@ import {
 } from "@/components/seo/StructuredData";
 import { ReferenceCard } from "@/components/sections/ReferenceCard";
 import { ReferenceCta } from "@/components/sections/ReferenceCta";
+import { MicrosoftLoesungen } from "@/components/sections/MicrosoftLoesungen";
 import { clientResults } from "@/data/client-results";
 import { WeiterlesenBlock } from "@/components/sections/WeiterlesenBlock";
 import type { ArtikelTeaser } from "@/lib/wissen/empfehlungen";
@@ -26,6 +27,13 @@ import type { ArtikelTeaser } from "@/lib/wissen/empfehlungen";
  *
  * Alle Inhalte kommen aus `src/data/client-results.ts`. Hier wird nichts ergänzt,
  * gerundet oder ausgeschmückt.
+ *
+ * Unter dem Kartenraster steht seit dem 04.09.2026 `MicrosoftLoesungen` — die
+ * Bauweise im Power-Platform-Umfeld, ausdrücklich als solche gekennzeichnet und
+ * ohne Kunden. Die Trennung zwischen „Aussage über einen Kunden" (oben) und
+ * „Aussage über uns" (unten) ist der Zweck des Aufbaus, nicht eine Formalie;
+ * warum das so entschieden wurde, steht im Kopf von
+ * `src/data/microsoft-loesungen.ts`.
  */
 export default function Referenzen({ wissen = [] }: { wissen?: ArtikelTeaser[] }) {
   return (
@@ -70,6 +78,12 @@ export default function Referenzen({ wissen = [] }: { wissen?: ArtikelTeaser[] }
           ))}
         </div>
       </section>
+
+      {/* Die Bauweise im Microsoft-Umfeld (04.09.2026). Steht UNTER den
+          Kundenfällen und sieht bewusst anders aus als eine Referenzkarte —
+          Begründung im Kopf der Komponente und in
+          `src/data/microsoft-loesungen.ts`. */}
+      <MicrosoftLoesungen />
 
       <WeiterlesenBlock
         artikel={wissen}
