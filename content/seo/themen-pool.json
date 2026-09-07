@@ -928,12 +928,14 @@
     "autor": "ayham-alkhalil",
     "substanz": {
       "art": "fehlerbericht",
-      "beschreibung": "OpenAIs `max_completion_tokens` zaehlt die Denk-Token mit, Anthropics `max_tokens` nicht — dieselbe Zahl bedeutet bei beiden Anbietern etwas anderes. Nachgemessen an einer Ein-Wort-Antwort: 19 Token Ausgabe, davon 9 fuers Nachdenken. Wer sein Budget nach der gewuenschten Textlaenge bemisst, bekommt einen Text, der mitten im Satz endet — ohne Fehler, nur mit finish_reason \"length\". Nachts um vier sieht das aus wie ein schlechtes Modell.",
-      "herkunft": "Umstellung der eigenen Blog-Automatik von Anthropic auf OpenAI, dokumentiert im Kopfkommentar von scripts/blog-engine/lib/openai.ts. Die Gegenmassnahme ist ein Faktor von 2 auf das Textbudget bei mindestens 2000 Token — bewusst grosszuegig, weil die Obergrenze nichts kostet, was nicht gebraucht wird, ein abgebrochener Artikel aber den ganzen Lauf.",
+      "beschreibung": "OpenAIs `max_completion_tokens` zaehlt die Denk-Token mit, Anthropics `max_tokens` nicht — dieselbe Zahl bedeutet bei beiden Anbietern etwas anderes. Nachgemessen an einer Ein-Wort-Antwort: 19 Token Ausgabe, davon 9 fuers Nachdenken. Wer sein Budget nach der gewuenschten Textlaenge bemisst, bekommt einen Text, der mitten im Satz endet — ohne Fehler, nur mit finish_reason \"length\".",
+      "herkunft": "Umstellung der eigenen Blog-Automatik von Anthropic auf OpenAI, dokumentiert im Kopfkommentar von scripts/blog-engine/lib/openai.ts. Gegenmassnahme: Faktor 2 auf das Textbudget, mindestens 2000 Token.",
       "material": [
+        "Nachts um vier sieht ein abgeschnittener Text aus wie ein schlechtes Modell, nicht wie ein Budgetfehler — das ist der eigentliche Schaden.",
         "max_tokens wird von den neueren OpenAI-Modellen nicht nur als veraltet behandelt, sondern abgelehnt.",
         "Der Abbruch meldet sich nicht als Fehler: Der Aufruf gilt als erfolgreich, finish_reason steht auf \"length\".",
-        "Vier echte Laeufe der Automatik, August/September 2026: 15.700 bis 27.400 Token Eingabe, 2.200 bis 14.800 Token Ausgabe je Artikel."
+        "Vier echte Laeufe der Automatik, August/September 2026: 15.700 bis 27.400 Token Eingabe, 2.200 bis 14.800 Token Ausgabe je Artikel.",
+        "Der Aufschlag ist bewusst grob statt fein: Die Obergrenze kostet nichts, was nicht gebraucht wird; ein abgebrochener Artikel kostet den ganzen Lauf."
       ]
     },
     "prioritaet": 2,

@@ -1,0 +1,19 @@
+{
+  "id": "2026-09-07-0630",
+  "gestartet": "2026-09-07T06:30:01.873Z",
+  "modus": "auto",
+  "themen": [
+    "reasoning-modell-token-falle"
+  ],
+  "artikel": [],
+  "fehler": [
+    "reasoning-modell-token-falle: Artikel zu „reasoning modell kosten“ entspricht auch nach der Korrektur nicht dem Datenmodell:\n- substanz.beschreibung: String must contain at most 400 character(s)\n- substanz.herkunft: String must contain at most 300 character(s)"
+  ],
+  "kosten": {
+    "dataforseoUsd": 0.13007,
+    "firecrawlCredits": 8,
+    "claudeTokenEin": 37419,
+    "claudeTokenAus": 12839
+  },
+  "beendet": "2026-09-07T06:33:03.267Z"
+}

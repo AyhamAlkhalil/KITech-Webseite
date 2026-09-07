@@ -452,6 +452,17 @@ ist genau die `primaerquelle`, die das Substanz-Tor sehen will.
 `fenster` ist keine Zierde: `imFenster()` prüft die relative Datumsangabe und
 warnt, wenn keine Quelle mehr hineinfällt (`04-aktualitaet.test.ts`).
 
+⚠️ **Der Themen-Vorrat steht unter demselben Schema wie der fertige Artikel**
+(`themen-pool.test.ts`). Am 07.09.2026 lief die Automatik technisch fehlerfrei
+durch — vier frische Quellen, `openai.com` drei Minuten alt, sechs Seiten
+ausgewertet, zehn Lücken, ein vollständiger Artikel — und verwarf ihn am Ende
+am Datenmodell: `substanz.beschreibung` 439 Zeichen statt 400. Der Wert stand
+seit zwei Tagen im Vorrat, das Modell hatte ihn korrekt übernommen. Geprüft
+wurde bis dahin nur das Ergebnis, nie die Eingabe — also war der Fehler erst
+nach 0,13 $ DataForSEO, acht Credits und 50.000 Token sichtbar, und der Tag
+blieb ohne Artikel. Ein Eintrag im Vorrat ist zwei Minuten Arbeit; ihn vorher
+zu prüfen kostet nichts.
+
 
 **Sechs harte Tore** (jedes bricht Build oder Lauf ab): Substanz · ein Keyword,
 ein Artikel · keine Fremdzahl ohne `quellen` mit URL und Abrufdatum ·
@@ -725,11 +736,11 @@ Companyhouse sind abgeschriebene Registerdaten und antworten Crawlern mit 403.
 
 ## Offen
 
-Stand 04.09.2026.
+Stand 07.09.2026.
 
 | Was | Wer |
 |---|---|
-| ⚠️ **DataForSEO nur noch 0,45 $** — reicht für gut zwei Auto-Läufe, danach schreibt die Automatik ohne Keyword-Daten weiter. `npm run bing -- keyword` liefert Volumen kostenlos, misst aber Bing statt Google — als Themenfindung brauchbar, als Ersatz nicht | Ayham |
+| ⚠️ **DataForSEO-Guthaben fast leer** — rund 0,32 $ nach dem Lauf vom 07.09. (0,13 $). Das reicht für zwei Läufe, danach schreibt die Automatik ohne Keyword-Daten weiter. `npm run bing -- keyword` liefert Volumen kostenlos, misst aber Bing statt Google — als Themenfindung brauchbar, als Ersatz nicht | Ayham |
 | ⚠️ **Bing: 0 verweisende Seiten, `InIndex` fällt** (15 → 13 in vier Tagen). Bing holt die Seiten und behält sie nicht — die Ursache ist fehlende Verlinkung, nicht die Crawl-Rate. Kein Werkzeug löst das; es braucht echte Verweise von außen | Ayham |
 | ProvenExpert-Profil hat **0 Bewertungen** — fünf echte würden zugleich die Sterne auf den Kundenkarten belegen (`deploy/BEWERTUNGEN.md`) | Ayham |
 | `openPoints` der sechs Referenzfälle — solange sie stehen, ist **keine** Detailseite indexiert | Kundenfreigaben |
@@ -738,5 +749,6 @@ Stand 04.09.2026.
 | **Microsoft-Referenzen fehlen** — die Positionierung steht seit 04.09.2026 auf Power Automate, Power BI und Dynamics 365, aber `client-results.ts` belegt keinen einzigen Fall daraus. `MicrosoftLoesungen` zeigt seither die **Bauweise**; das ersetzt keinen Fall mit Kunde und Zahl. Am stärksten wäre ein anonymisierter echter Fall („Maschinenbauer, 80 Mitarbeiter, Region Hannover") mit gemessenen Zahlen — rechtlich sauber, weil nichts erfunden ist | Ayham |
 | **Siegel-Logos fehlen** — `konformitaet.ts` trägt fünf belegte Angaben, die Liste `siegel` ist leer (angekündigt 04.09.2026: „Die ganzen Siegel werde ich dir geben"). Dateien nach `public/images/siegel/`, die drei Bedingungen stehen im README dort | Ayham |
 | `llms.txt` kennt weder die Microsoft-Bauweise noch den Konformitätsblock — der Generator hat eine feste Quellenliste. KI-Systeme lesen damit eine Positionierung, die auf der Website schon weiter ist | technische Schuld |
+| `/glossar/roi-garantie` und `/glossar/computer-vision` — beide Begriffe haben **null Deckung** in den Angebotsdateien, beide Seiten sind aber „Gesendet und indexiert" bei nur **11 indexierten Seiten** der ganzen Domain. Löschen kostet also Sichtbarkeit, Stehenlassen weckt eine Erwartung, die das Angebot nicht einlöst. Dritter Weg: Inhalt auf das umschreiben, was wir tun, Adresse behalten. `/glossar/mlops` war der klare Fall (Google unbekannt, 0 Verweise) und ist am 05.09. gefallen | Ayham |
 | Sales Letter und `/funnel` tragen Platzhaltertext | Ayham |
 | `/api/funnel-besuch` und `/api/ereignis` gehören zusammengelegt | technische Schuld |
