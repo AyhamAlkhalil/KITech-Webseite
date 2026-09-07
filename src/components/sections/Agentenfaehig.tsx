@@ -27,6 +27,13 @@ import {
  * Erklärabsatz, sondern ein Satz und dann die vier Zugänge. Wer hier einen
  * zweiten Absatz einzieht, hat genau das Muster wieder da.
  *
+ * ⚠️ **Kurz ist hier die Vorgabe, nicht der Zufall** (Ansage 07.09.2026: „Absatz
+ * agentenfähig viel weiter kürzen"). Der Block hatte einen Einordnungssatz von
+ * 25 Wörtern und vier Texte zu je drei bis vier Zeilen; beides ist eingedampft.
+ * Was blieb, ist der Beleg — nach der Hausregel wird beim Kürzen Fülltext
+ * gestrichen, nie ein Beleg. Wer einen Zugang wieder ausformuliert, macht die
+ * Kürzung rückgängig, für die es eine Ansage gab.
+ *
  * Gestaltung nach der Hausregel: Trennlinien statt Kacheln, nichts abgerundet,
  * kein Icon im Quadrat. Die Leiste folgt bewusst demselben Aufbau wie
  * `Konformitaet` — vier kurze Angaben nebeneinander, senkrecht getrennt. Der
@@ -46,7 +53,7 @@ export function Agentenfaehig() {
   return (
     <section
       id="agentenfaehig"
-      className={`${SITE_CONTAINER} scroll-mt-8 pb-16 pt-14 sm:pb-20 sm:pt-20`}
+      className={`${SITE_CONTAINER} scroll-mt-8 pb-14 pt-12 sm:pb-16 sm:pt-16`}
       aria-labelledby="agentenfaehig-heading"
     >
       {/* Der Marker. Eckig, in der Signalfarbe, `w-fit` — er soll die Zeile
@@ -62,7 +69,11 @@ export function Agentenfaehig() {
         {AGENTEN_AUSSAGE}
       </h2>
 
-      <p className="mt-5 max-w-[720px] text-pretty text-lead font-normal text-muted-foreground">
+      {/* Ohne `text-pretty`: Der Satz ist seit der Kürzung kurz genug für eine
+          Zeile, und `text-pretty` brach ihn am Desktop trotzdem nach „Portal,"
+          um — es zieht Wörter herunter, damit keine kurze Restzeile entsteht.
+          Bei zwei Wörtern Text ist das die falsche Optimierung. */}
+      <p className="mt-4 max-w-[720px] text-lead font-normal text-muted-foreground">
         {AGENTEN_EINORDNUNG}
       </p>
 
@@ -70,11 +81,11 @@ export function Agentenfaehig() {
           Linie — senkrechte Striche brauchen `gap-x`, und der schiebt die
           Spalten bei `sm` unnötig auseinander. Gleiche Rechnung wie in
           `Konformitaet`. */}
-      <ul className="mt-11 grid divide-y divide-border border-y border-border sm:grid-cols-2 sm:gap-x-10 dt:grid-cols-4 dt:gap-x-0 dt:divide-x dt:divide-y-0">
+      <ul className="mt-9 grid divide-y divide-border border-y border-border sm:grid-cols-2 sm:gap-x-10 dt:grid-cols-4 dt:gap-x-0 dt:divide-x dt:divide-y-0">
         {bedienwege.map((weg) => (
           <li
             key={weg.id}
-            className="flex flex-col py-6 dt:px-5 dt:py-7 dt:first:pl-0 dt:last:pr-0"
+            className="flex flex-col py-5 dt:px-5 dt:py-6 dt:first:pl-0 dt:last:pr-0"
           >
             {/* Der Strich ordnet die Spalte, ohne ein Symbol zu erfinden, das
                 nichts bedeutet. */}
@@ -96,7 +107,7 @@ export function Agentenfaehig() {
           Wortfetzen um. Deshalb `w-full` bis `sm` (der Knopf rutscht darunter)
           und erst darüber die gemeinsame Zeile. `min-w-0` bleibt: ohne das
           gibt der Text nicht nach, sondern schiebt den Knopf aus dem Bild. */}
-      <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
+      <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
         <p className="w-full min-w-0 text-fliess font-normal text-muted-foreground sm:w-auto sm:flex-1">
           {agentenBeleg.satz}
         </p>

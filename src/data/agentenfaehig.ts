@@ -56,7 +56,7 @@ export interface Bedienweg {
   id: string;
   /** Der Zugang als Aussage, nicht als Schlagwort. */
   titel: string;
-  /** Was er konkret bedeutet. Zwei Sätze, höchstens. */
+  /** Was er konkret bedeutet. ⚠️ EIN Satz, kurz — siehe Kürzung 07.09.2026. */
   text: string;
 }
 
@@ -70,44 +70,37 @@ export const AGENTEN_LABEL = "Agentenfähig";
 export const AGENTEN_AUSSAGE = "Alles, was wir bauen, ist agentenfähig.";
 
 /**
- * Der eine Satz darunter. Er löst „agentenfähig" auf, statt es zu wiederholen —
- * ein Erklärabsatz, der die Überschrift umformuliert, ist als Muster raus.
+ * Der Halbsatz darunter. Er trägt genau eine Information, die sonst nirgends
+ * steht: den **Umfang** — es geht um jede Art von Anwendung, nicht um ein
+ * Zusatzprodukt.
+ *
+ * ⚠️ Am 07.09.2026 auf Ansage („viel weiter kürzen") von 25 auf 10 Wörter. Die
+ * gestrichene Fassung erklärte, was eine Schnittstelle ist; das lösen die vier
+ * Zeilen darunter besser. Wer hier wieder erklärt, hat den Erklärabsatz zurück.
  */
 export const AGENTEN_EINORDNUNG =
-  "Neben der Oberfläche für Menschen bekommt jede Anwendung eine Schnittstelle, " +
-  "über die ein Sprachmodell sie bedient: SaaS, Portal, interne Fachanwendung.";
+  "Für jede Anwendung, die wir ausliefern: SaaS, Portal, interne Fachanwendung.";
 
 export const bedienwege: Bedienweg[] = [
   {
     id: "mcp",
     titel: "MCP-Server gehört zur Auslieferung",
-    text:
-      "Claude, ChatGPT oder ein Agent im eigenen Haus hängt sich über das Model Context " +
-      "Protocol an die Anwendung und liest, sucht und schreibt darüber. Es gelten die Rechte " +
-      "des angemeldeten Kontos, kein eigener Generalschlüssel für den Agenten.",
+    text: "Es gelten die Rechte des angemeldeten Kontos, kein Generalschlüssel für den Agenten.",
   },
   {
     id: "sprache",
     titel: "Eine Sprachnachricht reicht als Eingabe",
-    text:
-      "Was jemand unterwegs diktiert, kommt als fertiger Vorgang im System an. Der Umweg " +
-      "über das Formular am Schreibtisch entfällt, und mit ihm der Stapel, der abends noch " +
-      "nachgetragen wird.",
+    text: "Unterwegs diktiert, im System ein fertiger Vorgang.",
   },
   {
     id: "frage",
     titel: "Gefragt wird in Worten, nicht im Klickpfad",
-    text:
-      "Wer die Software selten benutzt, muss ihre Menüführung nicht kennen. Die Frage geht " +
-      "so hinein, wie sie im Kopf entsteht, und die Antwort weist aus, aus welchem Datensatz " +
-      "sie stammt.",
+    text: "Wer die Software selten benutzt, muss ihre Menüführung nicht kennen.",
   },
   {
     id: "anschluss",
-    titel: "Was im Haus schon läuft, wird angeschlossen",
-    text:
-      "Wer Microsoft 365 Copilot oder einen eigenen Assistenten im Einsatz hat, hängt ihn an " +
-      "dieselbe Schnittstelle. Dazu kommt kein zweites System neben das vorhandene.",
+    titel: "Vorhandene Assistenten werden angeschlossen",
+    text: "Microsoft 365 Copilot hängt an derselben Schnittstelle, kein zweites System daneben.",
   },
 ];
 
