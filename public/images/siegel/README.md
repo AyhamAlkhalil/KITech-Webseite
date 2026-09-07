@@ -18,14 +18,29 @@ Ein fremdes Prüfzeichen ohne Berechtigung zu führen, ist Markenverletzung und
 Irreführung zugleich — und Aussteller verfolgen das, weil ihr Zeichen sonst
 wertlos wird. Im Zweifel: nicht einbauen.
 
+## Woher die Datei kommt — nicht nachbauen
+
+⚠️ **Das Zeichen wird beim Aussteller heruntergeladen, nie nachgezeichnet und
+nie aus einem Screenshot geschnitten.** Die gelieferte Datei trägt geprüfte
+Proportionen, den vorgeschriebenen Schutzraum und teils eine Kennung; ein
+selbst gebautes Abbild ist auch mit vorhandenem Status eine Markenverletzung.
+
+| Zeichen | Wo die Datei liegt |
+|---|---|
+| Microsoft Solutions Partner | Partner Center → **Logo Builder** (Farbe und Schwarzweiß, je Designation eine Datei) |
+| AWS Partner | Partner Central → Marketing Central, mit dem eigenen Tier |
+| Google Cloud Partner | Partner-Advantage-Portal |
+| ISO/IEC 27001 | vom Zertifizierer zusammen mit dem Zertifikat, mit Zertifikatsnummer |
+
 ## Format
 
-- **SVG bevorzugt**, sonst PNG mit transparentem Grund.
-- Auf den Inhalt beschnitten, ohne weißen Rahmen — die Komponente zeigt sie auf
-  hellem Grund mit 48 px Höhe.
-- Dateiname kebab-case, nach dem Zeichen benannt: `dsgvo-geprueft.svg`.
-- Herstellervorgaben zu Mindestgröße und Schutzraum beachten; sie stehen im
-  Regelfall im Zertifikat oder in den Nutzungsbedingungen des Ausstellers.
+- **Datei unverändert lassen.** Nicht freistellen, nicht einfärben, nichts
+  wegschneiden — der schwarze Fußbalken mit der Designation gehört bei
+  Microsoft-Badges zum Zeichen.
+- SVG bevorzugt, sonst PNG. Die Komponente zeigt das Bild mit 104 px Höhe
+  (ab `sm` 124 px) und setzt **keinen** eigenen Rahmen darum.
+- Dateiname kebab-case, nach Zeichen und Ausprägung benannt:
+  `microsoft-solutions-partner-data-ai-azure.png`.
 
 ## Nicht hierher
 

@@ -66,28 +66,54 @@ export function Konformitaet() {
         ))}
       </ul>
 
-      {/* Nur wenn wirklich Prüfzeichen vorliegen — siehe Kopf dieser Datei. */}
+      {/*
+        Nur wenn wirklich Prüfzeichen vorliegen — siehe Kopf von
+        `data/konformitaet.ts`. Kein Platzhalter, kein graues Kästchen: Eine
+        angedeutete Zertifizierung wirkt wie eine vorhandene.
+
+        ⚠️ **Die Datei wird gezeigt, nicht gerahmt.** Die Kachel mit dem
+        schwarzen Fußbalken, die man von Microsoft-Badges kennt, steckt bereits
+        im gelieferten Bild. Ein eigener Rahmen, ein eigener Balken oder eine
+        Einfärbung darum wäre eine Veränderung des Zeichens — und die ist auch
+        mit vorhandenem Status untersagt. Deshalb steht hier nur eine
+        einheitliche Höhe und der Abstand dazwischen.
+      */}
       {siegel.length > 0 && (
-        <div className="mt-10 flex flex-wrap items-center gap-x-10 gap-y-6">
-          {siegel.map((zeichen) => (
-            <a
-              key={zeichen.name}
-              href={zeichen.nachweisUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 transition-opacity hover:opacity-75"
-              title={`${zeichen.name} — vergeben von ${zeichen.aussteller}${
-                zeichen.gueltigBis ? `, gültig bis ${zeichen.gueltigBis}` : ""
-              }`}
-            >
-              <img
-                src={zeichen.logo}
-                alt={`${zeichen.name}, vergeben von ${zeichen.aussteller}`}
-                className="h-12 w-auto max-w-[140px] object-contain"
-                loading="lazy"
-              />
-            </a>
-          ))}
+        <div className="mt-12">
+          <h3 className="text-mini font-semibold uppercase tracking-[0.08em] text-foreground/60">
+            Verliehen und nachprüfbar
+          </h3>
+
+          <ul className="mt-6 flex flex-wrap items-start gap-x-8 gap-y-6">
+            {siegel.map((zeichen) => {
+              /* Der Alternativtext trägt die Designation mit: Drei Badges
+                 desselben Programms sind sonst dreimal derselbe Satz. */
+              const bezeichnung = zeichen.designation
+                ? `${zeichen.name} — ${zeichen.designation}`
+                : zeichen.name;
+
+              return (
+                <li key={bezeichnung}>
+                  <a
+                    href={zeichen.nachweisUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block transition-opacity hover:opacity-75"
+                    title={`${bezeichnung}, vergeben von ${zeichen.aussteller}${
+                      zeichen.gueltigBis ? `, gültig bis ${zeichen.gueltigBis}` : ""
+                    }`}
+                  >
+                    <img
+                      src={zeichen.logo}
+                      alt={`${bezeichnung}, vergeben von ${zeichen.aussteller}`}
+                      className="h-[104px] w-auto object-contain sm:h-[124px]"
+                      loading="lazy"
+                    />
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       )}
     </section>

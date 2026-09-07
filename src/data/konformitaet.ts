@@ -54,12 +54,32 @@ export interface KonformitaetsPunkt {
 }
 
 export interface Siegel {
-  /** Name des Prüfzeichens. */
+  /** Name des Prüfzeichens, z. B. „Microsoft Solutions Partner". */
   name: string;
   /** Wer es vergibt. */
   aussteller: string;
-  /** Pfad unter /public, vorzugsweise SVG. */
+  /**
+   * Die **unveränderte** Datei des Ausstellers unter `public/images/siegel/`.
+   *
+   * ⚠️ Nicht nachbauen, auch nicht „nachgezeichnet" oder aus einem Screenshot
+   * geschnitten. Microsoft erzeugt jedes Badge im **Logo Builder des Partner
+   * Center** (Farb- und Schwarzweißfassung); andere Aussteller liefern es mit
+   * dem Zertifikat. Diese Dateien tragen die geprüften Proportionen, den
+   * Schutzraum und teils eine Kennung — ein selbst gebautes Abbild ist auch
+   * mit vorhandenem Status eine Markenverletzung.
+   *
+   * Daraus folgt für die Darstellung: **kein eigener Rahmen, kein eigener
+   * Fußbalken, keine Einfärbung.** Die Kachel mit dem schwarzen Balken, die
+   * man von Microsoft-Badges kennt, ist Teil der gelieferten Datei.
+   */
   logo: string;
+  /**
+   * Die Ausprägung, falls das Zeichen mehrere kennt — bei Microsoft die
+   * Designation („Digital & App Innovation", „Infrastructure Azure", „Data & AI
+   * Azure"). Steht im Alternativtext, damit ein Screenreader die drei Badges
+   * auseinanderhalten kann; sichtbar ist sie bereits in der Datei.
+   */
+  designation?: string;
   /** Seite des Ausstellers, auf der die Gültigkeit nachprüfbar ist. */
   nachweisUrl: string;
   /** Ablaufdatum als Klartext, falls es eines gibt. */
@@ -95,7 +115,36 @@ export const konformitaetsPunkte: KonformitaetsPunkt[] = [
 ];
 
 /**
- * Verliehene Prüfzeichen. Leer, bis die Nachweise vorliegen — siehe Kopf dieser
+ * Verliehene Prüfzeichen. Leer, bis die Dateien vorliegen — siehe Kopf dieser
  * Datei für die drei Bedingungen, die ein Eintrag erfüllen muss.
+ *
+ * **Stand 07.09.2026 (Ansage Ayham):**
+ *
+ *   - **Microsoft Solutions Partner — vorhanden.** Es fehlt nur die Datei aus
+ *     dem Logo Builder des Partner Center. Sobald sie unter
+ *     `public/images/siegel/` liegt, wird aus dem Kommentar unten ein Eintrag,
+ *     und das Badge erscheint. Welche Designation(en) gelten, entscheidet sich
+ *     daran, was im Partner Center steht — pro Designation ein Eintrag.
+ *   - **ISO/IEC 27001 — Zertifizierung läuft.** Bleibt draußen, bis das
+ *     Zertifikat da ist. Ein „Zertifizierung in Vorbereitung" auf der Seite
+ *     wirkt wie eine vorhandene und ist genauso angreifbar.
+ *   - **AWS und Google Cloud — nicht vorhanden.** Die Zeichen aus der Vorlage
+ *     vom 07.09.2026 stammen von einer anderen Firma und bleiben draußen.
+ *
+ * So sieht ein fertiger Eintrag aus (Werte durch die echten ersetzen):
+ *
+ * ```ts
+ * {
+ *   name: "Microsoft Solutions Partner",
+ *   aussteller: "Microsoft",
+ *   designation: "Digital & App Innovation",
+ *   logo: "/images/siegel/microsoft-solutions-partner-digital-app-innovation.png",
+ *   nachweisUrl: "https://www.microsoft.com/de-de/solution-providers/…",
+ * }
+ * ```
+ *
+ * `nachweisUrl` ist der eigene Eintrag im Microsoft-Partnerverzeichnis. Fehlt
+ * der, führt der Link ins Leere und belegt nichts — dann lieber die Seite des
+ * Programms als gar nichts, aber der eigene Eintrag ist das Ziel.
  */
 export const siegel: Siegel[] = [];
