@@ -173,10 +173,14 @@ export interface ClientResult {
    * trägt vor Gericht wenig. Solange das so steht, ist das ein bewusst
    * getragenes Risiko und keine Nachlässigkeit.
    *
-   * ⚠️ **Ein Weg zum schriftlichen Beleg ist derzeit nicht festgelegt.** Bis
-   * zum 07.09.2026 stand hier ProvenExpert; das wird auf Ansage nicht genutzt.
-   * Damit bleibt das Risiko bestehen, solange es keinen anderen Kanal gibt —
-   * eine schriftliche Bestätigung per Mail genügt dafür bereits. Es gilt: **Wer eine dieser Zahlen ändert, ohne mit dem Kunden gesprochen
+   * **Entschieden am 07.09.2026 (Ayham): Es bleibt dabei.** Die mündliche
+   * Grundlage ist ausdrücklich in Ordnung, ein Beleg-Kanal wird nicht
+   * aufgesetzt; ProvenExpert wird nicht genutzt. Das ist eine bewusste
+   * Entscheidung des Geschäftsführers über sein eigenes Risiko und **kein
+   * offener Punkt mehr** — wer hier erneut einen Beleg-Prozess vorschlägt,
+   * trägt eine erledigte Frage noch einmal vor.
+   *
+   * Unberührt davon gilt weiterhin: **Wer eine dieser Zahlen ändert, ohne mit dem Kunden gesprochen
    * zu haben, erfindet sie** — und genau das ist der Tatbestand.
    *
    * Was hier unter keinen Umständen passieren darf: eine Zahl höher setzen als
