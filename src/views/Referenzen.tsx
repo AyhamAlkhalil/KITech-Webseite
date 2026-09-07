@@ -10,6 +10,7 @@ import {
 import { ReferenceCard } from "@/components/sections/ReferenceCard";
 import { ReferenceCta } from "@/components/sections/ReferenceCta";
 import { MicrosoftLoesungen } from "@/components/sections/MicrosoftLoesungen";
+import { Agentenfaehig } from "@/components/sections/Agentenfaehig";
 import { clientResults } from "@/data/client-results";
 import { WeiterlesenBlock } from "@/components/sections/WeiterlesenBlock";
 import type { ArtikelTeaser } from "@/lib/wissen/empfehlungen";
@@ -78,6 +79,13 @@ export default function Referenzen({ wissen = [] }: { wissen?: ArtikelTeaser[] }
           ))}
         </div>
       </section>
+
+      {/* Was jede dieser Anwendungen zusätzlich kann (07.09.2026, auf Ansage).
+          Steht direkt hinter den Karten und vor der Microsoft-Bauweise: Der
+          Block ist kurz, der darunter ausführlich, und beide sind Aussagen über
+          uns. Inhalt und die Grenze zur Kundenaussage:
+          `src/data/agentenfaehig.ts`. */}
+      <Agentenfaehig />
 
       {/* Die Bauweise im Microsoft-Umfeld (04.09.2026). Steht UNTER den
           Kundenfällen und sieht bewusst anders aus als eine Referenzkarte —

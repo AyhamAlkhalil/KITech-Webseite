@@ -4,6 +4,12 @@ import { company, addressLine } from "../src/config/company.js";
 import { angebot, CHECK_TAG, PLAETZE_PRO_WOCHE } from "../src/config/angebot.js";
 import { siteRoutes } from "../src/config/navigation.js";
 import { services, techStack } from "../src/data/services.js";
+import {
+  AGENTEN_AUSSAGE,
+  AGENTEN_EINORDNUNG,
+  agentenBeleg,
+  bedienwege,
+} from "../src/data/agentenfaehig.js";
 import { principles, commitments } from "../src/data/principles.js";
 import { clientResults } from "../src/data/client-results.js";
 import { testimonials } from "../src/data/testimonials.js";
@@ -213,6 +219,10 @@ export function baueKurz(): string {
   }
 
   zeilen.push(
+    "## Agentenfähig gebaut",
+    "",
+    ...agentenZeilen(),
+    "",
     "## Referenzen",
     "",
     ...referenzZeilen(),
@@ -257,6 +267,28 @@ export function baueKurz(): string {
   );
 
   return zeilen.join("\n");
+}
+
+/**
+ * Der Agentenzugang als eigener Abschnitt — in beiden Fassungen.
+ *
+ * ⚠️ Das ist die eine Aussage der Website, die in dieser Datei **stehen muss**:
+ * Wer sie liest, ist die Maschine, über die der Abschnitt spricht. Eine
+ * Behauptung über Agentenfähigkeit, die ein Agent nicht findet, widerlegt sich
+ * beim Lesen selbst.
+ *
+ * Quelle ist `src/data/agentenfaehig.ts`, wie überall hier — es wird nichts
+ * ergänzt, was nicht auf der Website steht.
+ */
+function agentenZeilen(): string[] {
+  const zeilen = [AGENTEN_AUSSAGE, "", AGENTEN_EINORDNUNG, ""];
+  for (const weg of bedienwege) zeilen.push(`- **${weg.titel}** — ${weg.text}`);
+  /* Der Beleg-Satz ohne seine Adresse: Auf der Website führt er zu `llms.txt`,
+     und dieser Verweis ist genau hier zirkulär — die Datei, die der Leser
+     gerade offen hat. Die maschinenlesbaren Quellen stehen ohnehin weiter
+     unten unter eigener Überschrift. */
+  zeilen.push("", `${agentenBeleg.satz} Diese Datei ist der Beleg dafür.`);
+  return zeilen;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -310,6 +342,13 @@ export function baueLang(): string {
     for (const punkt of leistung.bullets) zeilen.push(`- ${punkt}`);
     if (leistung.bullets.length > 0) zeilen.push("");
   }
+
+  /* Als Unterabschnitt von „Leistungen" und nicht als eigener Punkt: Die
+     Nummerierung 1–13 steht in beiden Fassungen und in den Verweisen darauf;
+     ein eingeschobener Punkt verschiebt zehn Überschriften für eine Angabe,
+     die inhaltlich ohnehin beschreibt, wie die Leistungen ausgeliefert
+     werden. */
+  zeilen.push("### Agentenfähig gebaut", "", ...agentenZeilen(), "");
 
   zeilen.push("---", "", "## 4. Haltung", "");
   for (const grundsatz of principles) {

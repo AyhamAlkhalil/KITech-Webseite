@@ -50,6 +50,19 @@ Für Betriebe mit echten Anforderungen an Datenschutz und Nachweisbarkeit: Betri
 
 Was gebaut ist, muss laufen. Überwachung, Nachjustieren, Weiterentwicklung — und ein fester Ansprechpartner statt einer Ticketschlange.
 
+### Agentenfähig gebaut
+
+Alles, was wir bauen, ist agentenfähig.
+
+Neben der Oberfläche für Menschen bekommt jede Anwendung eine Schnittstelle, über die ein Sprachmodell sie bedient: SaaS, Portal, interne Fachanwendung.
+
+- **MCP-Server gehört zur Auslieferung** — Claude, ChatGPT oder ein Agent im eigenen Haus hängt sich über das Model Context Protocol an die Anwendung und liest, sucht und schreibt darüber. Es gelten die Rechte des angemeldeten Kontos, kein eigener Generalschlüssel für den Agenten.
+- **Eine Sprachnachricht reicht als Eingabe** — Was jemand unterwegs diktiert, kommt als fertiger Vorgang im System an. Der Umweg über das Formular am Schreibtisch entfällt, und mit ihm der Stapel, der abends noch nachgetragen wird.
+- **Gefragt wird in Worten, nicht im Klickpfad** — Wer die Software selten benutzt, muss ihre Menüführung nicht kennen. Die Frage geht so hinein, wie sie im Kopf entsteht, und die Antwort weist aus, aus welchem Datensatz sie stammt.
+- **Was im Haus schon läuft, wird angeschlossen** — Wer Microsoft 365 Copilot oder einen eigenen Assistenten im Einsatz hat, hängt ihn an dieselbe Schnittstelle. Dazu kommt kein zweites System neben das vorhandene.
+
+Diese Website liefert ihren eigenen Inhalt maschinenlesbar aus. Diese Datei ist der Beleg dafür.
+
 ---
 
 ## 4. Haltung

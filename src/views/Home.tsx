@@ -3,6 +3,7 @@ import { StructuredData, getFAQSchema, getWebPageSchema } from "@/components/seo
 import { PageShell } from "@/components/layout/PageShell";
 import { CallPopup } from "@/components/conversion/CallPopup";
 import { KundenLaufband } from "@/components/sections/KundenLaufband";
+import { Agentenfaehig } from "@/components/sections/Agentenfaehig";
 import { StackSaeule, StackBand } from "@/components/sections/StackLaufband";
 import { Gruenderwort } from "@/components/sections/Gruenderwort";
 import { FaqBlock } from "@/components/sections/FaqBlock";
@@ -240,6 +241,12 @@ export default function Home({
 
       {/* Kundenkarten als durchlaufendes Band. */}
       <KundenLaufband />
+
+      {/* Direkt hinter dem Beweis (07.09.2026, auf Ansage): was jede dieser
+          Anwendungen zusaetzlich kann. Die Stelle ist gewaehlt, nicht uebrig —
+          weiter unten stuende die Aussage hinter der Entscheidung. Inhalt:
+          src/data/agentenfaehig.ts. */}
+      <Agentenfaehig />
 
       {/* Seit dem 14.08.2026 steht darunter wieder etwas — auf Ansage, nachdem
           die Seite seit dem 11.08. bewusst nach dem Laufband endete: erst die

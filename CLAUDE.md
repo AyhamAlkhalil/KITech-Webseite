@@ -176,7 +176,7 @@ Dockerfile          Multi-Stage, node:22-alpine, standalone, Port 3000 — der a
 | `/` | ja | Hero (**eine** Aussage + CTA, Werkzeug-Spur links), Kundenkarten, Gründerwort + Team, FAQ, Konformität, CTA |
 | `/warum` + zwei Sales Letter | Weiche ja, Letter **nein** | Letter sind Platzhaltertext (`isPlaceholder`) |
 | `/leistungen`, `/solo`, `/enterprise` | ja | Eine Vorlage, zwei Zielgruppen (`data/segments.ts`) |
-| `/referenzen`, `/referenzen/[slug]` | Übersicht ja, Details **nein** | Details `noindex`, solange `openPoints` offen sind. Unter den Karten `MicrosoftLoesungen` — Bauweise, keine Kunden |
+| `/referenzen`, `/referenzen/[slug]` | Übersicht ja, Details **nein** | Details `noindex`, solange `openPoints` offen sind. Unter den Karten `Agentenfaehig` und `MicrosoftLoesungen` — beides Bauweise, keine Kunden |
 | `/gratis-wissen` + `[slug]`, `/gratis-wissen/thema/[cluster]`, `/gratis-wissen/rss.xml` | ja | Content-Bereich, Server Components. ⚠️ Alle drei liegen **unter** `/gratis-wissen` — `/rss.xml` und `/thema/…` an der Wurzel sind 404 |
 | `/autoren`, `/autoren/[slug]` | ja | `ProfilePage`, Inhalt `content/seo/autoren.json` |
 | `/haltung`, `/kontakt`, `/glossar` + `[slug]` | ja | |
@@ -242,8 +242,8 @@ KI-Agentur sein, sondern eine IT-Agentur, die auch KI macht" (Ansage
 04.09.2026). Stünde Claude vorn, sagte der Hero das Gegenteil.
 
 **Referenz oder Bauweise — nie dazwischen.** `data/client-results.ts` trägt
-Aussagen über einen **Kunden**, `data/microsoft-loesungen.ts` Aussagen über
-**uns**. Der Unterschied ist die ganze Idee: Eine erfundene Kundenreferenz ist
+Aussagen über einen **Kunden**, `data/microsoft-loesungen.ts` und
+`data/agentenfaehig.ts` Aussagen über **uns**. Der Unterschied ist die ganze Idee: Eine erfundene Kundenreferenz ist
 irreführend nach § 5 Abs. 1, Abs. 2 Nr. 3 UWG, mit Bewertung oder Sternen fällt
 sie unter die Schwarze Liste (Anhang zu § 3 Abs. 3 Nr. 23c UWG). Am 04.09.2026
 sollten drei „Fake-Referenzen" mit Power Automate und CRM entstehen; daraus ist
@@ -251,6 +251,18 @@ auf Rückfrage der Block `MicrosoftLoesungen` auf `/referenzen` geworden — ohn
 Kunden, ohne Kennzahlen, ohne JSON-LD, mit dem Kennzeichnungssatz **vorn**.
 ⚠️ Wer einen Eintrag von dort nach `client-results.ts` verschiebt und ihm einen
 Firmennamen gibt, macht aus dem einen das andere.
+
+**Agentenfähigkeit ist eine Leistungsbeschreibung, keine Bestandsangabe.**
+`data/agentenfaehig.ts` (07.09.2026, auf Ansage) sagt, **wie wir bauen**: MCP-Server,
+Sprachnachricht, Frage in Worten, Anschluss vorhandener Assistenten. Die Ansage
+lautete „alle meine Produkte sind agentenfähig" — als Aussage über jede jemals
+ausgelieferte Anwendung wäre das eine Zusicherung, die im Streitfall der Werbende
+darlegen muss (§ 5 Abs. 1 UWG), und die Portale von 2026 haben den Zugang nicht
+nachträglich bekommen. ⚠️ Sobald ein Fall ihn belegt, gehört er als Fall nach
+`client-results.ts` — ein Kunde mit Namen ist mehr wert als jede Zeile hier.
+Der Abschnitt steht auf `/` unter dem Kundenlaufband und auf `/referenzen` unter
+den Karten, und **er muss in `llms.txt` stehen**: Wer sie liest, ist die Maschine,
+über die er spricht.
 
 **Konformitätsangaben nur mit Beleg auf dieser Website.** `data/konformitaet.ts`
 → jede Zeile verlinkt die Seite, auf der dieselbe Angabe verbindlich steht
