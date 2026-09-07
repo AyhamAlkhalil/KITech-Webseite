@@ -91,7 +91,7 @@ Ihr wisst, wie euer Geschäft läuft. Wir wissen, wie man es baut. Beides zusamm
 
 ## 5. Referenzen
 
-### ProOptima — Vertriebs-Automatisierung
+### ProOptima — Vertrieb mit Power Automate
 
 - Ergebnis: **10 Minuten** für einen Vertriebsvorgang, vorher 3 Stunden
 - Vorher: 3 Stunden von Hand
@@ -100,7 +100,7 @@ Ihr wisst, wie euer Geschäft läuft. Wir wissen, wie man es baut. Beides zusamm
 
 Ein wiederkehrender Vorgang im Vertrieb läuft automatisiert über Power Automate: Was vorher drei Stunden von Hand gebraucht hat, ist in zehn Minuten erledigt.
 
-Noch nicht belegt: Freigabe des Kundennamens nicht schriftlich bestätigt; Welcher Vertriebsvorgang genau — nicht dokumentiert; Projektdauer nicht dokumentiert; Keine Bewertung, kein freigegebenes Zitat.
+Noch nicht belegt: Freigabe des Kundennamens nicht schriftlich bestätigt; Welcher Vertriebsvorgang genau — nicht dokumentiert; Projektdauer nicht dokumentiert; Bewertung nur mündlich — nicht schriftlich belegbar; Kein freigegebenes Zitat.
 
 ### Pflegexperts — Claude-Code-Setup
 
@@ -164,7 +164,7 @@ Noch nicht belegt: Ausgangslage beim Kunden nicht dokumentiert; Eingesetzte Tech
 
 Ein eigener Linux-Server für die Mail-Automatisierung, nach zwei Wochen betriebsbereit — übergeben zusammen mit einer n8n-Schulung, damit der Betrieb im Haus bleibt.
 
-Noch nicht belegt: Genaue Firmierung ungeklärt — im Register stehen mehrere Gesellschaften auf Martin Ziemann; Freigabe des Kundennamens nicht schriftlich bestätigt; Was die Mail-Automatisierung konkret leistet — nicht dokumentiert; Keine Bewertung, kein freigegebenes Zitat.
+Noch nicht belegt: Genaue Firmierung ungeklärt — im Register stehen mehrere Gesellschaften auf Martin Ziemann; Freigabe des Kundennamens nicht schriftlich bestätigt; Was die Mail-Automatisierung konkret leistet — nicht dokumentiert; Bewertung nur mündlich — nicht schriftlich belegbar; Kein freigegebenes Zitat.
 
 ---
 

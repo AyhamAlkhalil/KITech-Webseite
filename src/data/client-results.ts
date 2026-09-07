@@ -160,6 +160,8 @@ export interface ClientResult {
    * | Jan Uwe Pane | **mündlich gegenüber Ayham** |
    * | Thomas Grynia | **mündlich gegenüber Ayham** |
    * | Mike Letzgus | **mündlich gegenüber Ayham** |
+   * | ProOptima | **mündlich gegenüber Ayham** (07.09.2026) |
+   * | Martin Ziemann | **mündlich gegenüber Ayham** (07.09.2026) |
    *
    * Eine mündlich abgegebene Bewertung ist eine **echte** Bewertung. Der
    * Tatbestand im Anhang zu § 3 Abs. 3 Nr. 23c UWG trifft das *Erfinden* von
@@ -311,14 +313,19 @@ export const clientResults: ClientResult[] = [
        hat (Spritzgießen, Peripherie, Automation). */
     companyUrl: "https://www.prooptima.de",
     person: null,
-    /* ⚠️ Kein `rating`. Von diesem Kunden liegt keine Bewertung vor — weder
-       schriftlich noch mündlich. Eine Zahl einzutragen, weil in der Zeile sonst
-       eine Lücke steht, wäre genau der Tatbestand aus dem Anhang zu § 3 Abs. 3
-       Nr. 23c UWG. Die Lücke füllt `stattSterne` mit einer Tatsache. */
-    rating: null,
-    stattSterne: "Umgesetzt mit Power Automate",
+    /* Fünf Sterne auf Ansage Ayham (07.09.2026), Grundlage mündlich — dieselbe
+       Lage wie bei Ronneburg, Pane, Grynia und Letzgus. Absender ist hier die
+       Firma: Ohne `person` setzt die Karte `company` unter die Sterne, sie
+       stehen also nicht ohne Urheber da. Ein Wortlaut liegt nicht vor, deshalb
+       bleibt `review` leer — aus einer mündlichen Bewertung ein Zitat zu machen,
+       wäre der Tatbestand aus dem Anhang zu § 3 Abs. 3 Nr. 23c UWG. */
+    rating: 5,
+    /* Bei gesetztem `rating` gewinnen die Sterne, `stattSterne` wäre toter
+       Code. Das Werkzeug steht deshalb in der Kategorie-Pille — dort trägt es
+       die Positionierung sogar sichtbarer. */
+    stattSterne: null,
     review: null,
-    kategorie: "Vertriebs-Automatisierung",
+    kategorie: "Vertrieb mit Power Automate",
     headline: { value: "10 Minuten", label: "für einen Vertriebsvorgang, vorher 3 Stunden" },
     summary:
       "Ein wiederkehrender Vorgang im Vertrieb läuft automatisiert über Power Automate: Was vorher drei Stunden von Hand gebraucht hat, ist in zehn Minuten erledigt.",
@@ -336,7 +343,8 @@ export const clientResults: ClientResult[] = [
       "Freigabe des Kundennamens nicht schriftlich bestätigt",
       "Welcher Vertriebsvorgang genau — nicht dokumentiert",
       "Projektdauer nicht dokumentiert",
-      "Keine Bewertung, kein freigegebenes Zitat",
+      "Bewertung nur mündlich — nicht schriftlich belegbar",
+      "Kein freigegebenes Zitat",
     ],
   },
   {
@@ -773,10 +781,15 @@ export const clientResults: ClientResult[] = [
        Martin Ziemann. Damit ist nicht belegt, dass es dieselbe Firma ist — und
        eine falsch verlinkte Firma ist schlimmer als keine Verlinkung. */
     companyUrl: null,
-    person: null,
-    /* Keine Bewertung vorliegend — siehe die Begründung beim ProOptima-Fall. */
-    rating: null,
-    stattSterne: "Mit n8n-Schulung übergeben",
+    /* Martin Ziemann ist als Person benannt und steht selbst für den Betrieb —
+       damit tragen die Sterne einen konkreten Absender statt nur die Firmierung,
+       die ohnehin noch zu klären ist. Kein Foto: keins vorliegend, die Karte
+       setzt dann Initialen. */
+    person: { name: "Martin Ziemann", role: null, photo: null },
+    /* Fünf Sterne auf Ansage Ayham (07.09.2026), Grundlage mündlich — siehe die
+       ausführliche Begründung am Feld `rating` oben. */
+    rating: 5,
+    stattSterne: null,
     review: null,
     kategorie: "Mail-Automatisierung",
     headline: { value: "2 Wochen", label: "vom Auftrag bis zum laufenden Server" },
@@ -797,7 +810,8 @@ export const clientResults: ClientResult[] = [
       "Genaue Firmierung ungeklärt — im Register stehen mehrere Gesellschaften auf Martin Ziemann",
       "Freigabe des Kundennamens nicht schriftlich bestätigt",
       "Was die Mail-Automatisierung konkret leistet — nicht dokumentiert",
-      "Keine Bewertung, kein freigegebenes Zitat",
+      "Bewertung nur mündlich — nicht schriftlich belegbar",
+      "Kein freigegebenes Zitat",
     ],
   },
 ];

@@ -39,7 +39,7 @@ Was gebaut ist, muss laufen. Überwachung, Nachjustieren, Weiterentwicklung — 
 
 ## Referenzen
 
-- **ProOptima** (Vertriebs-Automatisierung): 10 Minuten für einen Vertriebsvorgang, vorher 3 Stunden. Ein wiederkehrender Vorgang im Vertrieb läuft automatisiert über Power Automate: Was vorher drei Stunden von Hand gebraucht hat, ist in zehn Minuten erledigt.
+- **ProOptima** (Vertrieb mit Power Automate): 10 Minuten für einen Vertriebsvorgang, vorher 3 Stunden. Ein wiederkehrender Vorgang im Vertrieb läuft automatisiert über Power Automate: Was vorher drei Stunden von Hand gebraucht hat, ist in zehn Minuten erledigt.
 - **Pflegexperts** (Claude-Code-Setup): 4 Wochen bis Claude Code einsatzbereit war. Bei Pflegexperts steht Claude Code mit eingerichteter Arbeitsumgebung, klaren Regeln und Automatisierungen für die tägliche Arbeit.
 - **klargehalt.de** (SaaS-Entwicklung): 2 Monate von der ersten Zeile bis zum Livegang. SaaS zur EU-Entgelttransparenzrichtlinie gebaut — Bezahlsystem und Abrechnung inklusive. Live: https://klargehalt.de
 - **NiImmo Wohnungsbaugesellschaft** (Kundenportal): 1,5 Vollzeitstellen an eingespartem Aufwand. Nach 40 Tagen lief die gesamte Objekt- und Kundenverwaltung in einem Portal. Live: https://dashboard.niimmo.de
