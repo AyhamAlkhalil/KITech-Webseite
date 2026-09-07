@@ -69,6 +69,11 @@ export const glossaryTerms: GlossaryTerm[] = [
         content:
           "Eine ROI-Garantie funktioniert nur, wenn (1) der Use Case klar abgegrenzt ist, (2) die heutige Baseline messbar erhoben werden kann, (3) der Kunde Daten und Fachexperten bereitstellt und (4) ein KI-Audit den technischen und organisatorischen Reifegrad bestätigt hat.",
       },
+      {
+        heading: "Wie wir es halten",
+        content:
+          "Wir führen an dieser Stelle keine Zusage, die wir nicht schriftlich vereinbart haben — eine Garantie, die auf einer Website steht, ist eine Zusage. Was verbindlich gilt: Der Preis für ein Projekt fällt nach dem Prozess-Audit, nicht davor, weil jede Zahl vorher geraten wäre. Gebaut wird gegen Erfolgskriterien, die vor dem ersten Code vereinbart werden. Ob daraus im Einzelfall eine Vergütung wird, die am Zielwert hängt, entscheidet der Vertrag — nicht diese Seite.",
+      },
     ],
     related: ["ki-audit", "llm-integration"],
     faqs: [
@@ -201,6 +206,11 @@ export const glossaryTerms: GlossaryTerm[] = [
         heading: "Voraussetzungen",
         content:
           "Erfolgreiche Computer-Vision-Projekte setzen ausreichende, repräsentative Trainings- oder Beispiel-Daten, definierte Beleuchtungs- und Aufnahmebedingungen sowie eine klare Abgrenzung der zu erkennenden Klassen voraus. Diese Voraussetzungen werden im Rahmen eines KI-Audits geprüft.",
+      },
+      {
+        heading: "Wo der Aufwand tatsächlich liegt",
+        content:
+          "Die Anwendungsfälle unterscheiden sich stärker, als die gemeinsame Überschrift vermuten lässt. Visuelle Qualitätsprüfung in der Fertigung ist zuerst ein Kamera- und Beleuchtungsprojekt: Ohne reproduzierbare Aufnahmebedingungen hilft kein Modell. Dokumentenerfassung dagegen scheitert selten am Erkennen — die Texterkennung liefert brauchbare Ergebnisse, und trotzdem steht die Sachbearbeitung danach wieder von Hand am Vorgang. Entschieden wird dort nicht, ob eine Rechnung gelesen wird, sondern was mit dem Ergebnis passiert: welches Feld in welches System läuft, was bei einem unsicheren Treffer geschieht, und wer den Fall sieht, den niemand entscheiden konnte.",
       },
     ],
     related: ["ki-audit", "roi-garantie"],

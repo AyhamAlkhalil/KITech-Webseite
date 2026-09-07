@@ -6,6 +6,7 @@ import { clientResults, kartenLink, type ClientResult } from "@/data/client-resu
 import { ReferencePortrait } from "@/components/sections/ReferencePortrait";
 import { StarRating } from "@/components/sections/StarRating";
 import { StattSterne } from "@/components/sections/StattSterne";
+import { SITE_CONTAINER } from "@/components/layout/site-container";
 import { trackEvent } from "@/lib/plausible";
 
 /**
@@ -174,9 +175,25 @@ export function KundenLaufband({ ohneLinks = false }: { ohneLinks?: boolean } = 
       className="scroll-mt-8 overflow-hidden bg-background pb-[50px] pt-[50px]"
       aria-labelledby="ergebnisse-heading"
     >
-      <h2 id="ergebnisse-heading" className="sr-only">
-        Kundenreferenzen
-      </h2>
+      {/*
+        Bis zum 07.09.2026 stand hier „Kundenreferenzen" als `sr-only` — der
+        stärkste Beleg der Website lief also unbeschriftet durchs Bild, und die
+        Aussage dazu stand hinter dem FAQ-Akkordeon auf Position 2 von 6.
+
+        „Wochen, keine Quartale." ist Ayhams eigener Satz aus `data/faq.ts`,
+        hierher versetzt statt neu getextet. Bewusst **ohne** Erklärabsatz
+        darunter: Die Karten tragen die Zahlen selbst („40 Tage bis live",
+        „60 Tage bis live", „2 Wochen bis betriebsbereit"), und ein Satz, der
+        sie ankündigt, stünde zwischen Behauptung und Beweis.
+      */}
+      <div className={`${SITE_CONTAINER} pb-8`}>
+        <h2
+          id="ergebnisse-heading"
+          className="kinetic-display max-w-[720px] text-balance text-[26px] leading-[1.15] text-foreground sm:text-[30px]"
+        >
+          Wochen, keine Quartale.
+        </h2>
+      </div>
 
       {/* Das Band laeuft ueber die volle Fensterbreite, nicht im Seitencontainer:
           eine Bewegung, die an einer Containerkante beginnt und endet, sieht aus
