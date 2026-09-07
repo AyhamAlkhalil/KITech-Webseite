@@ -295,6 +295,50 @@ export interface ClientResultDetail {
 }
 
 export const clientResults: ClientResult[] = [
+  /*
+   * Steht bewusst an erster Stelle (Ansage 07.09.2026): Seit dem 04.09.2026
+   * ist der Microsoft-Stack die Positionierung der Website — und dies ist der
+   * einzige Fall im Bestand, der sie belegt. Eine Positionierung ohne Beleg
+   * ist eine Behauptung; der Beleg gehört dorthin, wo er zuerst gesehen wird.
+   */
+  {
+    slug: "prooptima-vertrieb-power-automate",
+    company: "ProOptima",
+    logo: null,
+    liveUrl: null,
+    /* Am 07.09.2026 abgerufen: HTTP 200, Titel „ProOptima – Dienstleister der
+       Kunststofftechnik". Deckt sich mit der Navigation, die Ayham mitgeliefert
+       hat (Spritzgießen, Peripherie, Automation). */
+    companyUrl: "https://www.prooptima.de",
+    person: null,
+    /* ⚠️ Kein `rating`. Von diesem Kunden liegt keine Bewertung vor — weder
+       schriftlich noch mündlich. Eine Zahl einzutragen, weil in der Zeile sonst
+       eine Lücke steht, wäre genau der Tatbestand aus dem Anhang zu § 3 Abs. 3
+       Nr. 23c UWG. Die Lücke füllt `stattSterne` mit einer Tatsache. */
+    rating: null,
+    stattSterne: "Umgesetzt mit Power Automate",
+    review: null,
+    kategorie: "Vertriebs-Automatisierung",
+    headline: { value: "10 Minuten", label: "für einen Vertriebsvorgang, vorher 3 Stunden" },
+    summary:
+      "Ein wiederkehrender Vorgang im Vertrieb läuft automatisiert über Power Automate: Was vorher drei Stunden von Hand gebraucht hat, ist in zehn Minuten erledigt.",
+    duration: null,
+    before: "3 Stunden von Hand",
+    after: "10 Minuten automatisiert",
+    extra: null,
+    /*
+     * Die Angaben stammen aus einer mündlichen Kurzbeschreibung (Ayham,
+     * 07.09.2026, ausdrücklich als „grob" gekennzeichnet). Kennzahl und
+     * Werkzeug sind damit belegt, der Rest nicht — und was nicht belegt ist,
+     * steht hier statt im Fließtext.
+     */
+    openPoints: [
+      "Freigabe des Kundennamens nicht schriftlich bestätigt",
+      "Welcher Vertriebsvorgang genau — nicht dokumentiert",
+      "Projektdauer nicht dokumentiert",
+      "Keine Bewertung, kein freigegebenes Zitat",
+    ],
+  },
   {
     slug: "pflegexperts-claude-code",
     company: "Pflegexperts",
@@ -718,6 +762,43 @@ export const clientResults: ClientResult[] = [
       stack: [],
       quote: null,
     },
+  },
+  {
+    slug: "ziemann-mailautomatisierung",
+    company: "Martin Ziemann Agrargesellschaft",
+    logo: null,
+    liveUrl: null,
+    /* Bewusst null: Unter ziemann-agrar.de antwortet zwar ein Server, die Seite
+       trägt aber weder einen Titel noch eine Erwähnung von Lockstedt oder
+       Martin Ziemann. Damit ist nicht belegt, dass es dieselbe Firma ist — und
+       eine falsch verlinkte Firma ist schlimmer als keine Verlinkung. */
+    companyUrl: null,
+    person: null,
+    /* Keine Bewertung vorliegend — siehe die Begründung beim ProOptima-Fall. */
+    rating: null,
+    stattSterne: "Mit n8n-Schulung übergeben",
+    review: null,
+    kategorie: "Mail-Automatisierung",
+    headline: { value: "2 Wochen", label: "vom Auftrag bis zum laufenden Server" },
+    summary:
+      "Ein eigener Linux-Server für die Mail-Automatisierung, nach zwei Wochen betriebsbereit — übergeben zusammen mit einer n8n-Schulung, damit der Betrieb im Haus bleibt.",
+    duration: "2 Wochen bis betriebsbereit",
+    before: null,
+    after: null,
+    extra: null,
+    /*
+     * ⚠️ Dieser Fall belegt **nicht** die Microsoft-Positionierung. Linux, n8n
+     * und ein eigener Mailserver sind das Gegenteil des Power-Platform-Stacks.
+     * Er steht hier, weil er ein echter Fall ist — nicht als Beleg für etwas,
+     * das er nicht zeigt. Wer ihn dafür heranzieht, belegt eine Aussage mit
+     * einem Gegenbeispiel.
+     */
+    openPoints: [
+      "Genaue Firmierung ungeklärt — im Register stehen mehrere Gesellschaften auf Martin Ziemann",
+      "Freigabe des Kundennamens nicht schriftlich bestätigt",
+      "Was die Mail-Automatisierung konkret leistet — nicht dokumentiert",
+      "Keine Bewertung, kein freigegebenes Zitat",
+    ],
   },
 ];
 

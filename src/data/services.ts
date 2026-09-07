@@ -91,11 +91,11 @@ export const services: Service[] = [
  * die Namen täglich benutzt; ein falscher Name kostet mehr Glaubwürdigkeit, als
  * die ganze Liste aufbaut.
  *
- * Herausgenommen am 04.09.2026: PyTorch, Hugging Face, LangChain und
- * Kubernetes. Sie standen hier als Altbestand der Vorgängerseite (in CLAUDE.md
- * als offener Punkt geführt) und beschrieben Arbeit, die so nicht stattfindet.
- * Eine Liste, die Können behauptet statt es zu belegen, ist beim ersten
- * Rückfragen schlechter als eine kurze.
+ * PyTorch, Hugging Face, LangChain und Kubernetes waren am 04.09.2026
+ * herausgenommen — als vermuteter Altbestand der Vorgängerseite. Auf Nachfrage
+ * am 07.09.2026 stehen sie wieder drin („lass ruhig drinne"): Sie beschreiben
+ * reale Arbeit, der Eintrag in CLAUDE.md war eine Fehlannahme, keine
+ * Karteileiche. Damit ist der dortige offene Punkt erledigt.
  */
 export const techStack: Array<{ name: string; category: string }> = [
   { name: "Power Automate", category: "Prozessautomatisierung" },
@@ -105,6 +105,10 @@ export const techStack: Array<{ name: string; category: string }> = [
   { name: "Microsoft Graph", category: "Microsoft 365" },
   { name: "Azure", category: "Cloud und KI-Dienste" },
   { name: "Python", category: "Backend" },
+  { name: "PyTorch", category: "ML-Framework" },
+  { name: "Hugging Face", category: "Sprachmodelle" },
+  { name: "LangChain", category: "Orchestrierung" },
   { name: "PostgreSQL", category: "Datenbank" },
-  { name: "Docker", category: "Betrieb" },
+  { name: "Docker", category: "Container" },
+  { name: "Kubernetes", category: "Betrieb" },
 ];

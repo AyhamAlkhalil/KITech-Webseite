@@ -91,6 +91,17 @@ Ihr wisst, wie euer Geschäft läuft. Wir wissen, wie man es baut. Beides zusamm
 
 ## 5. Referenzen
 
+### ProOptima — Vertriebs-Automatisierung
+
+- Ergebnis: **10 Minuten** für einen Vertriebsvorgang, vorher 3 Stunden
+- Vorher: 3 Stunden von Hand
+- Nachher: 10 Minuten automatisiert
+- Kunde: https://www.prooptima.de
+
+Ein wiederkehrender Vorgang im Vertrieb läuft automatisiert über Power Automate: Was vorher drei Stunden von Hand gebraucht hat, ist in zehn Minuten erledigt.
+
+Noch nicht belegt: Freigabe des Kundennamens nicht schriftlich bestätigt; Welcher Vertriebsvorgang genau — nicht dokumentiert; Projektdauer nicht dokumentiert; Keine Bewertung, kein freigegebenes Zitat.
+
 ### Pflegexperts — Claude-Code-Setup
 
 - Ergebnis: **4 Wochen** bis Claude Code einsatzbereit war
@@ -146,6 +157,15 @@ Für Nereo eine Arbeitsumgebung aufgesetzt, feste Regeln hinterlegt und Automati
 
 Noch nicht belegt: Ausgangslage beim Kunden nicht dokumentiert; Eingesetzte Technik nicht dokumentiert; Kein freigegebenes Zitat.
 
+### Martin Ziemann Agrargesellschaft — Mail-Automatisierung
+
+- Ergebnis: **2 Wochen** vom Auftrag bis zum laufenden Server
+- Zeitraum: 2 Wochen bis betriebsbereit
+
+Ein eigener Linux-Server für die Mail-Automatisierung, nach zwei Wochen betriebsbereit — übergeben zusammen mit einer n8n-Schulung, damit der Betrieb im Haus bleibt.
+
+Noch nicht belegt: Genaue Firmierung ungeklärt — im Register stehen mehrere Gesellschaften auf Martin Ziemann; Freigabe des Kundennamens nicht schriftlich bestätigt; Was die Mail-Automatisierung konkret leistet — nicht dokumentiert; Keine Bewertung, kein freigegebenes Zitat.
+
 ---
 
 ## 6. Kundenstimmen
@@ -194,8 +214,12 @@ Der Code gehört euch, dokumentiert und wartbar. Betrieb und Weiterentwicklung l
 - Microsoft Graph (Microsoft 365)
 - Azure (Cloud und KI-Dienste)
 - Python (Backend)
+- PyTorch (ML-Framework)
+- Hugging Face (Sprachmodelle)
+- LangChain (Orchestrierung)
 - PostgreSQL (Datenbank)
-- Docker (Betrieb)
+- Docker (Container)
+- Kubernetes (Betrieb)
 
 ---
 
