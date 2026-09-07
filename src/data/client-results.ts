@@ -173,9 +173,10 @@ export interface ClientResult {
    * trägt vor Gericht wenig. Solange das so steht, ist das ein bewusst
    * getragenes Risiko und keine Nachlässigkeit.
    *
-   * Das Risiko verschwindet, sobald die Bewertungen über ProvenExpert
-   * eingeholt sind (Anleitung und Anschreiben: `deploy/BEWERTUNGEN.md`). Bis
-   * dahin gilt: **Wer eine dieser Zahlen ändert, ohne mit dem Kunden gesprochen
+   * ⚠️ **Ein Weg zum schriftlichen Beleg ist derzeit nicht festgelegt.** Bis
+   * zum 07.09.2026 stand hier ProvenExpert; das wird auf Ansage nicht genutzt.
+   * Damit bleibt das Risiko bestehen, solange es keinen anderen Kanal gibt —
+   * eine schriftliche Bestätigung per Mail genügt dafür bereits. Es gilt: **Wer eine dieser Zahlen ändert, ohne mit dem Kunden gesprochen
    * zu haben, erfindet sie** — und genau das ist der Tatbestand.
    *
    * Was hier unter keinen Umständen passieren darf: eine Zahl höher setzen als

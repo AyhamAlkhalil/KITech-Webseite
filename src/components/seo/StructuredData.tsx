@@ -94,7 +94,16 @@ export const WEBSITE_ID = "https://kitech-software.de/#website";
  */
 const SAME_AS = [
   "https://www.linkedin.com/company/104155510",
-  "https://www.provenexpert.com/de-de/kitech-software-ug/",
+  /*
+   * ProvenExpert am 07.09.2026 entfernt (Ansage Ayham: „das benutzen wir
+   * nicht"). Das Profil existiert zwar und antwortet mit 200 — es steht aber
+   * seit jeher auf null Bewertungen und wird nicht gepflegt.
+   *
+   * Ein `sameAs` ist eine Aussage über Identität, kein Linkverzeichnis: Es
+   * sagt „das sind wir auch". Wer damit auf ein leeres Profil zeigt, schickt
+   * jeden Prüfer — und jedes Sprachmodell — auf eine Seite, die über die Firma
+   * nichts aussagt. Das ist schwächer als der Verzicht.
+   */
   /*
    * Google Business Profile, adressiert über die CID.
    *

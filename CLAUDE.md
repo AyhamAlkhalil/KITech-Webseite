@@ -728,7 +728,7 @@ Business Profile und Verzeichnisse **identisch** sein — zwei Nummern heißen: 
 bestätigt die andere. `nap-konsistenz.test.ts` prüft Impressum, Datenschutz,
 JSON-LD, StickyMobileCTA und llms.txt gegen `company.phone`.
 
-`sameAs` enthält nur Profile, die KITech gehören: LinkedIn, ProvenExpert, Google
+`sameAs` enthält nur Profile, die KITech gehören: LinkedIn, Google
 Business Profile (per CID, nicht per `share.google`-Link). Creditreform und
 Companyhouse sind abgeschriebene Registerdaten und antworten Crawlern mit 403.
 
@@ -742,7 +742,7 @@ Stand 07.09.2026.
 |---|---|
 | ⚠️ **DataForSEO-Guthaben fast leer** — rund 0,32 $ nach dem Lauf vom 07.09. (0,13 $). Das reicht für zwei Läufe, danach schreibt die Automatik ohne Keyword-Daten weiter. `npm run bing -- keyword` liefert Volumen kostenlos, misst aber Bing statt Google — als Themenfindung brauchbar, als Ersatz nicht | Ayham |
 | ⚠️ **Bing: 0 verweisende Seiten, `InIndex` fällt** (15 → 13 in vier Tagen). Bing holt die Seiten und behält sie nicht — die Ursache ist fehlende Verlinkung, nicht die Crawl-Rate. Kein Werkzeug löst das; es braucht echte Verweise von außen | Ayham |
-| ProvenExpert-Profil hat **0 Bewertungen** — fünf echte würden zugleich die Sterne auf den Kundenkarten belegen (`deploy/BEWERTUNGEN.md`) | Ayham |
+| **Bewertungen sind mündlich, nicht belegbar** — sechs von acht Fällen tragen fünf Sterne auf mündlicher Grundlage. ProvenExpert wird auf Ansage (07.09.2026) **nicht** genutzt; ein anderer Weg zu schriftlichen Belegen ist offen. Bis dahin ist das ein bewusst getragenes Risiko, siehe Kopf von `client-results.ts` | Ayham |
 | `openPoints` der sechs Referenzfälle — solange sie stehen, ist **keine** Detailseite indexiert | Kundenfreigaben |
 | Themen-Cluster ohne Artikel — `content/seo/cluster.json` gegen `content/wissen/` (5 von 13) | Redaktion |
 | KI-Partner-Verzeichnis der Wirtschaftsförderung Region Hannover: Aufnahme | Ayham |

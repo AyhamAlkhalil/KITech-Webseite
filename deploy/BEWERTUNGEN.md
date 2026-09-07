@@ -1,5 +1,18 @@
 # Bewertungen einholen — ProvenExpert
 
+> ⚠️ **HINFÄLLIG seit 07.09.2026. ProvenExpert wird nicht genutzt** (Ansage
+> Ayham: „das benutzen wir nicht"). Das Profil ist aus `sameAs` entfernt, der
+> offene Punkt aus CLAUDE.md gestrichen.
+>
+> **Das Problem dahinter besteht weiter:** Sechs der acht Referenzfälle tragen
+> fünf Sterne auf rein mündlicher Grundlage. Nachweisbar sind sie damit nicht —
+> siehe die ausführliche Einordnung am Feld `rating` in
+> `src/data/client-results.ts`. Es braucht keinen Dienstleister dafür: Eine
+> Mail, in der der Kunde seine Bewertung bestätigt, genügt als Beleg.
+>
+> Die Anschreiben weiter unten bleiben als Vorlage stehen — nur der Absatz zum
+> ProvenExpert-Code ist gegenstandslos.
+
 Stand 24.08.2026. Was zu tun ist, warum es eilt, und die Texte dafür.
 
 ---
