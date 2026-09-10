@@ -725,7 +725,9 @@ export const clientResults: ClientResult[] = [
     person: {
       name: "Mike Letzgus",
       role: null,
-      photo: null,
+      /* Foto am 09.09.2026 von Ayham geliefert (Shooting-Aufnahme), hier
+         freigestellt und auf Kopf bis Brust beschnitten. */
+      photo: "/images/referenzen/portraits/mike-letzgus.webp",
     },
     rating: 5,
     review: null,
