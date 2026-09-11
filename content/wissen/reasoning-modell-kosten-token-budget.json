@@ -1,0 +1,183 @@
+{
+  "slug": "reasoning-modell-kosten-token-budget",
+  "titel": "Reasoning Modell Kosten werden beim Umstieg oft falsch kalkuliert",
+  "metaTitel": "Reasoning Modell Kosten: beim Umstieg falsch kalkuliert",
+  "teaser": "Dasselbe Token-Budget trägt bei OpenAI und Anthropic nicht gleich weit. Wer sichtbaren Text kalkuliert, übersieht Denk-Token — und bezahlt abgebrochene Läufe oft erst nachts im Betrieb.",
+  "kategorie": "Technik",
+  "cluster": "sprachmodelle-im-betrieb",
+  "zielKeyword": "reasoning modell kosten",
+  "sekundaerKeywords": [],
+  "datum": "2026-09-08",
+  "aktualisiert": "2026-09-08",
+  "lesezeit": 5,
+  "autor": "ayham-alkhalil",
+  "intro": "Der naheliegende Irrtum lautet: Ein abgeschnittener Text zeigt ein schwaches Modell. Ein Reasoning-Modell ist ein Sprachmodell, das vor der sichtbaren Antwort interne Rechenschritte budgetiert. Entscheidend bleibt daher der Preis je Token und die Stelle, an der der Anbieter zählt.",
+  "abschnitte": [
+    {
+      "heading": "Warum endet ein Reasoning-Modell mitten im Satz?",
+      "paragraphs": [
+        "Ein Reasoning-Modell endet mitten im Satz, wenn die gesetzte Obergrenze vor der sichtbaren Antwort aufgebraucht ist. Der Aufruf gilt trotzdem als erfolgreich — finish_reason steht dann auf „length“.",
+        "Nachts um vier sieht ein abgeschnittener Text aus wie ein schlechtes Modell, nicht wie ein Budgetfehler — das ist der eigentliche Schaden. Der Betrieb sucht dann am Text, am Modell oder am Prompt, obwohl nur der Zähler leer ist.",
+        "Wer Token, Reasoning-Tokens und finish_reason nicht sauber trennt, verwechselt sichtbare Länge mit tatsächlichem Verbrauch. Diese Unterscheidung entscheidet bei einer Umstellung mehr als die Modellbezeichnung."
+      ],
+      "unterabschnitte": []
+    },
+    {
+      "heading": "Wie unterscheiden sich OpenAI und Anthropic beim Token-Budget?",
+      "paragraphs": [
+        "OpenAI und Anthropic zählen die Obergrenze an einer anderen Stelle. Beim Betrieb von Sprachmodellen beschreibt dieselbe Zahl deshalb zwei verschiedene Grenzen.",
+        "Bei OpenAI zählt max_completion_tokens die sichtbare Antwort und die Denk-Token zusammen. Bei Anthropic begrenzt max_tokens die sichtbare Ausgabe, während das interne Nachdenken nicht dieselbe Grenze frisst.",
+        "max_tokens wird von den neueren OpenAI-Modellen nicht nur als veraltet behandelt, sondern abgelehnt. Wer die alte Zahl übernimmt, übernimmt daher keine Sicherheit, sondern eine falsche Rechenlogik."
+      ],
+      "unterabschnitte": []
+    },
+    {
+      "heading": "Was zeigt der Ein-Wort-Test in der Praxis?",
+      "paragraphs": [
+        "Der Ein-Wort-Test zeigt die Verschiebung sehr knapp: Für eine knappe Antwort entstanden 19 Token Ausgabe, davon 9 für das Nachdenken. Sichtbare Länge und berechnete Ausgabe liefen sofort auseinander.",
+        "Eine Ein-Wort-Antwort wirkt zu klein für ein Kostenproblem. Gerade deshalb taugt der Test als Gegenprobe, weil keine lange Struktur und kein Stilwunsch den Verbrauch verdecken.",
+        "Der Test stammt aus der Umstellung der eigenen Blog-Automatik von Anthropic auf OpenAI. Der Fehler saß nicht im Textaufbau, sondern in der Bedeutung der Obergrenze."
+      ],
+      "unterabschnitte": []
+    },
+    {
+      "heading": "Welche Kosten entstehen pro Anfrage wirklich?",
+      "paragraphs": [
+        "Pro Anfrage entstehen Kosten aus Eingabe, sichtbarer Ausgabe und den Reasoning-Tokens, die in die Ausgabeseite fallen. Der reine Eingabepreis erklärt daher nur einen Teil der Rechnung.",
+        "Die Preise erklären nicht automatisch den günstigsten Betrieb. Sie zeigen aber, warum ein hoher Output- und Denkanteil einen scheinbar kleinen Artikel schnell verteuert."
+      ],
+      "unterabschnitte": [],
+      "tabelle": {
+        "kopf": [
+          "Modell",
+          "Input-Tokens",
+          "Output-Tokens"
+        ],
+        "zeilen": [
+          [
+            "Gemini 3.8 Flash",
+            "0,75 US-Dollar pro Million",
+            "3,75 US-Dollar pro Million"
+          ],
+          [
+            "Muse Spark 1.3",
+            "1,25 US-Dollar pro Million",
+            "4,25 US-Dollar pro Million"
+          ]
+        ]
+      }
+    },
+    {
+      "heading": "Wann wird günstige Nutzung am Ende teurer?",
+      "paragraphs": [
+        "Günstige Nutzung wird teurer, wenn die Obergrenze einen brauchbaren Lauf zerstört. Ein abgebrochener Artikel kostet den ganzen Lauf, während eine höhere Grenze nur ungenutztes Budget reserviert.",
+        "Der Aufschlag ist bewusst grob statt fein: Die Obergrenze kostet nichts, was nicht gebraucht wird. Für eine Umstellung im Betrieb ist diese Reserve meist billiger als Nacharbeit an abgeschnittenen Ergebnissen.",
+        "Ein niedriger Tarif hilft wenig, wenn jede zweite Ausgabe neu gestartet oder von Hand repariert wird. Der Fehler erscheint dann als Qualitätsproblem, obwohl die Kalkulation den Satz abgeschnitten hat."
+      ],
+      "unterabschnitte": []
+    },
+    {
+      "heading": "Wie kalkuliert man Reasoning-Modell-Kosten im Alltag?",
+      "paragraphs": [
+        "Reasoning-Modell-Kosten kalkuliert man im Alltag über Eingabe, gewünschte Textlänge und eine Reasoning-Reserve. Die interne Schutzlinie lautet: Textbudget grob mit Faktor 2 ansetzen und mindestens 2.000 Token vorsehen.",
+        "Vier echte Läufe der Automatik aus August/September 2026 zeigen den Rahmen: 15.700 bis 27.400 Token Eingabe und 2.200 bis 14.800 Token Ausgabe je Artikel. Die Spanne erklärt, warum Feinkalkulation gefährlich wird.",
+        "Die Praxisregel ist keine Preisformel für jeden Anbieter. Sie schützt den Lauf vor einem Abbruch, der wie ein schwacher Text aussieht und in Wirklichkeit nur zu knapp budgetiert wurde."
+      ],
+      "bullets": [
+        "Wie viele Token stecken in Vorgaben, Quellen, Systemtexten und alten Artikeln?",
+        "Wie lang soll der sichtbare Text am Ende werden?",
+        "Welche Reserve bleibt für Reasoning-Tokens, Formatkorrekturen und Nachträge?",
+        "Welcher Wert beendet den Lauf sicher, bevor der Satz abgeschnitten wird?"
+      ],
+      "unterabschnitte": []
+    },
+    {
+      "heading": "Welche Risiken bleiben offen?",
+      "paragraphs": [
+        "Offen bleibt, welches Modell für einen bestimmten Betrieb fachlich am besten passt. Der Artikel kürt kein bestes Modell und ersetzt keine allgemeine Marktpreis-Tabelle.",
+        "Ebenso offen bleibt der genaue Verbrauch bei Dialogen, langen Quellenketten oder mehreren Korrekturschleifen. Entscheidend ist hier die Fehlkalkulation beim Umstieg, nicht ein generischer Modellvergleich.",
+        "Wer eine eigene Budgetierung prüft, braucht Logdateien mit Eingabe, Ausgabe, finish_reason und Anbietergrenze. Ohne diese vier Werte bleibt ein abgeschnittener Text nur ein Verdacht."
+      ],
+      "unterabschnitte": []
+    }
+  ],
+  "kernaussagen": [
+    "OpenAIs max_completion_tokens zählt Denk-Token mit, während Anthropics max_tokens nicht dieselbe sichtbare Textmenge beschreibt.",
+    "Ein abgeschnittener Text ist bei finish_reason auf „length“ kein Modellfehler, sondern oft ein zu knapp gesetztes Token-Budget.",
+    "Wer gewünschte Textlänge budgetiert, sollte das Textbudget grob mit Faktor 2 ansetzen und mindestens 2.000 Token einplanen."
+  ],
+  "fazit": "Reasoning Modell Kosten sind keine reine Preisliste: OpenAI und Anthropic zählen verschieden, und der Satz endet dort, wo das Budget endet.",
+  "faq": [
+    {
+      "frage": "Was kostet ein Reasoning-Modell pro Anfrage wirklich?",
+      "antwort": "Die Kosten pro Anfrage hängen an drei Größen: Eingabe, sichtbare Ausgabe und Reasoning-Tokens. Bei Modellen, die Denk-Token in die Ausgabegrenze rechnen, reicht die geplante Textlänge nicht als Budget. Als Preisrahmen nennt Google für Gemini 3.8 Flash 0,75 US-Dollar pro Million Input-Tokens und 3,75 US-Dollar pro Million Output-Tokens. VentureBeat nennt für Muse Spark 1.3 1,25 US-Dollar pro Million Input-Tokens und 4,25 US-Dollar pro Million Output-Tokens."
+    },
+    {
+      "frage": "Warum schneidet ein Modell mitten im Satz ab, obwohl kein Fehler kommt?",
+      "antwort": "Ein Modell schneidet mitten im Satz ab, wenn die erlaubte Ausgabemenge erschöpft ist. Der Aufruf muss dabei nicht scheitern. Bei OpenAI kann der Lauf erfolgreich zurückkommen, während finish_reason auf „length“ steht. Für den Betrieb sieht das Ergebnis wie ein schlechter Text aus. Tatsächlich hat die Obergrenze gegriffen, bevor die Antwort fertig war."
+    },
+    {
+      "frage": "Was passiert, wenn das Token-Budget zu knapp ist?",
+      "antwort": "Ein zu knappes Token-Budget beendet die Ausgabe an der Grenze, nicht an einem sinnvollen Absatzende. Der bisher erzeugte Text liegt vor, aber er kann mitten im Satz enden. Besonders tückisch ist das bei Reasoning-Modellen, weil interne Denk-Token das Budget verbrauchen. Ein sichtbarer Text kann dadurch kürzer ausfallen, als die reine Textplanung erwarten lässt."
+    },
+    {
+      "frage": "Was ist ein Reasoning-Modell?",
+      "antwort": "Ein Reasoning-Modell ist ein Sprachmodell, das vor der sichtbaren Antwort zusätzliche interne Rechenschritte einplant. Diese Schritte helfen bei Planung, Prüfung und mehrstufigen Aufgaben. Für die Kosten zählt aber nicht nur der sichtbare Text. Je nach Anbieter fallen die internen Schritte in dieselbe Ausgabeseite wie die Antwort und verkleinern die verbleibende Textlänge."
+    }
+  ],
+  "quellen": [
+    {
+      "bezeichnung": "blog.google",
+      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/",
+      "abgerufen": "2026-09-08",
+      "belegt": "Gemini 3.8 Flash wird mit 0,75 US-Dollar pro Million Input-Tokens und 3,75 US-Dollar pro Million Output-Tokens angeboten."
+    },
+    {
+      "bezeichnung": "venturebeat.com",
+      "url": "https://venturebeat.com/technology/meta-says-muse-spark-1-3-has-frontier-performance-but-its-best-results-come-from-a-model-developers-cant-broadly-use-yet",
+      "abgerufen": "2026-09-08",
+      "belegt": "Muse Spark 1.1 / 1.2 / 1.3 kostet laut der Tabelle 1,25 US-Dollar pro Million Input-Tokens und 4,25 US-Dollar pro Million Output-Tokens."
+    }
+  ],
+  "interneLinks": [
+    {
+      "ziel": "/glossar",
+      "ankertext": "Preis je Token",
+      "abschnitt": "intro"
+    },
+    {
+      "ziel": "/glossar",
+      "ankertext": "Token, Reasoning-Tokens und finish_reason",
+      "abschnitt": 0
+    },
+    {
+      "ziel": "/gratis-wissen/thema/sprachmodelle-im-betrieb",
+      "ankertext": "Betrieb von Sprachmodellen",
+      "abschnitt": 1
+    },
+    {
+      "ziel": "/leistungen",
+      "ankertext": "Umstellung im Betrieb",
+      "abschnitt": 4
+    },
+    {
+      "ziel": "/kontakt",
+      "ankertext": "eigene Budgetierung",
+      "abschnitt": 6
+    }
+  ],
+  "substanz": {
+    "art": "fehlerbericht",
+    "beschreibung": "OpenAIs `max_completion_tokens` zaehlt die Denk-Token mit, Anthropics `max_tokens` nicht — dieselbe Zahl bedeutet bei beiden Anbietern etwas anderes. Nachgemessen an einer Ein-Wort-Antwort: 19 Token Ausgabe, davon 9 fuers Nachdenken. Wer sein Budget nach der gewuenschten Textlaenge bemisst, bekommt einen Text, der mitten im Satz endet — ohne Fehler, nur mit finish_reason \"length\".",
+    "herkunft": "Umstellung der eigenen Blog-Automatik von Anthropic auf OpenAI, dokumentiert im Kopfkommentar von scripts/blog-engine/lib/openai.ts. Gegenmassnahme: Faktor 2 auf das Textbudget, mindestens 2000 Token."
+  },
+  "cta": {
+    "heading": "Das war die Theorie.",
+    "text": "Wenn eure Umstellung sauber laufen soll, prüfen wir Budget, Abbruchstellen und Betrieb gemeinsam."
+  },
+  "status": "veroeffentlicht",
+  "freigabe": {
+    "von": "Ayham Alkhalil",
+    "am": "2026-09-08"
+  }
+}

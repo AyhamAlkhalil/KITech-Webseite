@@ -943,7 +943,8 @@
       "suche": "reasoning model release tokens pricing",
       "fenster": "qdr:m"
     },
-    "notiz": "Der Eigenanteil ist die Messung und der Adapter — die Aktualitaetssuche liefert nur den Aufhaenger (welches Reasoning-Modell gerade neu ist). Vor dem Schreiben pruefen, ob die genannte Modellgeneration noch die aktuelle ist."
+    "notiz": "Der Eigenanteil ist die Messung und der Adapter — die Aktualitaetssuche liefert nur den Aufhaenger (welches Reasoning-Modell gerade neu ist). Vor dem Schreiben pruefen, ob die genannte Modellgeneration noch die aktuelle ist.",
+    "erledigt": "reasoning-modell-kosten-token-budget"
   },
   {
     "id": "neues-modell-am-eigenen-prompt-gemessen",
