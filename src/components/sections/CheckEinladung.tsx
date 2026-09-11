@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SITE_CONTAINER } from "@/components/layout/site-container";
-import { angebot, verfuegbarkeitKurz } from "@/config/angebot";
+import { angebot, konditionen } from "@/config/angebot";
 import { checkEinladung } from "@/data/check-einladung";
 import { trackEvent } from "@/lib/plausible";
 
@@ -93,7 +93,7 @@ export function CheckEinladung() {
             <span className="flex min-w-0 flex-col text-left">
               <span className="text-fliess font-bold leading-tight">{angebot.cta}</span>
               <span className="mt-1 text-mini font-normal leading-tight text-foreground/65">
-                {verfuegbarkeitKurz()}
+                {konditionen()}
               </span>
             </span>
             <ArrowRight className="h-5 w-5 shrink-0" aria-hidden="true" />

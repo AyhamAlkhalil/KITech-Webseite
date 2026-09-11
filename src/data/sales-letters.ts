@@ -1,4 +1,4 @@
-import { angebot, verfuegbarkeitKurz } from "@/config/angebot";
+import { angebot, konditionen } from "@/config/angebot";
 
 /**
  * Inhalte der beiden Sales-Letter-Funnels.
@@ -79,11 +79,11 @@ export interface SalesLetterContent {
 }
 
 /**
- * Zweite Zeile im Knopf. Bewusst die Kurzfassung der Platzangabe: Der Knopf
- * trägt hier schon eine zweizeilige Beschriftung, die lange Fassung
- * ("3 von 5 Plätzen belegt — noch 2 frei") sprengt ihn.
+ * Zweite Zeile im Knopf: Preis und Dauer. Die Platzangabe, die hier bis zum
+ * 11.09.2026 dahinter stand, ist von der ganzen Website raus — siehe
+ * `config/angebot.ts`.
  */
-const ctaHint = `Kostenlos · ${angebot.dauer} · ${verfuegbarkeitKurz()}`;
+const ctaHint = konditionen();
 
 export const soloLetter: SalesLetterContent = {
   slug: "warum-du-mit-ki-kein-geld-verdienst",

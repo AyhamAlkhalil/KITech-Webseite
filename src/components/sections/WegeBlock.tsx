@@ -18,10 +18,17 @@ import { SITE_CONTAINER } from "@/components/layout/site-container";
  * allein arbeitet und wer eine gewachsene IT hat, braucht verschiedene Seiten —
  * die Startseite kann beide nicht gleichzeitig sein.
  *
- * **Hausstil:** Aussage als Überschrift, ein Satz darunter, Trennlinien statt
- * Kacheln, keine `rounded-*`, kein Icon im abgerundeten Quadrat. Die Sätze sind
- * die Beschreibungen der Zielseiten, nicht neu erfunden — was hier steht, muss
- * dort auch stehen.
+ * **Hausstil:** Aussage als Überschrift, ein Halbsatz darunter, Trennlinien
+ * statt Kacheln, keine `rounded-*`, kein Icon im abgerundeten Quadrat. Die
+ * Nachsätze sind die Beschreibungen der Zielseiten, nicht neu erfunden — was
+ * hier steht, muss dort auch stehen.
+ *
+ * ⚠️ **Am 11.09.2026 halbiert** (Ansage: „So viel Text. Das muss alles viel
+ * kürzer und knackiger werden."). Aus je einem vollen Satz ist je ein Halbsatz
+ * geworden. Was bewusst **nicht** gefallen ist: die Microsoft-Produktnamen im
+ * mittleren Weg. Dieser Block ist eine der sechs Stellen, an denen der
+ * Enterprise-Stack zeichengenau steht (Projektleitfaden) — wer ihn hier
+ * herausstreicht, nimmt die Positionierung von der Startseite, nicht nur Text.
  *
  * ⚠️ Das gilt auch für die Produktnamen. Seit dem 04.09.2026 nennen zwei der
  * drei Wege den Microsoft-Stack; er steht deshalb genauso in
@@ -34,17 +41,17 @@ const WEGE = [
   {
     href: "/solo",
     label: "Du arbeitest allein oder im kleinen Team",
-    text: "Bis sechs Leute: KI im Alltag nutzen statt sie nur zu abonnieren — gebaut an deinen echten Fällen.",
+    text: "Bis sechs Leute, gebaut an deinen echten Fällen.",
   },
   {
     href: "/enterprise",
     label: "Ihr habt gewachsene Prozesse und Compliance",
-    text: "Power Automate, Power BI und Dynamics 365 — Umsetzung gegen feste Ziele und laufender Nachweis, dass es trägt.",
+    text: "Power Automate, Power BI, Dynamics 365.",
   },
   {
     href: "/leistungen",
-    label: "Du willst erst wissen, was wir überhaupt machen",
-    text: "Vom Prozess-Audit über Power Automate und KI-Agenten an euren Daten bis zu Betrieb und Wartung.",
+    label: "Du willst wissen, was wir überhaupt machen",
+    text: "Vom Prozess-Audit bis zu Betrieb und Wartung.",
   },
 ] as const;
 
@@ -70,7 +77,7 @@ export function WegeBlock() {
                     Pfeil aus dem Bild, statt selbst umzubrechen. */}
                 <div className="min-w-0">
                   <p className="text-fliess font-bold leading-snug text-foreground">{weg.label}</p>
-                  <p className="mt-1.5 text-pretty text-fliess leading-[1.6] text-muted-foreground">
+                  <p className="mt-1 text-pretty text-mini leading-[1.6] text-muted-foreground">
                     {weg.text}
                   </p>
                 </div>

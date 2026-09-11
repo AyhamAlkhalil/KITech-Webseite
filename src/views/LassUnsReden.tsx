@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { PageShell } from "@/components/layout/PageShell";
 import { SITE_CONTAINER } from "@/components/layout/site-container";
-import { angebot, verfuegbarkeit } from "@/config/angebot";
+import { angebot, konditionen } from "@/config/angebot";
 import { company } from "@/config/company";
 import { StructuredData, getWebPageSchema } from "@/components/seo/StructuredData";
 import { ArrowRight, CalendarClock, Check, Loader2, Mail, MessageCircle, Phone } from "lucide-react";
@@ -179,16 +179,16 @@ export default function LassUnsReden() {
         )}
       />
 
-      {/* === Kopf: eine Aussage, eine Platzangabe === */}
+      {/* === Kopf: eine Aussage, die Konditionen === */}
       <section className={`${SITE_CONTAINER} pb-10 pt-12 text-center sm:pt-16`}>
         {/*
-          Die Platzangabe kommt aus `verfuegbarkeit()` und damit aus gepflegten
-          Zahlen — eine Verknappung, die unabhängig von der Wirklichkeit immer
-          knapp aussieht, wäre nach Anhang zu § 3 Abs. 3 UWG Nr. 7 per se
-          unzulässig.
+          In der Pille stand bis zum 11.09.2026 die Platzangabe ("Jeden
+          Donnerstag 5 Plätze — diese Woche noch 2 Plätze frei"). Sie ist auf
+          Ansage von der ganzen Website raus; jetzt trägt die Pille, was
+          nachprüfbar ist. Begruendung in `config/angebot.ts`.
         */}
         <span className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-1.5 text-mini font-bold uppercase tracking-wide text-primary-foreground">
-          {verfuegbarkeit()}
+          {konditionen()}
         </span>
 
         <h1 className="kinetic-morph-in mx-auto mt-6 max-w-[720px] text-balance text-[38px] font-extrabold uppercase leading-[1.08] tracking-tight text-foreground sm:text-[50px] sm:leading-[57.5px]">

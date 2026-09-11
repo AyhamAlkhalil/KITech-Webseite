@@ -1,5 +1,3 @@
-import { company } from "@/config/company";
-
 /**
  * Womit wir belegen, dass hier nach europäischen Regeln gearbeitet wird —
  * gezeigt von `components/sections/Konformitaet.tsx` am Seitenende.
@@ -42,6 +40,21 @@ import { company } from "@/config/company";
  * prüfen das, weil ihr Zeichen sonst wertlos wird.
  *
  * Logos gehören nach `public/images/siegel/` (siehe README dort).
+ *
+ * ## Gekürzt am 11.09.2026 (Ansage: „viel kürzer und knackiger")
+ *
+ * Fünf Angaben sind vier geworden, jede Zeile trägt jetzt einen Halbsatz statt
+ * eines Satzes. Gefallen ist **„Eingetragene Gesellschaft"** mit Firmierung,
+ * Handelsregisternummer und USt-IdNr.
+ *
+ * Warum ausgerechnet die: Sie war die einzige Zeile, deren Inhalt vollständig
+ * im Impressum steht, auf das sie verwies — dieselbe Angabe zweimal auf
+ * derselben Seite. Die anderen vier sagen etwas, das sonst nirgends auf der
+ * Startseite steht.
+ *
+ * ⚠️ Die **Beleg-Links bleiben an jeder verbliebenen Zeile.** Sie sind der
+ * Unterschied zwischen einem Siegel und einem Bild von einem Siegel; wer sie
+ * beim nächsten Kürzen mitnimmt, macht aus dem Block eine Behauptungsliste.
  */
 
 export interface KonformitaetsPunkt {
@@ -89,28 +102,23 @@ export interface Siegel {
 export const konformitaetsPunkte: KonformitaetsPunkt[] = [
   {
     titel: "Server in Deutschland",
-    text: "Website und Besuchermessung laufen auf unserem eigenen Server, nicht bei einem Dienst im Ausland.",
+    text: "Website und Besuchermessung laufen auf unserem eigenen Server.",
     beleg: { label: "Datenschutz", href: "/datenschutz" },
   },
   {
     titel: "Messung ohne Cookies",
-    text: "Plausible statt Google Analytics: keine Profile, keine Wiedererkennung, keine Weitergabe an Dritte.",
+    text: "Plausible statt Google Analytics: keine Profile, keine Wiedererkennung.",
     beleg: { label: "Datenschutz", href: "/datenschutz" },
   },
   {
     titel: "Nichts lädt ohne dein Ja",
-    text: "Besuchermessung und Terminkalender starten erst nach deiner Einwilligung — § 25 TDDDG, jederzeit widerrufbar.",
+    text: "Messung und Terminkalender starten erst nach deiner Einwilligung, § 25 TDDDG.",
     beleg: { label: "Datenschutz", href: "/datenschutz" },
   },
   {
     titel: "EU AI Act im Blick",
-    text: "Welche Pflichten für euren KI-Einsatz gelten, klären wir vorher — im Selbstcheck kostenlos und ohne Anmeldung.",
+    text: "Welche Pflichten für euren KI-Einsatz gelten, klärt der Selbstcheck — kostenlos.",
     beleg: { label: "Selbstcheck", href: "/selbstcheck" },
-  },
-  {
-    titel: "Eingetragene Gesellschaft",
-    text: `${company.legalName}, ${company.registry.number} beim ${company.registry.court}, USt-IdNr. ${company.registry.vatId}.`,
-    beleg: { label: "Impressum", href: "/impressum" },
   },
 ];
 

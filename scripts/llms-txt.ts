@@ -1,12 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
 import { company, addressLine } from "../src/config/company.js";
-import { angebot, CHECK_TAG, PLAETZE_PRO_WOCHE } from "../src/config/angebot.js";
+import { angebot } from "../src/config/angebot.js";
 import { siteRoutes } from "../src/config/navigation.js";
 import { services, techStack } from "../src/data/services.js";
 import {
   AGENTEN_AUSSAGE,
-  AGENTEN_EINORDNUNG,
   agentenBeleg,
   bedienwege,
 } from "../src/data/agentenfaehig.js";
@@ -112,8 +111,11 @@ function deutsch(iso: string): string {
  */
 function angebotsAbsatz(): string {
   return (
+    /* Die Zeile nannte bis zum 11.09.2026 Wochentag und Kontingent
+       ("Termine jeden Donnerstag, 5 Plätze pro Woche"). Die Verknappung ist auf
+       Ansage von der ganzen Website raus — und was hier steht, muss auf der
+       Website stehen. Begruendung in `src/config/angebot.ts`. */
     `**${angebot.name}** — kostenlos, ${angebot.dauer}. ${angebot.beschreibung} ` +
-    `Termine jeden ${CHECK_TAG}, ${PLAETZE_PRO_WOCHE} Plätze pro Woche. ` +
     `Buchung: ${BASIS}${angebot.href}`
   );
 }
@@ -281,8 +283,8 @@ export function baueKurz(): string {
  * ergänzt, was nicht auf der Website steht.
  */
 function agentenZeilen(): string[] {
-  const zeilen = [AGENTEN_AUSSAGE, "", AGENTEN_EINORDNUNG, ""];
-  for (const weg of bedienwege) zeilen.push(`- **${weg.titel}** — ${weg.text}`);
+  const zeilen = [AGENTEN_AUSSAGE, ""];
+  for (const weg of bedienwege) zeilen.push(`- **${weg.titel}**`);
   /* Der Beleg-Satz ohne seine Adresse: Auf der Website führt er zu `llms.txt`,
      und dieser Verweis ist genau hier zirkulär — die Datei, die der Leser
      gerade offen hat. Die maschinenlesbaren Quellen stehen ohnehin weiter

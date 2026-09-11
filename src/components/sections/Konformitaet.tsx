@@ -3,7 +3,7 @@ import { SITE_CONTAINER } from "@/components/layout/site-container";
 import { konformitaetsPunkte, siegel } from "@/data/konformitaet";
 
 /**
- * Der Konformitätsblock am Seitenende: fünf Angaben, jede mit Beleg auf dieser
+ * Der Konformitätsblock am Seitenende: vier Angaben, jede mit Beleg auf dieser
  * Website, darunter — sobald vorhanden — die verliehenen Prüfzeichen.
  * Inhalt und die Regeln dafür: `src/data/konformitaet.ts`.
  *
@@ -18,9 +18,13 @@ import { konformitaetsPunkte, siegel } from "@/data/konformitaet";
  * Vorbereitung": Eine angedeutete Zertifizierung wirkt wie eine vorhandene.
  *
  * Gestaltung nach der Hausregel: Trennlinien statt Kacheln, nichts abgerundet,
- * kein Icon im Quadrat. Am Desktop stehen die fünf Angaben nebeneinander und
+ * kein Icon im Quadrat. Am Desktop stehen die vier Angaben nebeneinander und
  * sind durch senkrechte Linien getrennt — das liest sich als Leiste, ohne dass
- * es fünf Karten werden.
+ * es vier Karten werden.
+ *
+ * ⚠️ Die Spaltenzahl in `dt:grid-cols-*` muss zur Zahl der Einträge passen.
+ * Sie stand bis zum 11.09.2026 auf fünf; als der fünfte Eintrag fiel, wäre
+ * sonst eine leere Spalte stehen geblieben.
  */
 export function Konformitaet() {
   return (
@@ -34,7 +38,7 @@ export function Konformitaet() {
       >
         In Hannover gebaut, in Deutschland betrieben.
       </h2>
-      <ul className="mt-10 grid divide-y divide-border border-y border-border sm:grid-cols-2 sm:gap-x-10 dt:grid-cols-5 dt:gap-x-0 dt:divide-x dt:divide-y-0">
+      <ul className="mt-8 grid divide-y divide-border border-y border-border sm:grid-cols-2 sm:gap-x-10 dt:grid-cols-4 dt:gap-x-0 dt:divide-x dt:divide-y-0">
         {konformitaetsPunkte.map((punkt) => (
           <li
             key={punkt.titel}

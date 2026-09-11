@@ -58,12 +58,10 @@ export function AnnouncementBar() {
               {announcement.badge}
             </span>
           )}
-          <strong className="text-[18px] font-bold leading-[19.5px]">{announcement.lead}:</strong>{" "}
-          {/* Bis 1023 px die Kurzfassung — die lange braucht dort drei Zeilen
-              statt der zwei, die die Vorlage zeigt. Der Umschaltpunkt liegt bei
-              1024 px, weil die lange Fassung rund 750 px Zeilenbreite braucht. */}
-          <span className="lg:hidden">{announcement.textKurz}</span>
-          <span className="hidden lg:inline">{announcement.text}</span>{" "}
+          {/* Seit dem 11.09.2026 traegt der Balken nur diesen Satz — kein
+              Doppelpunkt, kein Nachsatz, keine lange und kurze Fassung mehr.
+              Begruendung in `src/config/announcement.ts`. */}
+          <strong className="text-[18px] font-bold leading-[19.5px]">{announcement.lead}</strong>{" "}
           {/* Der lange Pfeil ist ein Erkennungszeichen der Vorlage. Als SVG statt
               als Unicode-Pfeil, weil "⟶" je nach Schrift unterschiedlich lang
               gerendert wird. */}

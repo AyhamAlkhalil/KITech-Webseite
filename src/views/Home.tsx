@@ -11,7 +11,7 @@ import { CheckEinladung } from "@/components/sections/CheckEinladung";
 import { Konformitaet } from "@/components/sections/Konformitaet";
 import { faq } from "@/data/faq";
 import { teamRoster } from "@/data/team";
-import { angebot, verfuegbarkeitKurz } from "@/config/angebot";
+import { angebot, konditionen } from "@/config/angebot";
 import { WegeBlock } from "@/components/sections/WegeBlock";
 import { WeiterlesenBlock } from "@/components/sections/WeiterlesenBlock";
 import type { ArtikelTeaser } from "@/lib/wissen/empfehlungen";
@@ -197,10 +197,11 @@ export default function Home({
           {/* Der Hinweis steht in der Vorlage nicht — er gehoert zu unserem
               Inhalt und bleibt deshalb. Klein gesetzt, damit er die Geometrie
               des Hero nicht verschiebt. */}
-          {/* Dauer und Platzangabe direkt unter dem Knopf: die Begrenzung ist
-              echt (fuenf Stunden pro Woche) und traegt sich deshalb selbst. */}
+          {/* Preis und Dauer direkt unter dem Knopf. Die Platzangabe stand hier
+              bis zum 11.09.2026 als dritte Angabe („Donnerstags — noch 2 von 5
+              Plätzen") und ist auf Ansage raus — siehe `config/angebot.ts`. */}
           <p className="mt-3 text-mini font-normal text-muted-foreground">
-            Kostenlos · {angebot.dauer} · {verfuegbarkeitKurz()}
+            {konditionen()}
           </p>
 
           {/* Dieselben Marken wie in der Saeule, bis 1024 px als waagerechtes
@@ -277,11 +278,11 @@ export default function Home({
           einen Sprung entfernt statt zwei. Der Hero bleibt davon unberührt —
           er trägt weiterhin genau eine Aussage. Auswahl:
           src/lib/wissen/empfehlungen.ts. */}
-      <WeiterlesenBlock
-        artikel={wissen}
-        heading="Wir schreiben auf, was wir wissen."
-        text="Kostenlos, ohne Anmeldung — mit den Zahlen und Entscheidungen aus echten Projekten."
-      />
+      {/* Ohne `text`: Der Untertitel („Kostenlos, ohne Anmeldung — mit den Zahlen
+          und Entscheidungen aus echten Projekten") ist am 11.09.2026 gefallen,
+          zusammen mit dem Rest der Textstrecke. Die Überschrift trägt für sich,
+          und das Prop ist optional. Auf den Unterseiten steht er weiter. */}
+      <WeiterlesenBlock artikel={wissen} heading="Wir schreiben auf, was wir wissen." />
 
       {/* Wie hier gearbeitet wird, mit Beleg je Zeile (04.09.2026). Steht VOR
           dem letzten Knopf: Wer die Bedenken erst nach der Frage ausräumt,

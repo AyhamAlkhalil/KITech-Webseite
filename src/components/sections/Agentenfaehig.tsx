@@ -1,7 +1,6 @@
 import { SITE_CONTAINER } from "@/components/layout/site-container";
 import {
   AGENTEN_AUSSAGE,
-  AGENTEN_EINORDNUNG,
   AGENTEN_LABEL,
   agentenBeleg,
   bedienwege,
@@ -24,15 +23,36 @@ import {
  * so oder als kleines Label"). Der Unterschied, wegen dem beides zusammengeht:
  * Das Label ist keine Kategorie über der Überschrift, sondern der Marker selbst
  * („Agentenfähig" ist die Eigenschaft, um die es geht), und darunter folgt kein
- * Erklärabsatz, sondern ein Satz und dann die vier Zugänge. Wer hier einen
- * zweiten Absatz einzieht, hat genau das Muster wieder da.
+ * Erklärabsatz, sondern direkt die Aussage und die vier Zugänge. Wer hier einen
+ * Absatz einzieht, hat genau das Muster wieder da.
  *
- * ⚠️ **Kurz ist hier die Vorgabe, nicht der Zufall** (Ansage 07.09.2026: „Absatz
- * agentenfähig viel weiter kürzen"). Der Block hatte einen Einordnungssatz von
- * 25 Wörtern und vier Texte zu je drei bis vier Zeilen; beides ist eingedampft.
- * Was blieb, ist der Beleg — nach der Hausregel wird beim Kürzen Fülltext
- * gestrichen, nie ein Beleg. Wer einen Zugang wieder ausformuliert, macht die
- * Kürzung rückgängig, für die es eine Ansage gab.
+ * ⚠️ **Kurz ist hier die Vorgabe, nicht der Zufall** — zwei Ansagen, 07.09.2026
+ * („Absatz agentenfähig viel weiter kürzen") und 11.09.2026 („viel knackiger,
+ * viel kürzer, viel salesmäßiger"). Übrig sind Label, Aussage, vier Zugänge zu
+ * je drei bis fünf Wörtern und der Beleg. Der Einordnungssatz ist weg, die
+ * Erklärsätze unter den Zugängen sind weg. Was blieb, ist der Beleg — nach der
+ * Hausregel wird beim Kürzen Fülltext gestrichen, nie ein Beleg. Wer einen
+ * Zugang wieder ausformuliert, macht beide Kürzungen rückgängig.
+ *
+ * ## Die Bewegung
+ *
+ * „Mach da eine coole kleine Animation rein, aber da ist ja nur Text"
+ * (11.09.2026). Also bewegt sich der Text selbst: Die vier Zugänge laufen beim
+ * Hereinscrollen versetzt von unten ein, der Signalstrich über jedem wächst
+ * dabei von links auf seine Breite.
+ *
+ * Umgesetzt **ohne JavaScript** über eine scroll-getriebene CSS-Animation
+ * (`animation-timeline: view()`, Regeln in `src/index.css`). Drei Gründe:
+ *
+ *   1. Der Block bliebe sonst keine Server Component. Die Startseite hat
+ *      bereits sechs Client-Inseln, und ihr Bundle ist der gemessene Grund,
+ *      warum der LCP dort bei rund vier Sekunden liegt.
+ *   2. Animiert wird ausschließlich `transform` — nie `opacity`. Ein
+ *      durchsichtiges Element zählt Chrome nicht als gezeichnet; genau das hat
+ *      auf dieser Seite schon einmal 820 ms LCP gekostet.
+ *   3. Kennt ein Browser die Timeline nicht, passiert schlicht nichts: Der
+ *      `@supports`-Block greift nicht, der Text steht da, wo er stehen soll.
+ *      Dasselbe bei `prefers-reduced-motion: reduce`.
  *
  * Gestaltung nach der Hausregel: Trennlinien statt Kacheln, nichts abgerundet,
  * kein Icon im Quadrat. Die Leiste folgt bewusst demselben Aufbau wie
@@ -69,34 +89,28 @@ export function Agentenfaehig() {
         {AGENTEN_AUSSAGE}
       </h2>
 
-      {/* Ohne `text-pretty`: Der Satz ist seit der Kürzung kurz genug für eine
-          Zeile, und `text-pretty` brach ihn am Desktop trotzdem nach „Portal,"
-          um — es zieht Wörter herunter, damit keine kurze Restzeile entsteht.
-          Bei zwei Wörtern Text ist das die falsche Optimierung. */}
-      <p className="mt-4 max-w-[720px] text-lead font-normal text-muted-foreground">
-        {AGENTEN_EINORDNUNG}
-      </p>
-
       {/* Vier Spalten erst ab `dt`. Bei zwei Spalten trennt nur die waagerechte
           Linie — senkrechte Striche brauchen `gap-x`, und der schiebt die
           Spalten bei `sm` unnötig auseinander. Gleiche Rechnung wie in
-          `Konformitaet`. */}
-      <ul className="mt-9 grid divide-y divide-border border-y border-border sm:grid-cols-2 sm:gap-x-10 dt:grid-cols-4 dt:gap-x-0 dt:divide-x dt:divide-y-0">
+          `Konformitaet`.
+
+          `agenten-einlauf` ist die Bewegung (siehe Kopf). Sie sitzt auf dem
+          `li`, damit der Versatz der vier Spalten über `nth-child` läuft —
+          `animation-delay` greift bei einer scroll-getriebenen Animation
+          nicht, der Versatz muss über `animation-range` kommen. */}
+      <ul className="mt-8 grid divide-y divide-border border-y border-border sm:grid-cols-2 sm:gap-x-10 dt:grid-cols-4 dt:gap-x-0 dt:divide-x dt:divide-y-0">
         {bedienwege.map((weg) => (
           <li
             key={weg.id}
-            className="flex flex-col py-5 dt:px-5 dt:py-6 dt:first:pl-0 dt:last:pr-0"
+            className="agenten-einlauf flex flex-col py-5 dt:px-5 dt:py-6 dt:first:pl-0 dt:last:pr-0"
           >
             {/* Der Strich ordnet die Spalte, ohne ein Symbol zu erfinden, das
-                nichts bedeutet. */}
-            <span className="h-[3px] w-8 bg-primary" aria-hidden="true" />
+                nichts bedeutet. Er wächst beim Hereinscrollen von links auf. */}
+            <span className="agenten-strich h-[3px] w-8 bg-primary" aria-hidden="true" />
 
             <h3 className="mt-4 text-fliess font-bold leading-snug text-foreground">
               {weg.titel}
             </h3>
-            <p className="mt-2 flex-1 text-mini font-normal leading-[1.55] text-muted-foreground">
-              {weg.text}
-            </p>
           </li>
         ))}
       </ul>

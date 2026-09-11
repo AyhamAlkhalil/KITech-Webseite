@@ -320,6 +320,70 @@
     animation: pulse-nudge 1.6s ease-in-out infinite;
   }
 
+  /*
+    Der Agentenblock laeuft beim Hereinscrollen ein (11.09.2026, auf Ansage:
+    "Mach da eine coole kleine Animation rein, aber da ist ja nur Text").
+    Gesetzt von `components/sections/Agentenfaehig.tsx`.
+
+    **Scroll-getrieben, ohne JavaScript.** `animation-timeline: view()` bindet
+    den Fortschritt an die Lage des Elements im Sichtfeld. Kein Beobachter, kein
+    Zustand, keine Client-Insel — der Block bleibt eine Server Component.
+
+    Drei Dinge, die hier bewusst so stehen:
+
+      1. **Nur `transform`, nie `opacity`.** Ein vollstaendig durchsichtiges
+         Element zaehlt Chrome nicht als gezeichnet. Dieselbe Falle hat die
+         Startseite schon einmal 820 ms LCP gekostet (siehe `kinetic-morph-in`).
+         Hier kommt dazu: Ohne Timeline-Unterstuetzung stuende der Text sonst
+         dauerhaft unsichtbar da.
+      2. **Der Versatz laeuft ueber `animation-range`, nicht ueber
+         `animation-delay`.** Eine Verzoegerung in Sekunden hat bei einer
+         Timeline ohne Zeitachse keine Wirkung — die vier Spalten kaemen am
+         Desktop gleichzeitig an, weil sie gleichzeitig ins Bild laufen.
+      3. **`@supports` und `prefers-reduced-motion` rahmen alles ein.** Kennt
+         der Browser die Timeline nicht oder hat der Besucher Bewegung
+         abbestellt, passiert nichts: Der Text steht, wo er hingehoert.
+
+    `animation-duration` ist bei scroll-getriebenen Animationen ohne Bedeutung,
+    die Angabe bleibt als Pflichtwert stehen. `linear` ist richtig — das Gefuehl
+    macht die Scrollbewegung, nicht die Kurve.
+  */
+  @keyframes agenten-einlauf {
+    from { transform: translateY(18px); }
+    to { transform: translateY(0); }
+  }
+
+  @keyframes agenten-strich {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  .agenten-strich {
+    transform-origin: left center;
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .agenten-einlauf {
+        animation: agenten-einlauf 1s linear both;
+        animation-timeline: view();
+        animation-range: entry 8% cover 26%;
+      }
+
+      /* Der Versatz der vier Spalten. Am Desktop stehen sie nebeneinander und
+         kaemen sonst alle im selben Moment an. */
+      .agenten-einlauf:nth-child(2) { animation-range: entry 12% cover 30%; }
+      .agenten-einlauf:nth-child(3) { animation-range: entry 16% cover 34%; }
+      .agenten-einlauf:nth-child(4) { animation-range: entry 20% cover 38%; }
+
+      .agenten-strich {
+        animation: agenten-strich 1s linear both;
+        animation-timeline: view();
+        animation-range: entry 12% cover 32%;
+      }
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .kinetic-morph-in {
       animation-duration: 0.001s;

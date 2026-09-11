@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { angebot, verfuegbarkeitKurz } from "@/config/angebot";
+import { angebot, konditionen } from "@/config/angebot";
 import { SITE_CONTAINER } from "@/components/layout/site-container";
 import { trackEvent } from "@/lib/plausible";
 
@@ -26,15 +26,14 @@ export function CtaBanner({
   position,
   label = angebot.cta,
   /**
-   * Die zweite Zeile in der Pille — seit dem 17.08.2026 die **kurze** Fassung.
+   * Die zweite Zeile in der Pille: Preis und Dauer.
    *
-   * Die lange ("Jeden Donnerstag 5 Plätze — diese Woche noch 2 Plätze frei")
-   * braucht in einer 360-px-Pille zwei bis drei Zeilen und blaeht den Knopf auf
-   * das Doppelte. Gekuerzt wird nur die Formulierung, nicht die Aussage: beide
-   * Zahlen stehen weiterhin drin. Die lange Fassung steht dort, wo eine ganze
-   * Zeile Platz ist — im Ankuendigungsbalken und auf /lass-uns-reden.
+   * Bis zum 11.09.2026 stand hier die Platzangabe ("Donnerstags — noch 2 von 5
+   * Plätzen"). Sie ist auf Ansage von der ganzen Website genommen worden; die
+   * Begruendung steht in `config/angebot.ts`. Wer eine eigene Zeile setzen
+   * will, uebergibt `hint` — sie muss in eine 360-px-Pille passen.
    */
-  hint = verfuegbarkeitKurz(),
+  hint = konditionen(),
   href = angebot.href,
 }: {
   heading: string;

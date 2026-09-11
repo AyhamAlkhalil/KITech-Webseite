@@ -90,8 +90,8 @@ export default function Haltung({ wissen = [] }: { wissen?: ArtikelTeaser[] }) {
               {/* Wortgleich mit `src/data/gruenderwort.ts` — am 17.08.2026 dort
                   gekürzt und hier mitgezogen. Zwei Fassungen desselben Zitats
                   lesen sich wie ein Werbetext, der je nach Seite angepasst wird. */}
-              „Ich habe zu oft gesehen, wie sechsstellige Beträge in einer schicken Demo
-              enden statt in der Bilanz. Mittelstand kann sich das nicht leisten.“
+              „Sechsstellige Beträge enden in einer schicken Demo statt in der Bilanz.
+              Das kann sich kein Mittelständler leisten.“
             </blockquote>
 
             <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">

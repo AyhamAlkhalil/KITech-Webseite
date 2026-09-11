@@ -1,5 +1,5 @@
 import { buildMetadata, kuerze } from "@/lib/metadata";
-import { angebot, verfuegbarkeit } from "@/config/angebot";
+import { angebot } from "@/config/angebot";
 import LassUnsReden from "@/views/LassUnsReden";
 
 /**
@@ -10,11 +10,12 @@ import LassUnsReden from "@/views/LassUnsReden";
  * 1:1-KI-Check überholt, stand aber weiter in der Google-Vorschau.
  */
 /* `kuerze` deckelt auf 155 Zeichen: `angebot.beschreibung` ist für die Seite
-   geschrieben, nicht für das Suchergebnis, und ergab zusammen mit der
-   Verfügbarkeitszeile 220 Zeichen. */
+   geschrieben, nicht für das Suchergebnis, und liegt allein schon darüber. Die
+   Verfügbarkeitszeile, die hier bis zum 11.09.2026 dahinterstand, ist raus —
+   siehe `config/angebot.ts`. */
 export const metadata = buildMetadata({
   title: `${angebot.name} – kostenlos, ${angebot.dauer}`,
-  description: kuerze(`${angebot.beschreibung} ${verfuegbarkeit()}.`),
+  description: kuerze(angebot.beschreibung),
   path: "/lass-uns-reden",
 });
 

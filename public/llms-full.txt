@@ -2,7 +2,7 @@
 
 > Automatisierungen und individuelle Softwarelösungen für den deutschen Mittelstand.
 
-Stand: 07.09.2026. Erzeugt aus den Datenquellen der Website (`npm run llms`). Was hier steht, steht auch auf einer Seite.
+Stand: 08.09.2026. Erzeugt aus den Datenquellen der Website (`npm run llms`). Was hier steht, steht auch auf einer Seite.
 
 ---
 
@@ -24,7 +24,7 @@ KITech Software UG (haftungsbeschränkt) ist ein Software- und KI-Unternehmen mi
 
 ## 2. Das kostenlose Angebot
 
-**Dein 1:1-KI-Check** — kostenlos, 30 Minuten. Eine halbe Stunde mit mir, allein auf dein Unternehmen: Wir gehen deine KI- und Automatisierungsaufstellung durch — was läuft, was fehlt, was sich zuerst lohnt. Termine jeden Donnerstag, 5 Plätze pro Woche. Buchung: https://kitech-software.de/lass-uns-reden
+**Dein 1:1-KI-Check** — kostenlos, 30 Minuten. Eine halbe Stunde mit mir, allein auf dein Unternehmen: Wir gehen deine KI- und Automatisierungsaufstellung durch — was läuft, was fehlt, was sich zuerst lohnt. Buchung: https://kitech-software.de/lass-uns-reden
 
 ---
 
@@ -54,12 +54,10 @@ Was gebaut ist, muss laufen. Überwachung, Nachjustieren, Weiterentwicklung — 
 
 Alles, was wir bauen, ist agentenfähig.
 
-Für jede Anwendung, die wir ausliefern: SaaS, Portal, interne Fachanwendung.
-
-- **MCP-Server gehört zur Auslieferung** — Es gelten die Rechte des angemeldeten Kontos, kein Generalschlüssel für den Agenten.
-- **Eine Sprachnachricht reicht als Eingabe** — Unterwegs diktiert, im System ein fertiger Vorgang.
-- **Gefragt wird in Worten, nicht im Klickpfad** — Wer die Software selten benutzt, muss ihre Menüführung nicht kennen.
-- **Vorhandene Assistenten werden angeschlossen** — Microsoft 365 Copilot hängt an derselben Schnittstelle, kein zweites System daneben.
+- **MCP-Server ab Werk**
+- **Bedienbar per Sprachnachricht**
+- **Gefragt wird in Worten**
+- **Microsoft 365 Copilot hängt dran**
 
 Diese Website liefert ihren eigenen Inhalt maschinenlesbar aus. Diese Datei ist der Beleg dafür.
 
@@ -194,27 +192,19 @@ Vollständig. Es gibt keine weiteren freigegebenen Zitate — was hier nicht ste
 
 **Was kostet das?**
 
-Der 1:1-KI-Check kostet nichts. Den Preis fürs Projekt nennen wir nach dem Prozess-Audit — vorher wäre jede Zahl geraten.
+Der 1:1-KI-Check kostet nichts. Den Projektpreis nennen wir nach dem Prozess-Audit.
 
 **Wie lange dauert es?**
 
-Wochen, keine Quartale. Das NiImmo-Portal war nach 40 Tagen live, cert consulting nach 60, eine komplette SaaS-Anwendung nach zwei Monaten.
-
-**Was, wenn sich KI bei uns nicht lohnt?**
-
-Dann sagen wir das. Passt eine einfachere Lösung besser, empfehlen wir sie — auch wenn wir daran weniger verdienen.
+Wochen, keine Quartale: NiImmo-Portal nach 40 Tagen live, cert consulting nach 60, eine komplette SaaS-Anwendung nach zwei Monaten.
 
 **Wir arbeiten mit Microsoft — passt das?**
 
-Das ist unser Feld: Power Automate, Power BI, Dynamics 365 und Power Apps, angebunden an Microsoft 365 und Azure. Wer Microsoft im Haus hat, braucht kein zweites System daneben.
+Unser Feld: Power Automate, Power BI, Dynamics 365 und Power Apps, angebunden an Microsoft 365 und Azure.
 
 **Was passiert mit unseren Daten?**
 
-Was ihr wollt: europäische Region mit Auftragsverarbeitungsvertrag oder eure eigene Hardware. Ihr entscheidet, nicht der Anbieter.
-
-**Und wenn das Projekt fertig ist?**
-
-Der Code gehört euch, dokumentiert und wartbar. Betrieb und Weiterentwicklung laufen über einen festen Ansprechpartner.
+Europäische Region mit Auftragsverarbeitungsvertrag oder eure eigene Hardware. Ihr entscheidet, nicht der Anbieter.
 
 ---
 
@@ -245,7 +235,7 @@ Zehn Jahre Konzernerfahrung und sieben Jahre Praxiserfahrung in der Entwicklung 
 - Profil: https://kitech-software.de/autoren/ayham-alkhalil
 - LinkedIn: https://www.linkedin.com/in/ayham-alkhalil-66bb451b5
 - Themen: Prozessautomatisierung, KI-Integration in bestehende Systeme, RAG-Systeme auf Unternehmensdaten, KI-Betrieb unter DSGVO und EU AI Act, Individualsoftware mit Next.js und Supabase, KI-gestützte Softwareentwicklung
-- Artikel: 8
+- Artikel: 9
 
 ### Leon Battel — Technischer Manager
 
@@ -301,6 +291,12 @@ Vom Posteingang bis zur Buchung: was sich automatisch auslesen lässt, welche Qu
 Wie eine Zusammenarbeit abläuft, was sie kostet, und was regional an Förderung und Ansprechpartnern verfügbar ist.
 
 - **[KI-Beratung in Hannover: wie ein Erstgespräch abläuft](https://kitech-software.de/gratis-wissen/ki-beratung-hannover-wie-ein-erstgespraech-ablaeuft)** — 30 Minuten, fünf Plätze in der Woche, immer donnerstags. Was darin geprüft wird, in welcher Reihenfolge — und woran man merkt, dass es nicht passt. (Ayham Alkhalil, 26.08.2026)
+
+### Sprachmodelle im Betrieb
+
+Was ein neues Modell im laufenden Betrieb tatsächlich ändert: Kosten, Grenzen, Umbauten am Code — gemessen statt angekündigt.
+
+- **[Reasoning Modell Kosten werden beim Umstieg oft falsch kalkuliert](https://kitech-software.de/gratis-wissen/reasoning-modell-kosten-token-budget)** — Dasselbe Token-Budget trägt bei OpenAI und Anthropic nicht gleich weit. Wer sichtbaren Text kalkuliert, übersieht Denk-Token — und bezahlt abgebrochene Läufe oft erst nachts im Betrieb. (Ayham Alkhalil, 08.09.2026)
 
 ---
 

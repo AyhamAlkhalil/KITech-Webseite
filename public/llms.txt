@@ -2,7 +2,7 @@
 
 > Automatisierungen und individuelle Softwarelösungen für den deutschen Mittelstand. Sitz in Hannover. Gebaut wird, was im Tagesgeschäft läuft — betrieben in europäischer Region über AWS oder Azure mit Auftragsverarbeitungsvertrag oder auf eigener Hardware.
 
-Stand: 07.09.2026. Diese Datei wird aus den Datenquellen der Website erzeugt (`npm run llms`) und beschreibt deshalb denselben Stand wie die Seiten.
+Stand: 08.09.2026. Diese Datei wird aus den Datenquellen der Website erzeugt (`npm run llms`) und beschreibt deshalb denselben Stand wie die Seiten.
 
 ## Unternehmen
 
@@ -18,7 +18,7 @@ Stand: 07.09.2026. Diese Datei wird aus den Datenquellen der Website erzeugt (`n
 
 ## Kostenloses Angebot
 
-**Dein 1:1-KI-Check** — kostenlos, 30 Minuten. Eine halbe Stunde mit mir, allein auf dein Unternehmen: Wir gehen deine KI- und Automatisierungsaufstellung durch — was läuft, was fehlt, was sich zuerst lohnt. Termine jeden Donnerstag, 5 Plätze pro Woche. Buchung: https://kitech-software.de/lass-uns-reden
+**Dein 1:1-KI-Check** — kostenlos, 30 Minuten. Eine halbe Stunde mit mir, allein auf dein Unternehmen: Wir gehen deine KI- und Automatisierungsaufstellung durch — was läuft, was fehlt, was sich zuerst lohnt. Buchung: https://kitech-software.de/lass-uns-reden
 
 ## Leistungen
 
@@ -41,12 +41,10 @@ Was gebaut ist, muss laufen. Überwachung, Nachjustieren, Weiterentwicklung — 
 
 Alles, was wir bauen, ist agentenfähig.
 
-Für jede Anwendung, die wir ausliefern: SaaS, Portal, interne Fachanwendung.
-
-- **MCP-Server gehört zur Auslieferung** — Es gelten die Rechte des angemeldeten Kontos, kein Generalschlüssel für den Agenten.
-- **Eine Sprachnachricht reicht als Eingabe** — Unterwegs diktiert, im System ein fertiger Vorgang.
-- **Gefragt wird in Worten, nicht im Klickpfad** — Wer die Software selten benutzt, muss ihre Menüführung nicht kennen.
-- **Vorhandene Assistenten werden angeschlossen** — Microsoft 365 Copilot hängt an derselben Schnittstelle, kein zweites System daneben.
+- **MCP-Server ab Werk**
+- **Bedienbar per Sprachnachricht**
+- **Gefragt wird in Worten**
+- **Microsoft 365 Copilot hängt dran**
 
 Diese Website liefert ihren eigenen Inhalt maschinenlesbar aus. Diese Datei ist der Beleg dafür.
 
@@ -75,9 +73,11 @@ Diese Website liefert ihren eigenen Inhalt maschinenlesbar aus. Diese Datei ist 
 - [KI-Strategie und warum Projekte scheitern](https://kitech-software.de/gratis-wissen/thema/ki-strategie) — Die Muster, an denen KI-Vorhaben regelmäßig hängenbleiben — und was die erfolgreichen anders gemacht haben. (2 Artikel)
 - [Dokumente, Rechnungen, Belege](https://kitech-software.de/gratis-wissen/thema/dokumente-und-belege) — Vom Posteingang bis zur Buchung: was sich automatisch auslesen lässt, welche Quote realistisch ist, und was zur E-Rechnung ansteht. (1 Artikel)
 - [KI-Beratung in Hannover und Niedersachsen](https://kitech-software.de/gratis-wissen/thema/ki-beratung-hannover) — Wie eine Zusammenarbeit abläuft, was sie kostet, und was regional an Förderung und Ansprechpartnern verfügbar ist. (1 Artikel)
+- [Sprachmodelle im Betrieb](https://kitech-software.de/gratis-wissen/thema/sprachmodelle-im-betrieb) — Was ein neues Modell im laufenden Betrieb tatsächlich ändert: Kosten, Grenzen, Umbauten am Code — gemessen statt angekündigt. (1 Artikel)
 
 ## Artikel
 
+- [Reasoning Modell Kosten werden beim Umstieg oft falsch kalkuliert](https://kitech-software.de/gratis-wissen/reasoning-modell-kosten-token-budget) — Dasselbe Token-Budget trägt bei OpenAI und Anthropic nicht gleich weit. Wer sichtbaren Text kalkuliert, übersieht Denk-Token — und bezahlt abgebrochene Läufe oft erst nachts im Betrieb. (Ayham Alkhalil, 08.09.2026)
 - [KI-Beratung in Hannover: wie ein Erstgespräch abläuft](https://kitech-software.de/gratis-wissen/ki-beratung-hannover-wie-ein-erstgespraech-ablaeuft) — 30 Minuten, fünf Plätze in der Woche, immer donnerstags. Was darin geprüft wird, in welcher Reihenfolge — und woran man merkt, dass es nicht passt. (Ayham Alkhalil, 26.08.2026)
 - [E-Rechnung ab 1.1.2027: wer versenden muss und was bis dahin zu tun ist](https://kitech-software.de/gratis-wissen/e-rechnung-ab-1-1-2027-wer-versenden-muss-und-was-bis-dahin-zu-tun-ist) — Zum Stichtag beginnt keine Pflicht, es endet eine Erlaubnis. Was der Gesetzestext an drei Stellen genauer sagt als die Ratgeber darüber — und was bis dahin stehen muss. (Ayham Alkhalil, 24.08.2026)
 - [Was passiert, wenn eine Automatisierung nachts abstürzt?](https://kitech-software.de/gratis-wissen/was-passiert-wenn-eine-automatisierung-nachts-abstuerzt) — Der Ablauf läuft seit Monaten. Dann bricht er um drei Uhr ab, und niemand merkt es bis Donnerstag. Vier Bestandteile, ohne die keine Automatisierung in Betrieb gehört. (Ayham Alkhalil, 24.08.2026)

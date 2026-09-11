@@ -88,11 +88,31 @@ export function Gruenderwort() {
             schmale Teamspalte. Darunter stapelt es sich in derselben Reihenfolge. */}
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,300px)] lg:gap-16">
           <div className="max-w-[720px]">
-            <blockquote className="text-balance text-h3 leading-[1.25] text-foreground sm:text-[32px]">
+            {/*
+              Der Signalstrich über dem Zitat (11.09.2026, auf Ansage: „Das
+              wirkt ja zu plump, wird einfach hingeklatscht. Mach das irgendwie
+              zu mehr Highlights"). Er markiert den Anfang der Aussage, ohne ein
+              Label über die Überschrift zu setzen — dasselbe Mittel wie im
+              Agentenblock und in der Konformitätsleiste.
+            */}
+            <span className="block h-[3px] w-12 bg-primary" aria-hidden="true" />
+
+            {/*
+              Deutlich größer als vorher (32 → 44 px am Desktop) und in der
+              Display-Schrift: Das Zitat ist der einzige Satz auf der Startseite,
+              der von einer Person kommt, und trägt den ganzen Block. Die
+              Zuschreibung darunter bleibt bewusst klein — sie beglaubigt die
+              Aussage, sie konkurriert nicht mit ihr.
+
+              Kein `kinetic-morph-in`: Die Klasse gehört der H1 jeder Seite.
+              Zwei bewegte Überschriften auf einer Seite lesen sich als Zappeln
+              (Hausregel im Projektleitfaden).
+            */}
+            <blockquote className="kinetic-display mt-7 text-balance text-[28px] leading-[1.15] text-foreground sm:text-[36px] dt:text-[44px]">
               „{gruenderwort.zitat}“
             </blockquote>
 
-            <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
+            <div className="mt-7 flex flex-wrap items-center gap-x-4 gap-y-2">
               <p className="text-[13px] leading-tight text-muted-foreground">
                 <span className="font-semibold text-foreground">{company.founder.name}</span>
                 {" — "}

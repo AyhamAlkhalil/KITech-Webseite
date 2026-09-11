@@ -53,7 +53,16 @@ export const teamRoster: TeamMember[] = [
     highlight: false,
   },
   {
-    name: "Leon",
+    /**
+     * Nachname am 11.09.2026 auf Ansage ergänzt („Schreib aber ruhig bei Leon
+     * auch den Nachnamen mit dazu: Leon Battel"). Er stand vorher nur im
+     * Autorenverzeichnis (`content/seo/autoren.json`) und damit in `llms.txt`,
+     * aber nicht auf der Startseite — in der Teamliste stand allein „Leon".
+     *
+     * ⚠️ `gruenderwort.teamNamen` sucht die Personen **über diesen Namen**.
+     * Wer ihn ändert, ändert ihn dort mit, sonst fällt die Zeile still weg.
+     */
+    name: "Leon Battel",
     /**
      * Rolle am 26.08.2026 auf Ansage: **Technischer Manager**. Vorher stand
      * hier „Technical Accountant" (17.08.2026), davor „Entwickler".

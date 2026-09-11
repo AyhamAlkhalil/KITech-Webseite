@@ -49,15 +49,36 @@
  *     Wer ihn „begeisternder" formuliert, verschiebt die Positionierung.
  *   - **Produktnamen zeichengenau:** Microsoft 365 Copilot, Power Automate,
  *     Model Context Protocol (MCP).
+ *
+ * ## Zweite Kürzung am 11.09.2026 (Ansage: „viel knackiger, viel kürzer, viel
+ * salesmäßiger")
+ *
+ * Der Block bestand aus Label, Aussage, Einordnungssatz, vier Zugängen mit je
+ * einem Erklärsatz und dem Beleg. Übrig sind Label, Aussage, **vier nackte
+ * Zugänge** und der Beleg.
+ *
+ *   - `AGENTEN_EINORDNUNG` ist ersatzlos weg. Der Satz nannte den Umfang
+ *     („SaaS, Portal, interne Fachanwendung"); die Überschrift sagt „alles".
+ *   - `Bedienweg.text` ist weg. Jeder Zugang steht jetzt in drei bis fünf
+ *     Wörtern da. Was dabei fiel, war unter anderem der Rechtesatz zum
+ *     MCP-Zugang — die stärkste Einzelaussage des Blocks. ⚠️ Sie gehört in das
+ *     Gespräch, nicht zurück auf die Startseite: Wer sie hier wieder einzieht,
+ *     macht die Kürzung rückgängig, für die es zwei Ansagen gab (07. und
+ *     11.09.2026).
+ *   - Der Beleg bleibt. Beim Kürzen fällt Fülltext, nie ein Beleg.
  */
 
 export interface Bedienweg {
   /** Kurzes Kürzel, nur als React-Key. */
   id: string;
-  /** Der Zugang als Aussage, nicht als Schlagwort. */
+  /**
+   * Der ganze Eintrag: der Zugang als Aussage, drei bis fünf Wörter.
+   *
+   * ⚠️ Kein zweites Feld dazu. Der Erklärsatz, der hier bis zum 11.09.2026 als
+   * `text` stand, ist auf Ansage gestrichen — vier Zeilen Fließtext waren der
+   * Grund, warum der Block als „viel zu lang" gemeldet wurde.
+   */
   titel: string;
-  /** Was er konkret bedeutet. ⚠️ EIN Satz, kurz — siehe Kürzung 07.09.2026. */
-  text: string;
 }
 
 /**
@@ -69,39 +90,11 @@ export const AGENTEN_LABEL = "Agentenfähig";
 /** Die Aussage. Steht als Überschrift des Blocks. */
 export const AGENTEN_AUSSAGE = "Alles, was wir bauen, ist agentenfähig.";
 
-/**
- * Der Halbsatz darunter. Er trägt genau eine Information, die sonst nirgends
- * steht: den **Umfang** — es geht um jede Art von Anwendung, nicht um ein
- * Zusatzprodukt.
- *
- * ⚠️ Am 07.09.2026 auf Ansage („viel weiter kürzen") von 25 auf 10 Wörter. Die
- * gestrichene Fassung erklärte, was eine Schnittstelle ist; das lösen die vier
- * Zeilen darunter besser. Wer hier wieder erklärt, hat den Erklärabsatz zurück.
- */
-export const AGENTEN_EINORDNUNG =
-  "Für jede Anwendung, die wir ausliefern: SaaS, Portal, interne Fachanwendung.";
-
 export const bedienwege: Bedienweg[] = [
-  {
-    id: "mcp",
-    titel: "MCP-Server gehört zur Auslieferung",
-    text: "Es gelten die Rechte des angemeldeten Kontos, kein Generalschlüssel für den Agenten.",
-  },
-  {
-    id: "sprache",
-    titel: "Eine Sprachnachricht reicht als Eingabe",
-    text: "Unterwegs diktiert, im System ein fertiger Vorgang.",
-  },
-  {
-    id: "frage",
-    titel: "Gefragt wird in Worten, nicht im Klickpfad",
-    text: "Wer die Software selten benutzt, muss ihre Menüführung nicht kennen.",
-  },
-  {
-    id: "anschluss",
-    titel: "Vorhandene Assistenten werden angeschlossen",
-    text: "Microsoft 365 Copilot hängt an derselben Schnittstelle, kein zweites System daneben.",
-  },
+  { id: "mcp", titel: "MCP-Server ab Werk" },
+  { id: "sprache", titel: "Bedienbar per Sprachnachricht" },
+  { id: "frage", titel: "Gefragt wird in Worten" },
+  { id: "anschluss", titel: "Microsoft 365 Copilot hängt dran" },
 ];
 
 /**

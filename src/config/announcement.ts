@@ -1,17 +1,14 @@
-import { angebot, verfuegbarkeit, verfuegbarkeitKurz } from "./angebot";
+import { angebot } from "./angebot";
 
 /**
  * Inhalt des Ankuendigungsbalkens ganz oben.
  *
- * Bewusst als eigene Datei: der Balken ist die einzige Stelle der Seite, an der
- * etwas Zeitliches steht. Er wird haeufiger geaendert als alles andere und soll
- * dafuer nicht in eine Layout-Komponente hineingegriffen werden muessen.
+ * Bewusst als eigene Datei: der Balken ist die prominenteste Zeile der Seite.
+ * Er wird haeufiger geaendert als alles andere und soll dafuer nicht in eine
+ * Layout-Komponente hineingegriffen werden muessen.
  *
  * Steht `announcement` auf `null`, verschwindet der Balken vollstaendig — die
  * Kopfzeile rueckt dann nach oben, ohne dass sonst etwas angepasst werden muss.
- *
- * Der Nachsatz kommt aus `angebot.ts`, damit Balken und Knoepfe nicht
- * auseinander laufen.
  *
  * **Stand 17.08.2026: der Balken fuehrt mit einer Frage, nicht mit dem
  * Produktnamen.** Vorher stand dort "1:1-KI-Check 2026" — eine datierte
@@ -22,28 +19,33 @@ import { angebot, verfuegbarkeit, verfuegbarkeitKurz } from "./angebot";
  * einen Grund zu klicken. Wer hier wieder den Angebotsnamen einsetzt, nimmt
  * dem Balken genau das.
  *
- * WICHTIG: Hier gehoert nichts hinein, was nicht stimmt. Der Balken ist die
- * prominenteste Zeile der Seite; eine erfundene Verknappung waere eine
- * irrefuehrende geschaeftliche Handlung nach § 5 UWG. Die Platzangabe kommt
- * deshalb aus `verfuegbarkeit()` und damit aus gepflegten Zahlen.
+ * **Stand 11.09.2026: nur noch der Satz.** Dahinter stand bis dahin die
+ * Platzangabe aus `angebot.ts` ("Jeden Donnerstag 5 Plätze — diese Woche noch
+ * 2 Plätze frei", schmal die Kurzfassung). Ansage Ayham: „Das kann weg. Das
+ * zieht nicht. Find heraus, ob du KI richtig nutzt, mehr nicht."
+ *
+ * Der Balken traegt seither **eine** Aussage und den Pfeil. Wer hier wieder
+ * einen Nachsatz einzieht, teilt die Aufmerksamkeit der Zeile, die als erstes
+ * gelesen wird — und wenn der Nachsatz eine Verfuegbarkeit behauptet, gilt
+ * wieder die Auflage aus `angebot.ts`: Sie muss mit dem Kalender
+ * uebereinstimmen (Anhang zu § 3 Abs. 3 UWG Nr. 7).
  */
 export interface Announcement {
   /** Kurzes Label in der weissen Pille, z. B. "NEU". Optional. */
   badge?: string;
-  /** Der fette Teil der Zeile — ohne Satzzeichen am Ende, der Doppelpunkt kommt aus der Komponente. */
-  lead: string;
-  /** Der leichte Teil dahinter. */
-  text: string;
   /**
-   * Kurzfassung fuer schmale Displays. Der Balken ist in der Vorlage auf dem
-   * Handy zweizeilig; die lange Fassung braucht dort drei Zeilen.
+   * Die ganze Zeile. Ohne Satzzeichen am Ende — dahinter kommt der Pfeil.
+   *
+   * ⚠️ Frueher war das nur der fette Teil vor einem Doppelpunkt, und der
+   * Nachsatz stand in `text`/`textKurz`. Beide Felder sind am 11.09.2026
+   * entfallen; der Doppelpunkt in der Komponente mit ihnen.
    */
-  textKurz: string;
+  lead: string;
   href: string;
 }
 
 export const announcement: Announcement | null = {
-  /* **Kein Badge mehr.** "NEU" kuendigte das Produkt an ("NEU: 1:1-KI-Check
+  /* **Kein Badge.** "NEU" kuendigte das Produkt an ("NEU: 1:1-KI-Check
      2026") — vor einer Aufforderung liest es sich schief, und auf dem Handy
      kostete es die entscheidenden 52 px: mit Badge lief die Zeile auf drei
      Zeilen aus (108 px), ohne bleibt der Balken bei den vorgesehenen zwei
@@ -54,11 +56,5 @@ export const announcement: Announcement | null = {
      einmal als Behauptung. Wer lieber die woertliche Fassung will: "gut" hier
      einsetzen, sonst aendert sich nichts. */
   lead: "Find heraus, ob du KI richtig nutzt",
-  /* Der Rhythmus steckt seit dem 12.08.2026 in `verfuegbarkeit()` selbst
-     ("Jeden Donnerstag 5 Plätze — diese Woche noch 2 Plätze frei"). Die Dauer
-     steht deshalb nicht mehr davor: Der Balken trägt eine Zeile, und die
-     Begrenzung ist dort die wichtigere Angabe als die 60 Minuten. */
-  text: verfuegbarkeit(),
-  textKurz: verfuegbarkeitKurz(),
   href: angebot.href,
 };

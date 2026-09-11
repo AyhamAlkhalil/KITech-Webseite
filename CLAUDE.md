@@ -281,14 +281,20 @@ Konstanten UPPER_SNAKE.
 
 ## Design-System
 
-**Dark-first.** `:root` und `.dark` sind beide near-black; ein klassisches
-Light-Mode gibt es nicht mehr. Tokens (HSL) in `src/index.css`:
-`--background` 0 0% 6% · `--foreground` 0 0% 97% · `--primary` 245 85% 62% ·
-`--accent` 85 70% 55% (Signal-Lime) · `--border` 0 0% 18%.
-Dazu `--solo-accent` (Amber) und `--enterprise-accent` (Lime).
+**Hell, ein Blau als Signal.** ⚠️ Hier stand bis zum 11.09.2026 „Dark-first"
+mit near-black-Tokens — das war seit dem Umbau auf die helle Vorlage falsch und
+hat mehrfach zu Fehlannahmen geführt. Der Stand in `src/index.css`, HSL:
+`--background` 0 0% 100% · `--foreground` 231 36% 12% · `--primary` 224 76% 44% ·
+`--border` 0 0% 89%. `:root` und `.dark` tragen dieselben Werte; ein zweites
+Farbschema gibt es nicht. Dazu `--surface` (0 0% 98%) und `--surface-strong`
+(0 0% 94%) als Sektionsgründe sowie `--solo-accent` und `--enterprise-accent`,
+beide im selben Blau. Der einzige dunkle Block der Website ist `CheckEinladung`
+am Fuß der Startseite (`bg-foreground`).
 
-**Schrift:** Onest als Body (`font-thin` als Default), „Recursive Variable" für
-Headlines (`kinetic-display`) und Zahlen (`kinetic-data`).
+**Schrift:** Poppins für alles — Body, Headlines (`kinetic-display`) und Zahlen
+(`kinetic-data`). ⚠️ Die Klassennamen stammen aus dem abgelösten
+Recursive-System und stehen an über hundert Stellen; sie bleiben als Namen und
+zeigen auf Poppins. Onest und „Recursive Variable" sind draußen.
 
 **Container:** `SITE_CONTAINER` (1180 px) für alles, `TEXT_CONTAINER` (760 px)
 für Fließtext (Rechtstexte, Glossar). Die Tailwind-`container`-Klasse (1280 px)

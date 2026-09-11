@@ -28,6 +28,18 @@
  *     wegfiel (an welcher Stelle sich Automatisierung lohnt, wo die Daten
  *     liegen), steht direkt darunter in der FAQ — es stand also zweimal da.
  *
+ * **Zweite Kürzung am 11.09.2026, auf Ansage:** „Das wirkt zu plump, wird
+ * einfach hingeklatscht. Mach den Satz kürzer, radikaler." Der Vorspann „Ich
+ * habe zu oft gesehen, wie …" ist weg, die Aussage beginnt jetzt bei der Zahl.
+ * „Mittelstand kann sich das nicht leisten" ist zu „Das kann sich kein
+ * Mittelständler leisten" geworden — dieselbe Aussage, aber an eine Person
+ * gerichtet statt an eine Branche. Die Fassung hat Ayham selbst gewählt; wer
+ * sie erneut anfasst, braucht wieder seine Ansage.
+ *
+ * Die Darstellung zog am selben Tag mit („mach das irgendwie zu mehr
+ * Highlights") — größer gesetzt, mit Signalstrich darüber. Sie steht in
+ * `components/sections/Gruenderwort.tsx`.
+ *
  * ⚠️ **Offen:** `absaetze` durch Ayhams Wortlaut ersetzen. Nur diese Datei
  * anfassen, die Komponente bleibt unberührt. Wer sie ersetzt, hält die Länge:
  * ein Satz pro Absatz.
@@ -91,14 +103,14 @@ export const gruenderwort: Gruenderwort = {
   ueberschrift: "Wer dahintersteht",
 
   zitat:
-    "Ich habe zu oft gesehen, wie sechsstellige Beträge in einer schicken Demo enden statt in der Bilanz. Mittelstand kann sich das nicht leisten.",
+    "Sechsstellige Beträge enden in einer schicken Demo statt in der Bilanz. Das kann sich kein Mittelständler leisten.",
 
   absaetze: [],
 
   abschluss: "Im 1:1-KI-Check sprichst du mit mir, nicht mit einem Vertrieb.",
 
   teamUeberschrift: "Das Team",
-  teamNamen: ["Ayham Alkhalil", "Leon", "Jörg Kratzat"],
+  teamNamen: ["Ayham Alkhalil", "Leon Battel", "Jörg Kratzat"],
 
   teamEinladung: "Du willst dabei sein?",
 };

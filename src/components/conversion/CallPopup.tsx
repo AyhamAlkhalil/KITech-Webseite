@@ -10,7 +10,7 @@ import {
   DialogDescription,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { angebot, verfuegbarkeitKurz } from "@/config/angebot";
+import { angebot, konditionen } from "@/config/angebot";
 import {
   callPopup,
   CALL_POPUP_MINDESTDAUER_MS,
@@ -215,7 +215,7 @@ export function CallPopup() {
 
         {/* Dieselbe Zeile wie unter dem Hero-Knopf — eine Quelle, siehe angebot.ts. */}
         <p className="mt-3 text-center text-mini font-normal text-muted-foreground">
-          Kostenlos · {angebot.dauer} · {verfuegbarkeitKurz()}
+          {konditionen()}
         </p>
 
         {/* Wie der Schließen-Knopf oben in einem `div`: `[&>button]:hidden`
