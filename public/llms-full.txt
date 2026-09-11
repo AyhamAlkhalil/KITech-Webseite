@@ -52,7 +52,7 @@ Was gebaut ist, muss laufen. Überwachung, Nachjustieren, Weiterentwicklung — 
 
 ### Agentenfähig gebaut
 
-Alle unsere Apps und Automatisierungen können per Claude und Codex bedient werden.
+Alle unsere Apps und Automatisierungen: bedienbar per Claude und Codex.
 
 - **Claude** (Anthropic)
 - **Codex** (OpenAI)

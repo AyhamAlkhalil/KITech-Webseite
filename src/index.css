@@ -321,10 +321,10 @@
   }
 
   /*
-    Der Agentenblock laeuft beim Hereinscrollen ein (11.09.2026, auf Ansage:
+    Der Agentenhinweis laeuft beim Hereinscrollen ein (11.09.2026, auf Ansage:
     "Mach da eine coole kleine Animation rein, aber da ist ja nur Text").
-    Gesetzt von `components/sections/Agentenfaehig.tsx` auf die Aussage und auf
-    die Markenreihe darunter.
+    Gesetzt von `components/sections/Agentenfaehig.tsx` auf die eine Zeile, die
+    der Block seit demselben Tag noch ist.
 
     **Scroll-getrieben, ohne JavaScript.** `animation-timeline: view()` bindet
     den Fortschritt an die Lage des Elements im Sichtfeld. Kein Beobachter, kein
@@ -337,10 +337,10 @@
          Startseite schon einmal 820 ms LCP gekostet (siehe `kinetic-morph-in`).
          Hier kommt dazu: Ohne Timeline-Unterstuetzung stuende der Text sonst
          dauerhaft unsichtbar da.
-      2. **Der Versatz laeuft ueber `animation-range`, nicht ueber
-         `animation-delay`.** Eine Verzoegerung in Sekunden hat bei einer
-         Timeline ohne Zeitachse keine Wirkung — beide Elemente kaemen
-         gleichzeitig an, weil sie fast gleichzeitig ins Bild laufen.
+      2. **Ein Versatz ueber `animation-delay` waere wirkungslos.** Eine
+         Verzoegerung in Sekunden greift bei einer Timeline ohne Zeitachse
+         nicht; gestaffelt wird ueber `animation-range`. Der Block braucht das
+         derzeit nicht — er ist eine Zeile.
       3. **`@supports` und `prefers-reduced-motion` rahmen alles ein.** Kennt
          der Browser die Timeline nicht oder hat der Besucher Bewegung
          abbestellt, passiert nichts: Der Text steht, wo er hingehoert.
@@ -362,17 +362,6 @@
         animation-range: entry 8% cover 26%;
       }
 
-      /* Der Versatz: erst die Aussage, dann die Marken darunter. Ohne den
-         kaemen beide im selben Moment an — sie stehen nur eine Zeile
-         auseinander und laufen fast gleichzeitig ins Bild.
-
-         ⚠️ Bis zum 11.09.2026 lief der Versatz ueber `:nth-child(2..4)`, weil
-         der Block damals vier Spalten hatte. Das haengt an der Stellung im
-         Elternelement und bricht still, sobald jemand eine Zeile einfuegt —
-         deshalb jetzt eine eigene Klasse fuer das spaetere Element. */
-      .agenten-einlauf-spaet {
-        animation-range: entry 16% cover 34%;
-      }
     }
   }
 

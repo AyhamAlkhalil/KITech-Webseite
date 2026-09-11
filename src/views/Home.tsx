@@ -244,7 +244,11 @@ export default function Home({
 
       {/* Direkt hinter dem Beweis (07.09.2026, auf Ansage): was jede dieser
           Anwendungen zusaetzlich kann. Die Stelle ist gewaehlt, nicht uebrig —
-          weiter unten stuende die Aussage hinter der Entscheidung. Inhalt:
+          weiter unten stuende die Aussage hinter der Entscheidung.
+
+          Seit dem 11.09.2026 ist das **eine Zeile**, kein Abschnitt: „einfach
+          so als Hinweis unter den Referenzen". Vier groessere Fassungen sind
+          vorher gescheitert, sie stehen im Kopf der Komponente. Inhalt:
           src/data/agentenfaehig.ts. */}
       <Agentenfaehig />
 

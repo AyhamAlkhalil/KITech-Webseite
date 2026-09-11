@@ -6,8 +6,9 @@ import { stackMarken } from "./stack-marken";
  * Startseite unter dem Kundenlaufband und auf `/referenzen` unter den
  * Kundenfällen.
  *
- * Angelegt am 07.09.2026 auf Ansage, am 11.09.2026 zweimal umgebaut. Der Stand
- * heute: **eine Aussage, zwei Marken, sonst nichts.**
+ * Angelegt am 07.09.2026 auf Ansage, am 11.09.2026 dreimal umgebaut. Der Stand
+ * heute: **eine Zeile unter den Referenzen** — Marker, Satz, Zeichen. Kein
+ * eigener Abschnitt mehr, keine Überschrift, keine Liste.
  *
  * ## Warum das hier steht und nicht in `client-results.ts`
  *
@@ -77,9 +78,14 @@ export interface AgentenMarke {
  */
 export const AGENTEN_LABEL = "Agentenfähig";
 
-/** Die Aussage. Wörtlich von Ayham (11.09.2026) — siehe Warnung im Kopf. */
+/**
+ * Die Aussage. Ayhams Satz vom 11.09.2026, am selben Tag auf Ansage gekürzt
+ * („knackiger, kürzer") — „können … bedient werden" ist zu „bedienbar per"
+ * geworden, sonst steht er unverändert da. Siehe Warnung im Kopf: Der Umfang
+ * („alle") ist das, was die Aussage trägt und was sie zur Zusicherung macht.
+ */
 export const AGENTEN_AUSSAGE =
-  "Alle unsere Apps und Automatisierungen können per Claude und Codex bedient werden.";
+  "Alle unsere Apps und Automatisierungen: bedienbar per Claude und Codex.";
 
 /**
  * Das Claude-Zeichen steht bereits im Hero-Laufband. Es wird von dort geholt

@@ -2,118 +2,88 @@ import { SITE_CONTAINER } from "@/components/layout/site-container";
 import { AGENTEN_AUSSAGE, AGENTEN_LABEL, agentenMarken } from "@/data/agentenfaehig";
 
 /**
- * „Alle unsere Apps und Automatisierungen können per Claude und Codex bedient
- * werden" — die Aussage groß, darunter die beiden Marken. Inhalt und die Regeln
- * dafür: `src/data/agentenfaehig.ts`.
+ * Der Agentenhinweis: **eine Zeile unter den Referenzen.** Marker, Satz,
+ * Markenzeichen. Inhalt und die Regeln dafür: `src/data/agentenfaehig.ts`.
  *
  * Steht auf der Startseite unter dem Kundenlaufband und auf `/referenzen` unter
- * den Kundenkarten. Beide Male direkt hinter dem Beweis: Wer gerade gelesen
- * hat, was wir gebaut haben, erfährt hier, was jedes dieser Dinge zusätzlich
- * kann.
+ * den Kundenkarten — direkt hinter dem Beweis, wo er hingehört: Wer gerade
+ * gelesen hat, was wir gebaut haben, erfährt hier in einem Satz, was jedes
+ * dieser Dinge zusätzlich kann.
  *
- * ## Was hier dreimal gescheitert ist
+ * ## ⚠️ Hier wird kein Abschnitt mehr daraus
  *
- * Der Block hatte am 07.09.2026 vier Zugänge mit je einem Erklärabsatz, dann
- * vier Zugänge mit je einem Satz, dann vier nackte Zeilen in einer Leiste mit
- * Trennstrichen. Alle drei Fassungen sind an derselben Stelle gescheitert
- * (Ansage 11.09.2026): „Der Abschnitt ist komisch — wieder nur Karten mit Text
- * drinne."
+ * Vier Fassungen sind an derselben Stelle gescheitert, alle am 07. und
+ * 11.09.2026:
  *
- * ⚠️ Daraus die Regel für diesen Block: **Hier kommt keine Liste mehr hinein.**
- * Weder als Kacheln noch als Spalten mit `divide-x`, auch nicht mit nur zwei
- * Wörtern je Spalte — eine Reihe gleich gebauter Textfelder liest sich als
- * Baukasten, egal wie kurz die Felder sind. Was der Block trägt, ist ein Satz
- * und zwei Zeichen.
+ *   1. Vier Zugänge mit je einem Erklärabsatz — „viel zu lang".
+ *   2. Vier Zugänge mit je einem Satz — „viel weiter kürzen".
+ *   3. Vier nackte Zeilen in einer Leiste mit Trennstrichen — „wieder nur
+ *      Karten mit Text drinne".
+ *   4. Große Aussage plus zwei Marken mit Herstellern — „extrem langweilig,
+ *      wieder fetter schwarzer Text und zwei Logos".
  *
- * Ebenfalls auf Ansage raus: der Knopf auf `llms.txt`. Er war der einzige
- * Beleg, den der Leser selbst aufmachen konnte — dafür hat der Block jetzt zwei
- * Marken, die jeder kennt. Die Datei wird weiter erzeugt und ausgeliefert, sie
- * steht nur nicht mehr hier.
+ * Die Ansage danach: „einfach so als Hinweis unter den Referenzen, nicht als
+ * eigener Abschnitt." Daraus folgt, was hier **nicht** wieder hineinkommt:
+ * keine eigene Überschrift, keine `<section>` mit `aria-labelledby`, keine
+ * Liste in irgendeiner Form, keine große Schrift, keine Hersteller unter den
+ * Markennamen. Der Block ist eine Fußnote zum Beweis darüber — nicht sein
+ * eigener Beweis.
  *
- * ## Das Label
+ * Wer ihn wieder aufbläst, holt sich die fünfte Fassung.
  *
- * Das Muster *Rechteck-Label → Überschrift → Erklärabsatz* ist als
- * Sektionsaufbau ausdrücklich raus (Vorgabe Ayham). Das Label bleibt trotzdem —
- * auf ebenso ausdrückliche Ansage vom 07.09.2026 („als kleines Button so oder
- * als kleines Label"): Es ist keine Kategorie über der Überschrift, sondern der
- * Marker selbst. Darunter folgt kein Erklärabsatz.
+ * ## Aufbau
  *
- * ## Die Bewegung
+ * Eine Zeile, oben mit einer Haarlinie vom Laufband abgesetzt: der Marker in
+ * der Signalfarbe, der Satz in der kleinen Textgröße, rechts die Zeichen der
+ * Marken. Auf schmalen Displays bricht die Zeile um; die Zeichen rutschen dann
+ * unter den Satz, nicht in ihn hinein.
  *
- * Aussage und Marken laufen beim Hereinscrollen versetzt von unten ein —
- * `agenten-einlauf` auf beiden, `agenten-einlauf-spaet` zusaetzlich auf der
- * Markenreihe, damit sie nach der Aussage ankommt (Regeln in `src/index.css`). Scroll-getrieben in CSS, ohne
- * JavaScript: Der Block bleibt eine Server Component, animiert wird
- * ausschließlich `transform`, und ohne Timeline-Unterstützung oder bei
- * `prefers-reduced-motion: reduce` passiert schlicht nichts.
+ * Die Bewegung ist geblieben (`agenten-einlauf`, Regeln in `src/index.css`):
+ * scroll-getrieben in CSS, ohne JavaScript, nur `transform`. Bei
+ * `prefers-reduced-motion: reduce` oder ohne Timeline-Unterstützung passiert
+ * nichts.
  *
  * ## Die Zeichen
  *
  * Einfarbig über `currentColor`, 24×24-Raster, Quelle wie im Hero-Laufband.
- * ⚠️ Fehlt ein Zeichen (`pfad: null`, derzeit Codex), rendert diese Komponente
- * an seiner Stelle **nichts** — keinen Kasten, keinen Rahmen, kein
- * Ersatzsymbol. Die Zeile hält die Höhe, damit beide Namen auf einer Linie
- * sitzen. Ein angedeutetes Logo wäre dasselbe Problem wie ein angedeutetes
- * Prüfzeichen: Es wirkt wie ein vorhandenes.
- *
- * Kein JSON-LD: Es gibt keinen Schema.org-Typ für „diese Software hat einen
- * Agentenzugang". Was es gäbe, wäre `SoftwareApplication` — das würde die
- * Bauweise zu einem Produkt erklären, das es so nicht gibt.
+ * ⚠️ Fehlt eines (`pfad: null`, derzeit Codex), rendert diese Komponente an
+ * seiner Stelle **nichts** — keinen Kasten, kein Ersatzsymbol. Der Name steht
+ * ohnehin im Satz. Begründung in `data/agentenfaehig.ts`.
  */
 export function Agentenfaehig() {
+  const zeichen = agentenMarken.filter((marke) => marke.pfad);
+
   return (
-    <section
-      id="agentenfaehig"
-      className={`${SITE_CONTAINER} scroll-mt-8 pb-16 pt-12 sm:pb-20 sm:pt-16`}
-      aria-labelledby="agentenfaehig-heading"
-    >
-      {/* Der Marker. Eckig, in der Signalfarbe, `w-fit` — er soll die Zeile
-          nicht füllen, sondern in ihr stehen. */}
-      <p className="inline-flex w-fit bg-primary px-3 py-1.5 text-mini font-bold uppercase tracking-[0.1em] text-primary-foreground">
-        {AGENTEN_LABEL}
-      </p>
+    <div id="agentenfaehig" className={`${SITE_CONTAINER} scroll-mt-8 pb-12 sm:pb-14`}>
+      <div className="agenten-einlauf flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-border pt-5">
+        {/* Der Marker. Eckig, klein, in der Signalfarbe — er ersetzt die
+            Überschrift, die dieser Block bewusst nicht mehr hat. */}
+        <span className="bg-primary px-2 py-0.5 text-mini font-bold uppercase tracking-[0.1em] text-primary-foreground">
+          {AGENTEN_LABEL}
+        </span>
 
-      {/* Größer als die bisherigen Fassungen: Der Satz ist jetzt der Block.
-          `max-w` hält ihn auf zwei bis drei Zeilen — über die volle
-          Containerbreite gelesen, verliert eine Aussage ihre Wucht. */}
-      <h2
-        id="agentenfaehig-heading"
-        className="agenten-einlauf kinetic-display mt-6 max-w-[900px] text-balance text-[28px] leading-[1.12] text-foreground sm:text-[40px] dt:text-[48px]"
-      >
-        {AGENTEN_AUSSAGE}
-      </h2>
+        {/* `min-w-0` lässt den Satz umbrechen, statt die Zeichen aus der Zeile
+            zu schieben — dieselbe Regel wie in jeder Zeile aus Text und
+            Beiwerk. */}
+        <p className="min-w-0 flex-1 text-mini font-normal text-muted-foreground">
+          {AGENTEN_AUSSAGE}
+        </p>
 
-      {/*
-        Die Marken. Bewusst kein Raster, keine Trennlinien, keine Kästen: zwei
-        Zeichen mit Namen, weit gesetzt, mit Luft darum. Auf dem Handy
-        untereinander, ab `sm` nebeneinander.
-
-        `gap-x-14` statt einer Trennlinie — der Abstand ordnet die beiden
-        Marken, ohne einen Strich zu setzen, der sie wieder zu Spalten macht.
-      */}
-      <ul className="agenten-einlauf agenten-einlauf-spaet mt-12 flex flex-col gap-y-8 sm:flex-row sm:flex-wrap sm:items-start sm:gap-x-14">
-        {agentenMarken.map((marke) => (
-          <li key={marke.id} className="flex flex-col">
-            {/*
-              Feste Höhe, damit die Namen beider Marken auf einer Linie sitzen —
-              auch solange für eine kein Zeichen vorliegt. Dort steht dann
-              einfach Luft, siehe Warnung im Kopf.
-            */}
-            <div className="flex h-11 items-center" aria-hidden="true">
-              {marke.pfad && (
-                <svg viewBox="0 0 24 24" className="h-10 w-10 text-foreground" fill="currentColor">
-                  <path d={marke.pfad} />
-                </svg>
-              )}
-            </div>
-
-            <p className="kinetic-display mt-4 text-[26px] leading-none text-foreground sm:text-[30px]">
-              {marke.name}
-            </p>
-            <p className="mt-2 text-mini font-normal text-muted-foreground">{marke.hersteller}</p>
-          </li>
-        ))}
-      </ul>
-    </section>
+        {zeichen.length > 0 && (
+          <span className="flex shrink-0 items-center gap-3" aria-hidden="true">
+            {zeichen.map((marke) => (
+              <svg
+                key={marke.id}
+                viewBox="0 0 24 24"
+                className="h-[18px] w-[18px] text-foreground/70"
+                fill="currentColor"
+              >
+                <path d={marke.pfad as string} />
+              </svg>
+            ))}
+          </span>
+        )}
+      </div>
+    </div>
   );
 }
