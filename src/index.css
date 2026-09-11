@@ -323,7 +323,8 @@
   /*
     Der Agentenblock laeuft beim Hereinscrollen ein (11.09.2026, auf Ansage:
     "Mach da eine coole kleine Animation rein, aber da ist ja nur Text").
-    Gesetzt von `components/sections/Agentenfaehig.tsx`.
+    Gesetzt von `components/sections/Agentenfaehig.tsx` auf die Aussage und auf
+    die Markenreihe darunter.
 
     **Scroll-getrieben, ohne JavaScript.** `animation-timeline: view()` bindet
     den Fortschritt an die Lage des Elements im Sichtfeld. Kein Beobachter, kein
@@ -338,8 +339,8 @@
          dauerhaft unsichtbar da.
       2. **Der Versatz laeuft ueber `animation-range`, nicht ueber
          `animation-delay`.** Eine Verzoegerung in Sekunden hat bei einer
-         Timeline ohne Zeitachse keine Wirkung — die vier Spalten kaemen am
-         Desktop gleichzeitig an, weil sie gleichzeitig ins Bild laufen.
+         Timeline ohne Zeitachse keine Wirkung — beide Elemente kaemen
+         gleichzeitig an, weil sie fast gleichzeitig ins Bild laufen.
       3. **`@supports` und `prefers-reduced-motion` rahmen alles ein.** Kennt
          der Browser die Timeline nicht oder hat der Besucher Bewegung
          abbestellt, passiert nichts: Der Text steht, wo er hingehoert.
@@ -353,15 +354,6 @@
     to { transform: translateY(0); }
   }
 
-  @keyframes agenten-strich {
-    from { transform: scaleX(0); }
-    to { transform: scaleX(1); }
-  }
-
-  .agenten-strich {
-    transform-origin: left center;
-  }
-
   @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) {
       .agenten-einlauf {
@@ -370,16 +362,16 @@
         animation-range: entry 8% cover 26%;
       }
 
-      /* Der Versatz der vier Spalten. Am Desktop stehen sie nebeneinander und
-         kaemen sonst alle im selben Moment an. */
-      .agenten-einlauf:nth-child(2) { animation-range: entry 12% cover 30%; }
-      .agenten-einlauf:nth-child(3) { animation-range: entry 16% cover 34%; }
-      .agenten-einlauf:nth-child(4) { animation-range: entry 20% cover 38%; }
+      /* Der Versatz: erst die Aussage, dann die Marken darunter. Ohne den
+         kaemen beide im selben Moment an — sie stehen nur eine Zeile
+         auseinander und laufen fast gleichzeitig ins Bild.
 
-      .agenten-strich {
-        animation: agenten-strich 1s linear both;
-        animation-timeline: view();
-        animation-range: entry 12% cover 32%;
+         ⚠️ Bis zum 11.09.2026 lief der Versatz ueber `:nth-child(2..4)`, weil
+         der Block damals vier Spalten hatte. Das haengt an der Stellung im
+         Elternelement und bricht still, sobald jemand eine Zeile einfuegt —
+         deshalb jetzt eine eigene Klasse fuer das spaetere Element. */
+      .agenten-einlauf-spaet {
+        animation-range: entry 16% cover 34%;
       }
     }
   }

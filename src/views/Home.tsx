@@ -12,7 +12,6 @@ import { Konformitaet } from "@/components/sections/Konformitaet";
 import { faq } from "@/data/faq";
 import { teamRoster } from "@/data/team";
 import { angebot, konditionen } from "@/config/angebot";
-import { WegeBlock } from "@/components/sections/WegeBlock";
 import { WeiterlesenBlock } from "@/components/sections/WeiterlesenBlock";
 import type { ArtikelTeaser } from "@/lib/wissen/empfehlungen";
 
@@ -255,16 +254,20 @@ export default function Home({
           kommen. Inhalte in src/data/gruenderwort.ts bzw. src/data/faq.ts. */}
       <Gruenderwort />
 
-      {/* Die Weiche (27.08.2026): Aus dem Inhalt der Startseite fuehrte kein
-          einziger Link auf /solo, /enterprise oder /leistungen — sie standen
-          nur in Kopf- und Fusszeile. Begruendung im Kopf von WegeBlock.tsx.
+      {/* ⚠️ Hier stand bis zum 11.09.2026 die Weiche auf /solo, /enterprise und
+          /leistungen („Der naechste Schritt ist ein anderer, je nachdem wer
+          fragt."). Auf Ansage komplett raus.
 
-          Hier und nicht weiter unten: Wer gerade gelesen hat, wer hinter der
-          Firma steht, fragt als naechstes, was das fuer jemanden wie ihn heisst.
-          Die offenen Fragen darunter raeumen dann den Rest weg, bevor der
-          Knopf kommt. */}
-      <WegeBlock />
+          Was das kostet, damit es niemand versehentlich wieder einbaut und
+          genauso wenig versehentlich vergisst: Aus dem *Inhalt* der Startseite
+          fuehrt seither wieder kein einziger Link auf diese drei Seiten — sie
+          haengen nur noch in Kopf- und Fusszeile, und das wertet Google
+          deutlich schwaecher als einen Verweis im Text. Genau deswegen war der
+          Block am 27.08.2026 entstanden. Die Komponente bleibt unter
+          `components/sections/WegeBlock.tsx` liegen, unbenutzt.
 
+          `routes.test.ts` faellt deshalb nicht: Der Test prueft die Navigation,
+          nicht die Verlinkung aus dem Inhalt. */}
       <FaqBlock />
 
       {/* Der Schluss (17.08.2026, auf Ansage): was in der halben Stunde passiert

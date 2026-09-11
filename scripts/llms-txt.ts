@@ -6,8 +6,7 @@ import { siteRoutes } from "../src/config/navigation.js";
 import { services, techStack } from "../src/data/services.js";
 import {
   AGENTEN_AUSSAGE,
-  agentenBeleg,
-  bedienwege,
+  agentenMarken,
 } from "../src/data/agentenfaehig.js";
 import { principles, commitments } from "../src/data/principles.js";
 import { clientResults } from "../src/data/client-results.js";
@@ -284,12 +283,12 @@ export function baueKurz(): string {
  */
 function agentenZeilen(): string[] {
   const zeilen = [AGENTEN_AUSSAGE, ""];
-  for (const weg of bedienwege) zeilen.push(`- **${weg.titel}**`);
+  for (const marke of agentenMarken) zeilen.push(`- **${marke.name}** (${marke.hersteller})`);
   /* Der Beleg-Satz ohne seine Adresse: Auf der Website führt er zu `llms.txt`,
      und dieser Verweis ist genau hier zirkulär — die Datei, die der Leser
      gerade offen hat. Die maschinenlesbaren Quellen stehen ohnehin weiter
      unten unter eigener Überschrift. */
-  zeilen.push("", `${agentenBeleg.satz} Diese Datei ist der Beleg dafür.`);
+  zeilen.push("", "Diese Website liefert ihren eigenen Inhalt maschinenlesbar aus — diese Datei ist der Beleg dafür.");
   return zeilen;
 }
 

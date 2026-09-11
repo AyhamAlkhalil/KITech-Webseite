@@ -1,84 +1,74 @@
+import { stackMarken } from "./stack-marken";
+
 /**
- * „Alles, was wir bauen, ist agentenfähig" — die Bauweise jeder Anwendung, die
- * wir ausliefern. Gezeigt von `components/sections/Agentenfaehig.tsx` auf der
+ * „Alle unsere Apps und Automatisierungen können per Claude und Codex bedient
+ * werden" — gezeigt von `components/sections/Agentenfaehig.tsx` auf der
  * Startseite unter dem Kundenlaufband und auf `/referenzen` unter den
  * Kundenfällen.
  *
- * Angelegt am 07.09.2026 auf Ansage: „Ich möchte, dass meine Webseite
- * anspricht, dass all meine Produkte agentenfähig sind, KI-fähig sind. Ein SaaS
- * oder eine Webseite oder ein Portal — die sind alle fähig, dass Agenten und
- * KIs damit arbeiten können. Alle Anwendungen sind agentenfähig, können von
- * einer KI per Sprachnachricht, per MCP-Server oder per irgendwas natürlicher
- * Sprache bedient werden."
+ * Angelegt am 07.09.2026 auf Ansage, am 11.09.2026 zweimal umgebaut. Der Stand
+ * heute: **eine Aussage, zwei Marken, sonst nichts.**
  *
  * ## Warum das hier steht und nicht in `client-results.ts`
  *
  * Dieselbe Trennung wie bei `microsoft-loesungen.ts`: Was hier steht, ist eine
- * Aussage über **uns** — wie wir bauen. Was in `client-results.ts` steht, ist
- * eine Aussage über einen **Kunden**. Es gibt bis heute keinen Referenzfall, in
- * dessen `openPoints` ein Agentenzugang bestätigt wäre; ein Label „agentenfähig"
- * auf einer Kundenkarte wäre deshalb eine Behauptung über fremde Software.
- * Deshalb steht der Block **unter** den Karten und als eigener Abschnitt, nicht
- * als Marker in ihnen.
+ * Aussage über **uns**. Was in `client-results.ts` steht, ist eine Aussage über
+ * einen **Kunden**. Es gibt bis heute keinen Referenzfall, in dessen
+ * `openPoints` ein Agentenzugang bestätigt wäre; ein Label „agentenfähig" auf
+ * einer Kundenkarte wäre deshalb eine Behauptung über fremde Software.
  *
- * ## Warum die Aussage als Bauweise formuliert ist
+ * ## ⚠️ Die Aussage ist eine Zusicherung, kein Werbesatz
  *
- * Die Ansage lautet „alle Produkte sind agentenfähig". Als Bestandsangabe über
- * jede jemals ausgelieferte Anwendung wäre das eine Zusicherung, die im
- * Streitfall der Werbende darlegen muss (§ 5 Abs. 1 UWG) — und die
- * Portale von 2026 haben diesen Zugang nicht nachträglich bekommen. Als Aussage
- * darüber, **wie wir bauen**, stimmt sie ohne Einschränkung und sagt dasselbe:
- * Wer bei uns bestellt, bekommt den Zugang mitgeliefert.
+ * „Alle unsere Apps und Automatisierungen" ist Ayhams Wortlaut (Ansage
+ * 11.09.2026) und bleibt es. Wer sie anfasst, muss wissen, was sie trägt: Das
+ * ist eine Bestandsangabe über **jede** ausgelieferte Anwendung. Im Streitfall
+ * muss der Werbende sie darlegen (§ 5 Abs. 1 UWG) — und zwar für jede App, die
+ * jemand vorzeigt, auch für die Portale von 2026.
  *
- * ⚠️ Wer daraus „jedes unserer Produkte hat einen MCP-Server" macht, dreht eine
- * Leistungsbeschreibung in eine Bestandsbehauptung. Sobald ein Referenzfall den
- * Zugang belegt, gehört er als Fall nach `client-results.ts` — dann trägt ihn
- * ein Kunde mit Namen, und der ist mehr wert als jede Zeile hier.
+ * Die Fassung bis zum 11.09.2026 lautete deshalb „Alles, was wir bauen, ist
+ * agentenfähig" — eine Aussage über die Bauweise, die ohne Einschränkung
+ * stimmte. Die neue ist die stärkere Verkaufsaussage und die schwächere
+ * Rechtsposition. Das ist eine bewusste Entscheidung, keine Unachtsamkeit.
  *
- * ## Regeln für Einträge
+ * ## Die Marken
  *
- *   - **Keine Kennzahlen, keine Kunden.** Gleiche Grenze wie bei
- *     `microsoft-loesungen.ts`.
- *   - **Nur Zugänge, die wir tatsächlich so bauen.** Auf der Gegenseite sitzt
- *     zunehmend jemand, der MCP kennt; ein erfundener Weg fällt beim ersten
- *     Rückfragen auf.
- *   - **Technische Sprache, keine Agentur-Sprache.** Der Bestand steht
- *     ohnehin 161:4 auf „KI" gegen klassische IT-Begriffe (siehe CLAUDE.md).
- *     Dieser Block schiebt weiter in Richtung KI — deshalb ist er in der
- *     Sprache eines Systemhauses geschrieben: Schnittstelle, Rechte, Protokoll.
- *     Wer ihn „begeisternder" formuliert, verschiebt die Positionierung.
- *   - **Produktnamen zeichengenau:** Microsoft 365 Copilot, Power Automate,
- *     Model Context Protocol (MCP).
+ * Zwei, mehr nicht: **Claude** (Anthropic) und **Codex** (OpenAI). Beide
+ * bedienen unsere Anwendungen über dieselbe Schnittstelle; die Namen sind
+ * zeichengenau zu führen.
  *
- * ## Zweite Kürzung am 11.09.2026 (Ansage: „viel knackiger, viel kürzer, viel
- * salesmäßiger")
+ * ⚠️ **Für Codex fehlt das Symbol als Datei** (Stand 11.09.2026). Das
+ * Claude-Zeichen liegt als freigegebener Pfad im Repo und kommt hier aus
+ * derselben Quelle wie das Hero-Laufband (`stack-marken.ts`) — eine Marke, ein
+ * Pfad. Ein OpenAI-Zeichen gibt es dort nicht: Simple Icons führt es in
+ * Fassung 16 nicht mehr (3459 Symbole, keines davon OpenAI), und
+ * Markenzeichen werden dort auf Verlangen des Inhabers entfernt.
  *
- * Der Block bestand aus Label, Aussage, Einordnungssatz, vier Zugängen mit je
- * einem Erklärsatz und dem Beleg. Übrig sind Label, Aussage, **vier nackte
- * Zugänge** und der Beleg.
+ * **Nicht nachbauen.** Dieselbe Regel wie bei den Prüfzeichen unter
+ * `public/images/siegel/`: Ein nachgezeichnetes Markenlogo ist auch mit wahrer
+ * Aussage eine Markenverletzung. Die Datei kommt aus dem Brand-Kit des
+ * Herstellers; bis dahin steht der Name allein, und die Komponente hält den
+ * Platz dafür frei, ohne ihn zu markieren.
  *
- *   - `AGENTEN_EINORDNUNG` ist ersatzlos weg. Der Satz nannte den Umfang
- *     („SaaS, Portal, interne Fachanwendung"); die Überschrift sagt „alles".
- *   - `Bedienweg.text` ist weg. Jeder Zugang steht jetzt in drei bis fünf
- *     Wörtern da. Was dabei fiel, war unter anderem der Rechtesatz zum
- *     MCP-Zugang — die stärkste Einzelaussage des Blocks. ⚠️ Sie gehört in das
- *     Gespräch, nicht zurück auf die Startseite: Wer sie hier wieder einzieht,
- *     macht die Kürzung rückgängig, für die es zwei Ansagen gab (07. und
- *     11.09.2026).
- *   - Der Beleg bleibt. Beim Kürzen fällt Fülltext, nie ein Beleg.
+ * Die Marken stehen beschreibend für das, womit unsere Anwendungen bedient
+ * werden — nicht als Partnerlogo, nicht als Zertifizierung, nicht als
+ * Empfehlung dieser Hersteller.
  */
 
-export interface Bedienweg {
+export interface AgentenMarke {
   /** Kurzes Kürzel, nur als React-Key. */
   id: string;
+  /** Produktname, zeichengenau wie beim Hersteller. */
+  name: string;
+  /** Wer es herausgibt. Steht klein unter dem Namen. */
+  hersteller: string;
   /**
-   * Der ganze Eintrag: der Zugang als Aussage, drei bis fünf Wörter.
+   * SVG-Pfad im 24×24-Raster, einfarbig über `currentColor`.
    *
-   * ⚠️ Kein zweites Feld dazu. Der Erklärsatz, der hier bis zum 11.09.2026 als
-   * `text` stand, ist auf Ansage gestrichen — vier Zeilen Fließtext waren der
-   * Grund, warum der Block als „viel zu lang" gemeldet wurde.
+   * `null` heißt: kein freigegebenes Zeichen vorhanden. Dann rendert die
+   * Komponente an dieser Stelle nichts — keinen Kasten, kein Ersatzsymbol,
+   * keinen Schriftzug im Logo-Look. Siehe Warnung im Kopf dieser Datei.
    */
-  titel: string;
+  pfad: string | null;
 }
 
 /**
@@ -87,31 +77,18 @@ export interface Bedienweg {
  */
 export const AGENTEN_LABEL = "Agentenfähig";
 
-/** Die Aussage. Steht als Überschrift des Blocks. */
-export const AGENTEN_AUSSAGE = "Alles, was wir bauen, ist agentenfähig.";
-
-export const bedienwege: Bedienweg[] = [
-  { id: "mcp", titel: "MCP-Server ab Werk" },
-  { id: "sprache", titel: "Bedienbar per Sprachnachricht" },
-  { id: "frage", titel: "Gefragt wird in Worten" },
-  { id: "anschluss", titel: "Microsoft 365 Copilot hängt dran" },
-];
+/** Die Aussage. Wörtlich von Ayham (11.09.2026) — siehe Warnung im Kopf. */
+export const AGENTEN_AUSSAGE =
+  "Alle unsere Apps und Automatisierungen können per Claude und Codex bedient werden.";
 
 /**
- * Der Beleg — und zwar einer, den der Leser in drei Sekunden selbst prüft.
- *
- * ⚠️ Bewusst als **absolute** Adresse: `llms.txt` liegt unter `public/` und ist
- * keine Route im App Router. Ein interner Link `/llms.txt` würde von
- * `routes.test.ts` als toter Link gemeldet, weil dort keine `page.tsx` steht.
- *
- * Warum ausgerechnet diese Datei: Sie ist die maschinenlesbare Fassung dieser
- * Website, wird bei jeder Inhaltsänderung neu erzeugt (`npm run llms`) und
- * belegt damit an einem echten Beispiel genau das, was der Block behauptet.
- * Eine Aussage über Maschinenlesbarkeit ohne maschinenlesbaren Beleg wäre die
- * schwächste Stelle der ganzen Seite.
+ * Das Claude-Zeichen steht bereits im Hero-Laufband. Es wird von dort geholt
+ * und nicht kopiert: Tauscht Ayham es gegen ein Original des Herstellers, zieht
+ * dieser Block automatisch mit.
  */
-export const agentenBeleg = {
-  satz: "Diese Website liefert ihren eigenen Inhalt maschinenlesbar aus.",
-  linkLabel: "llms.txt ansehen",
-  href: "https://kitech-software.de/llms.txt",
-};
+const claudeZeichen = stackMarken.find((marke) => marke.name === "Claude")?.pfad ?? null;
+
+export const agentenMarken: AgentenMarke[] = [
+  { id: "claude", name: "Claude", hersteller: "Anthropic", pfad: claudeZeichen },
+  { id: "codex", name: "Codex", hersteller: "OpenAI", pfad: null },
+];

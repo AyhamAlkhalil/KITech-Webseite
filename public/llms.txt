@@ -39,14 +39,12 @@ Was gebaut ist, muss laufen. Überwachung, Nachjustieren, Weiterentwicklung — 
 
 ## Agentenfähig gebaut
 
-Alles, was wir bauen, ist agentenfähig.
+Alle unsere Apps und Automatisierungen können per Claude und Codex bedient werden.
 
-- **MCP-Server ab Werk**
-- **Bedienbar per Sprachnachricht**
-- **Gefragt wird in Worten**
-- **Microsoft 365 Copilot hängt dran**
+- **Claude** (Anthropic)
+- **Codex** (OpenAI)
 
-Diese Website liefert ihren eigenen Inhalt maschinenlesbar aus. Diese Datei ist der Beleg dafür.
+Diese Website liefert ihren eigenen Inhalt maschinenlesbar aus — diese Datei ist der Beleg dafür.
 
 ## Referenzen
 

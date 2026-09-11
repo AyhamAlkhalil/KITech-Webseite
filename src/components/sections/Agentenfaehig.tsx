@@ -1,69 +1,60 @@
 import { SITE_CONTAINER } from "@/components/layout/site-container";
-import {
-  AGENTEN_AUSSAGE,
-  AGENTEN_LABEL,
-  agentenBeleg,
-  bedienwege,
-} from "@/data/agentenfaehig";
+import { AGENTEN_AUSSAGE, AGENTEN_LABEL, agentenMarken } from "@/data/agentenfaehig";
 
 /**
- * „Alles, was wir bauen, ist agentenfähig" — vier Zugänge als Leiste, darunter
- * der Beleg. Inhalt und die Regeln dafür: `src/data/agentenfaehig.ts`.
+ * „Alle unsere Apps und Automatisierungen können per Claude und Codex bedient
+ * werden" — die Aussage groß, darunter die beiden Marken. Inhalt und die Regeln
+ * dafür: `src/data/agentenfaehig.ts`.
  *
  * Steht auf der Startseite unter dem Kundenlaufband und auf `/referenzen` unter
  * den Kundenkarten. Beide Male direkt hinter dem Beweis: Wer gerade gelesen
  * hat, was wir gebaut haben, erfährt hier, was jedes dieser Dinge zusätzlich
- * kann. Weiter unten stünde es hinter der Entscheidung.
+ * kann.
  *
- * ## Zum Label
+ * ## Was hier dreimal gescheitert ist
+ *
+ * Der Block hatte am 07.09.2026 vier Zugänge mit je einem Erklärabsatz, dann
+ * vier Zugänge mit je einem Satz, dann vier nackte Zeilen in einer Leiste mit
+ * Trennstrichen. Alle drei Fassungen sind an derselben Stelle gescheitert
+ * (Ansage 11.09.2026): „Der Abschnitt ist komisch — wieder nur Karten mit Text
+ * drinne."
+ *
+ * ⚠️ Daraus die Regel für diesen Block: **Hier kommt keine Liste mehr hinein.**
+ * Weder als Kacheln noch als Spalten mit `divide-x`, auch nicht mit nur zwei
+ * Wörtern je Spalte — eine Reihe gleich gebauter Textfelder liest sich als
+ * Baukasten, egal wie kurz die Felder sind. Was der Block trägt, ist ein Satz
+ * und zwei Zeichen.
+ *
+ * Ebenfalls auf Ansage raus: der Knopf auf `llms.txt`. Er war der einzige
+ * Beleg, den der Leser selbst aufmachen konnte — dafür hat der Block jetzt zwei
+ * Marken, die jeder kennt. Die Datei wird weiter erzeugt und ausgeliefert, sie
+ * steht nur nicht mehr hier.
+ *
+ * ## Das Label
  *
  * Das Muster *Rechteck-Label → Überschrift → Erklärabsatz* ist als
- * Sektionsaufbau ausdrücklich raus (Vorgabe Ayham). Hier steht trotzdem ein
- * Label — auf ebenso ausdrückliche Ansage vom 07.09.2026 („als kleines Button
- * so oder als kleines Label"). Der Unterschied, wegen dem beides zusammengeht:
- * Das Label ist keine Kategorie über der Überschrift, sondern der Marker selbst
- * („Agentenfähig" ist die Eigenschaft, um die es geht), und darunter folgt kein
- * Erklärabsatz, sondern direkt die Aussage und die vier Zugänge. Wer hier einen
- * Absatz einzieht, hat genau das Muster wieder da.
- *
- * ⚠️ **Kurz ist hier die Vorgabe, nicht der Zufall** — zwei Ansagen, 07.09.2026
- * („Absatz agentenfähig viel weiter kürzen") und 11.09.2026 („viel knackiger,
- * viel kürzer, viel salesmäßiger"). Übrig sind Label, Aussage, vier Zugänge zu
- * je drei bis fünf Wörtern und der Beleg. Der Einordnungssatz ist weg, die
- * Erklärsätze unter den Zugängen sind weg. Was blieb, ist der Beleg — nach der
- * Hausregel wird beim Kürzen Fülltext gestrichen, nie ein Beleg. Wer einen
- * Zugang wieder ausformuliert, macht beide Kürzungen rückgängig.
+ * Sektionsaufbau ausdrücklich raus (Vorgabe Ayham). Das Label bleibt trotzdem —
+ * auf ebenso ausdrückliche Ansage vom 07.09.2026 („als kleines Button so oder
+ * als kleines Label"): Es ist keine Kategorie über der Überschrift, sondern der
+ * Marker selbst. Darunter folgt kein Erklärabsatz.
  *
  * ## Die Bewegung
  *
- * „Mach da eine coole kleine Animation rein, aber da ist ja nur Text"
- * (11.09.2026). Also bewegt sich der Text selbst: Die vier Zugänge laufen beim
- * Hereinscrollen versetzt von unten ein, der Signalstrich über jedem wächst
- * dabei von links auf seine Breite.
+ * Aussage und Marken laufen beim Hereinscrollen versetzt von unten ein —
+ * `agenten-einlauf` auf beiden, `agenten-einlauf-spaet` zusaetzlich auf der
+ * Markenreihe, damit sie nach der Aussage ankommt (Regeln in `src/index.css`). Scroll-getrieben in CSS, ohne
+ * JavaScript: Der Block bleibt eine Server Component, animiert wird
+ * ausschließlich `transform`, und ohne Timeline-Unterstützung oder bei
+ * `prefers-reduced-motion: reduce` passiert schlicht nichts.
  *
- * Umgesetzt **ohne JavaScript** über eine scroll-getriebene CSS-Animation
- * (`animation-timeline: view()`, Regeln in `src/index.css`). Drei Gründe:
+ * ## Die Zeichen
  *
- *   1. Der Block bliebe sonst keine Server Component. Die Startseite hat
- *      bereits sechs Client-Inseln, und ihr Bundle ist der gemessene Grund,
- *      warum der LCP dort bei rund vier Sekunden liegt.
- *   2. Animiert wird ausschließlich `transform` — nie `opacity`. Ein
- *      durchsichtiges Element zählt Chrome nicht als gezeichnet; genau das hat
- *      auf dieser Seite schon einmal 820 ms LCP gekostet.
- *   3. Kennt ein Browser die Timeline nicht, passiert schlicht nichts: Der
- *      `@supports`-Block greift nicht, der Text steht da, wo er stehen soll.
- *      Dasselbe bei `prefers-reduced-motion: reduce`.
- *
- * Gestaltung nach der Hausregel: Trennlinien statt Kacheln, nichts abgerundet,
- * kein Icon im Quadrat. Die Leiste folgt bewusst demselben Aufbau wie
- * `Konformitaet` — vier kurze Angaben nebeneinander, senkrecht getrennt. Der
- * ausführliche Zeilenaufbau von `MicrosoftLoesungen` wäre hier falsch: Auf
- * `/referenzen` stehen beide Blöcke untereinander, und zweimal dasselbe Muster
- * liest sich als ein einziger langer Block.
- *
- * Der Beleg-Link ist der „Button" aus der Ansage: eckig, mit Rahmen, mit Ziel.
- * Ein Knopf ohne Ziel wäre an dieser Stelle Dekoration — und `llms.txt` ist der
- * einzige Beleg für Maschinenlesbarkeit, den der Leser sofort selbst aufmacht.
+ * Einfarbig über `currentColor`, 24×24-Raster, Quelle wie im Hero-Laufband.
+ * ⚠️ Fehlt ein Zeichen (`pfad: null`, derzeit Codex), rendert diese Komponente
+ * an seiner Stelle **nichts** — keinen Kasten, keinen Rahmen, kein
+ * Ersatzsymbol. Die Zeile hält die Höhe, damit beide Namen auf einer Linie
+ * sitzen. Ein angedeutetes Logo wäre dasselbe Problem wie ein angedeutetes
+ * Prüfzeichen: Es wirkt wie ein vorhandenes.
  *
  * Kein JSON-LD: Es gibt keinen Schema.org-Typ für „diese Software hat einen
  * Agentenzugang". Was es gäbe, wäre `SoftwareApplication` — das würde die
@@ -73,7 +64,7 @@ export function Agentenfaehig() {
   return (
     <section
       id="agentenfaehig"
-      className={`${SITE_CONTAINER} scroll-mt-8 pb-14 pt-12 sm:pb-16 sm:pt-16`}
+      className={`${SITE_CONTAINER} scroll-mt-8 pb-16 pt-12 sm:pb-20 sm:pt-16`}
       aria-labelledby="agentenfaehig-heading"
     >
       {/* Der Marker. Eckig, in der Signalfarbe, `w-fit` — er soll die Zeile
@@ -82,61 +73,47 @@ export function Agentenfaehig() {
         {AGENTEN_LABEL}
       </p>
 
+      {/* Größer als die bisherigen Fassungen: Der Satz ist jetzt der Block.
+          `max-w` hält ihn auf zwei bis drei Zeilen — über die volle
+          Containerbreite gelesen, verliert eine Aussage ihre Wucht. */}
       <h2
         id="agentenfaehig-heading"
-        className="kinetic-display mt-5 max-w-[820px] text-balance text-[30px] leading-[1.15] text-foreground sm:text-h2"
+        className="agenten-einlauf kinetic-display mt-6 max-w-[900px] text-balance text-[28px] leading-[1.12] text-foreground sm:text-[40px] dt:text-[48px]"
       >
         {AGENTEN_AUSSAGE}
       </h2>
 
-      {/* Vier Spalten erst ab `dt`. Bei zwei Spalten trennt nur die waagerechte
-          Linie — senkrechte Striche brauchen `gap-x`, und der schiebt die
-          Spalten bei `sm` unnötig auseinander. Gleiche Rechnung wie in
-          `Konformitaet`.
+      {/*
+        Die Marken. Bewusst kein Raster, keine Trennlinien, keine Kästen: zwei
+        Zeichen mit Namen, weit gesetzt, mit Luft darum. Auf dem Handy
+        untereinander, ab `sm` nebeneinander.
 
-          `agenten-einlauf` ist die Bewegung (siehe Kopf). Sie sitzt auf dem
-          `li`, damit der Versatz der vier Spalten über `nth-child` läuft —
-          `animation-delay` greift bei einer scroll-getriebenen Animation
-          nicht, der Versatz muss über `animation-range` kommen. */}
-      <ul className="mt-8 grid divide-y divide-border border-y border-border sm:grid-cols-2 sm:gap-x-10 dt:grid-cols-4 dt:gap-x-0 dt:divide-x dt:divide-y-0">
-        {bedienwege.map((weg) => (
-          <li
-            key={weg.id}
-            className="agenten-einlauf flex flex-col py-5 dt:px-5 dt:py-6 dt:first:pl-0 dt:last:pr-0"
-          >
-            {/* Der Strich ordnet die Spalte, ohne ein Symbol zu erfinden, das
-                nichts bedeutet. Er wächst beim Hereinscrollen von links auf. */}
-            <span className="agenten-strich h-[3px] w-8 bg-primary" aria-hidden="true" />
+        `gap-x-14` statt einer Trennlinie — der Abstand ordnet die beiden
+        Marken, ohne einen Strich zu setzen, der sie wieder zu Spalten macht.
+      */}
+      <ul className="agenten-einlauf agenten-einlauf-spaet mt-12 flex flex-col gap-y-8 sm:flex-row sm:flex-wrap sm:items-start sm:gap-x-14">
+        {agentenMarken.map((marke) => (
+          <li key={marke.id} className="flex flex-col">
+            {/*
+              Feste Höhe, damit die Namen beider Marken auf einer Linie sitzen —
+              auch solange für eine kein Zeichen vorliegt. Dort steht dann
+              einfach Luft, siehe Warnung im Kopf.
+            */}
+            <div className="flex h-11 items-center" aria-hidden="true">
+              {marke.pfad && (
+                <svg viewBox="0 0 24 24" className="h-10 w-10 text-foreground" fill="currentColor">
+                  <path d={marke.pfad} />
+                </svg>
+              )}
+            </div>
 
-            <h3 className="mt-4 text-fliess font-bold leading-snug text-foreground">
-              {weg.titel}
-            </h3>
+            <p className="kinetic-display mt-4 text-[26px] leading-none text-foreground sm:text-[30px]">
+              {marke.name}
+            </p>
+            <p className="mt-2 text-mini font-normal text-muted-foreground">{marke.hersteller}</p>
           </li>
         ))}
       </ul>
-
-      {/* Beleg und Knopf in einer Zeile — aber erst ab `sm`.
-          ⚠️ Bei 360 px nachgesehen: Mit `flex-1` von Anfang an blieben dem Satz
-          neben dem 187 px breiten Knopf noch 131 px, und er brach auf vier
-          Wortfetzen um. Deshalb `w-full` bis `sm` (der Knopf rutscht darunter)
-          und erst darüber die gemeinsame Zeile. `min-w-0` bleibt: ohne das
-          gibt der Text nicht nach, sondern schiebt den Knopf aus dem Bild. */}
-      <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
-        <p className="w-full min-w-0 text-fliess font-normal text-muted-foreground sm:w-auto sm:flex-1">
-          {agentenBeleg.satz}
-        </p>
-
-        {/* `min-h` statt `h`: die Beschriftung steht in der Datendatei und kann
-            länger werden — bei fester Höhe liefe sie oben und unten heraus. */}
-        <a
-          href={agentenBeleg.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex min-h-[44px] shrink-0 items-center justify-center border border-border px-5 py-2 text-fliess font-bold text-foreground transition-colors hover:border-primary hover:text-primary"
-        >
-          {agentenBeleg.linkLabel} →
-        </a>
-      </div>
     </section>
   );
 }
