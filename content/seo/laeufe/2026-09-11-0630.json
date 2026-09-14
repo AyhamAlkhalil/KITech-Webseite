@@ -1,0 +1,19 @@
+{
+  "id": "2026-09-11-0630",
+  "gestartet": "2026-09-11T06:30:01.915Z",
+  "modus": "auto",
+  "themen": [
+    "forschungszulage-ki-projekt"
+  ],
+  "artikel": [],
+  "fehler": [
+    "forschungszulage-ki-projekt: serp/google/organic/live/advanced (Task): 40101 Internal SE Server Error."
+  ],
+  "kosten": {
+    "dataforseoUsd": 0.12992,
+    "firecrawlCredits": 0,
+    "claudeTokenEin": 0,
+    "claudeTokenAus": 0
+  },
+  "beendet": "2026-09-11T06:30:23.648Z"
+}

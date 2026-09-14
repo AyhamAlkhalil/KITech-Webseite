@@ -1,0 +1,28 @@
+{
+  "id": "2026-09-10-0630",
+  "gestartet": "2026-09-10T06:30:02.217Z",
+  "modus": "auto",
+  "themen": [
+    "prozesse-automatisieren-ohne-it-abteilung"
+  ],
+  "artikel": [
+    {
+      "slug": "prozesse-automatisieren-unternehmen-ohne-it",
+      "titel": "Prozesse automatisieren im Unternehmen gelingt ohne IT-Team über Ablaufsteuerung",
+      "status": "entwurf",
+      "durchgaenge": 0,
+      "harteFehler": 0,
+      "warnungen": 10
+    }
+  ],
+  "fehler": [
+    "Tests oder Build nach dem Ablegen fehlgeschlagen"
+  ],
+  "kosten": {
+    "dataforseoUsd": 0.13007,
+    "firecrawlCredits": 5,
+    "claudeTokenEin": 29753,
+    "claudeTokenAus": 8305
+  },
+  "beendet": "2026-09-10T06:33:50.497Z"
+}

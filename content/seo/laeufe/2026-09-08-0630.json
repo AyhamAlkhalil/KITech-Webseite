@@ -1,0 +1,28 @@
+{
+  "id": "2026-09-08-0630",
+  "gestartet": "2026-09-08T06:30:01.769Z",
+  "modus": "auto",
+  "themen": [
+    "reasoning-modell-token-falle"
+  ],
+  "artikel": [
+    {
+      "slug": "reasoning-modell-kosten-token-budget",
+      "titel": "Reasoning Modell Kosten werden beim Umstieg oft falsch kalkuliert",
+      "status": "veroeffentlicht",
+      "durchgaenge": 0,
+      "harteFehler": 0,
+      "warnungen": 2
+    }
+  ],
+  "fehler": [
+    "Auslieferung: Tests oder Build nach dem Statuswechsel fehlgeschlagen"
+  ],
+  "kosten": {
+    "dataforseoUsd": 0.13007,
+    "firecrawlCredits": 8,
+    "claudeTokenEin": 27603,
+    "claudeTokenAus": 7110
+  },
+  "beendet": "2026-09-08T06:32:09.864Z"
+}

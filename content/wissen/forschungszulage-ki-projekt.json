@@ -1,0 +1,223 @@
+{
+  "slug": "forschungszulage-ki-projekt",
+  "titel": "Forschungszulage für KI-Projekte hängt am Forschungsanteil",
+  "teaser": "Bei KI-Projekten entscheidet nicht der Modellname, sondern der technische Unsicherheitsanteil. Der Text trennt Fördersatz, Entwicklung, Umsetzung und Nachweise für die Forschungszulage im Antrag sauber voneinander.",
+  "kategorie": "Förderung",
+  "cluster": "foerderung-und-finanzierung",
+  "zielKeyword": "forschungszulage ki projekt",
+  "sekundaerKeywords": [],
+  "datum": "2026-09-14",
+  "aktualisiert": "2026-09-14",
+  "lesezeit": 5,
+  "autor": "ayham-alkhalil",
+  "intro": "Der häufigste Irrtum ist, dass ein KI-Etikett das ganze Projekt förderfähig macht. Forschungszulage ist eine steuerliche Gutschrift für nachweisbare Forschung und Entwicklung. Dieser Artikel trennt Fördersatz, Prüflogik und Projektteile, die bei Software auseinanderfallen.",
+  "abschnitte": [
+    {
+      "heading": "25 oder 35 Prozent, was gilt für KI-Projekte?",
+      "paragraphs": [
+        "Für ein KI-Projekt gilt 25 Prozent der förderfähigen Aufwendungen, für kleine und mittlere Unternehmen 35 Prozent. Der höhere Satz hängt am Unternehmen und an den Kosten, nicht am Begriff KI.",
+        "Die Forschungszulage ist kein Zuschusswettbewerb, sondern ein steuerlicher Rechtsanspruch. In der Förderlandschaft ist sie deshalb anders zu lesen als Programme mit Budgettopf, Stichtag und Rangfolge.",
+        "Der Antrag zerfällt in zwei Fragen: Welche Arbeit war Forschung und Entwicklung, und welche Aufwendungen gehören genau dazu. Erst danach lohnt sich die Rechnung mit 25 Prozent oder 35 Prozent."
+      ],
+      "unterabschnitte": []
+    },
+    {
+      "heading": "Was zählt bei einem KI-Projekt überhaupt als Forschung?",
+      "paragraphs": [
+        "Förderfähig ist der Entwicklungsanteil, in dem ein Betrieb ein technisches Problem noch nicht auf bekanntem Weg lösen kann. Bei KI-Software liegt dieser Anteil in der Modellbewertung, im Umgang mit schlechten Daten oder in einer neuen Fehlerlogik.",
+        "Der Prototyp gehört nur dazu, solange er eine offene technische Frage prüft. Sobald jemand Masken baut, Rollen vergibt oder ein Standardprodukt einrichtet, beginnt Umsetzung.",
+        "Die Gegenprobe ist einfach: Nenne den Vorgang, an dem die Unsicherheit hängt. Wenn die Antwort nur „das Sprachmodell soll besser werden“ lautet, fehlt die Abgrenzung."
+      ],
+      "unterabschnitte": []
+    },
+    {
+      "heading": "Welche Teile einer Softwareentwicklung fallen heraus?",
+      "paragraphs": [
+        "Heraus fallen Arbeiten, die ein fachkundiges Team mit bekannten Mitteln erledigt. Das gilt auch dann, wenn das fertige Produkt später künstliche Intelligenz nutzt.",
+        "Bei Software entsteht der Fehler in der Zeitbuchung. Ein Entwickler prüft morgens eine neue Bewertungslogik und richtet nachmittags Rechte in Microsoft 365 ein, aber beide Stunden landen auf demselben Projekt."
+      ],
+      "unterabschnitte": [],
+      "tabelle": {
+        "kopf": [
+          "Arbeit",
+          "Einordnung"
+        ],
+        "zeilen": [
+          [
+            "Neue Erkennungslogik für fehlerhafte Rechnungsdaten",
+            "Forschung und Entwicklung, wenn ein technisches Risiko offen bleibt"
+          ],
+          [
+            "Standardanbindung an ERP oder CRM",
+            "Umsetzung, wenn Schnittstellen und Datenfelder bekannt sind"
+          ],
+          [
+            "Bereinigung alter Kundendaten",
+            "Datenpflege, wenn keine neue technische Methode entsteht"
+          ],
+          [
+            "Produktivsetzung, Schulung und Betrieb",
+            "Projektrest, weil Nutzung und Betreuung beginnen"
+          ],
+          [
+            "Reine Anpassung von Rollen und Masken",
+            "Routine, wenn nur Vorgaben umgesetzt werden"
+          ]
+        ]
+      }
+    },
+    {
+      "heading": "Wie prüft die Bescheinigungsstelle Forschungszulage ein KI-Vorhaben?",
+      "paragraphs": [
+        "Die Bescheinigungsstelle Forschungszulage prüft zuerst, ob das KI-Vorhaben Forschung und Entwicklung enthält. Das Finanzamt setzt danach die Zulage auf Basis der bescheinigten und belegten Aufwendungen fest.",
+        "Die Bescheinigungsstelle entscheidet spätestens drei Monate nach der Eingangsbestätigung. Für das Finanzamt bleibt danach die Frage offen, ob Löhne, Aufträge und Kosten richtig zugeordnet wurden.",
+        "Für die Forschungszulage bei KI-Projekten reicht daher keine Beschreibung der späteren Bedienoberfläche. Entscheidend ist die technische Frage, die vor dem Projekt noch offen war."
+      ],
+      "bullets": [
+        "Liegt technische Neuheit gegenüber bekannten Lösungen vor?",
+        "Bleibt ein technisches Risiko trotz fachkundiger Planung offen?",
+        "Folgt die Arbeit einem geplanten und dokumentierten Versuchsweg?",
+        "Zielt das Vorhaben auf verwertbares technisches Wissen?"
+      ],
+      "unterabschnitte": []
+    },
+    {
+      "heading": "Welche Unterlagen braucht man für die Abgrenzung des Forschungsanteils?",
+      "paragraphs": [
+        "Für die Abgrenzung zählen Unterlagen, die Arbeitsschritte und Entscheidungen sichtbar machen. Eine Projektbeschreibung allein reicht selten, wenn sie nur Ziele und Funktionen nennt.",
+        "Hilfreich sind Zielbild, technische Unsicherheiten, Arbeitspakete, Versuchsschleifen, verworfene Ansätze und Ergebnisse. Wer die praktische Prüfung, Dokumentation oder Antragserstellung vorbereitet, braucht vor allem eine saubere Trennung der Arbeit.",
+        "Ein tragfähiger Nachweis benennt auch den Projektrest. Standardanbindung, Schulung, Betrieb und spätere Pflege gehören in die Akte, aber nicht in denselben Fördertopf."
+      ],
+      "unterabschnitte": []
+    },
+    {
+      "heading": "Was ändert sich ab 2026 bei der Forschungszulage?",
+      "paragraphs": [
+        "Für Vorhaben, die ab dem 31. Dezember 2025 beginnen, gilt zusätzlich eine Gemeinkostenpauschale von 20 Prozent auf direkte Projektkosten. Damit können Nebenkosten pauschal in die Berechnung einfließen.",
+        "Ab dem 1. Januar 2026 beträgt die maximale Bemessungsgrundlage 12 Millionen Euro pro Wirtschaftsjahr und Unternehmensgruppe. Für kleine und mittlere Unternehmen folgt daraus eine Zulage von bis zu 4,2 Millionen Euro pro Jahr.",
+        "Die Bemessungsgrundlage ändert nicht die Forschungsfrage. Sie erhöht nur den Rahmen, in dem ein sauber abgegrenzter Forschungsanteil zählt."
+      ],
+      "unterabschnitte": []
+    },
+    {
+      "heading": "Was passiert bei Ablehnung oder Rückfrage?",
+      "paragraphs": [
+        "Bei Rückfragen zählt die Nachvollziehbarkeit der technischen Abgrenzung. Nachforderungen, Kürzungen und Ablehnungen sind normale Stationen, wenn Antrag, Bescheinigung und Kostenbelege nicht sauber zusammenpassen.",
+        "Eine rückwirkende Beantragung ist bis zu vier Jahre möglich. Rückwirkung ersetzt aber keine Projektlogik, weil spätere Erinnerung technische Unsicherheit schlechter belegt als eine laufende Projektdokumentation.",
+        "Bei einem konkreten Projekt eine Einzelfrage zu klären, heißt: Kostenstelle, Arbeitspaket und technisches Risiko nebeneinanderlegen. Erst dann wird sichtbar, ob eine Korrektur trägt."
+      ],
+      "unterabschnitte": []
+    }
+  ],
+  "kernaussagen": [
+    "Bei der Forschungszulage für KI-Projekte zählt nicht das Etikett KI, sondern der nachweisbare Anteil an Forschung und Entwicklung.",
+    "Der Fördersatz beträgt 25 Prozent der förderfähigen Aufwendungen und 35 Prozent für kleine und mittlere Unternehmen.",
+    "Standardanbindung, Datenpflege, Produktivsetzung, Schulung und Betrieb gehören zum Projektrest, nicht zum förderfähigen Forschungsanteil.",
+    "Die Bescheinigungsstelle Forschungszulage prüft das technische Vorhaben, das Finanzamt prüft danach die zugeordneten Aufwendungen."
+  ],
+  "fazit": "Die Forschungszulage für KI-Projekte ist kein Etikettenbonus: Bezahlt wird nur der sauber belegte Forschungsanteil, nicht der ganze Projektrahmen.",
+  "faq": [
+    {
+      "frage": "Ist die Forschungszulage 25 Prozent oder 35 Prozent?",
+      "antwort": "Die Forschungszulage beträgt 25 Prozent der förderfähigen Aufwendungen. Für kleine und mittlere Unternehmen gilt ein erhöhter Satz von 35 Prozent. Entscheidend ist nicht, ob ein Projekt künstliche Intelligenz nutzt. Entscheidend ist, welche Aufwendungen zu einem anerkannten Anteil an Forschung und Entwicklung gehören."
+    },
+    {
+      "frage": "Was fällt unter die Forschungszulage?",
+      "antwort": "Unter die Forschungszulage fällt der Anteil eines Vorhabens, der Forschung und Entwicklung darstellt. Bei KI-Software kann das eine neue Bewertungslogik, ein technischer Versuch mit unsicheren Daten oder eine ungelöste Modellgrenze sein. Standardanbindung, reine Anpassung, Datenpflege, Schulung, Betrieb und spätere Wartung gehören in der Regel nicht dazu."
+    },
+    {
+      "frage": "Welche Änderungen gibt es bei der Forschungszulage ab 2026?",
+      "antwort": "Für Vorhaben, die ab dem 31. Dezember 2025 beginnen, gilt eine Gemeinkostenpauschale von 20 Prozent auf direkte Projektkosten. Ab dem 1. Januar 2026 beträgt die maximale Bemessungsgrundlage 12 Millionen Euro pro Wirtschaftsjahr und Unternehmensgruppe. Für kleine und mittlere Unternehmen kann daraus eine Zulage von bis zu 4,2 Millionen Euro pro Jahr folgen."
+    },
+    {
+      "frage": "Was prüft das Finanzamt bei der Forschungszulage?",
+      "antwort": "Das Finanzamt prüft die steuerliche Festsetzung der Forschungszulage. Die fachliche Bescheinigung zum Vorhaben kommt vorher von der Bescheinigungsstelle Forschungszulage. Danach geht es beim Finanzamt um förderfähige Aufwendungen, Zuordnung der Kosten, Nachweise, Lohnanteile, Auftragskosten und die Frage, ob der beantragte Betrag zur Bescheinigung passt."
+    }
+  ],
+  "quellen": [
+    {
+      "bezeichnung": "grantonomy.de – „Forschungszulage – Faktenblatt für KI & Suche“",
+      "url": "https://www.grantonomy.de/llms",
+      "abgerufen": "2026-09-14",
+      "belegt": "Die Forschungszulage beträgt 25 Prozent der förderfähigen Aufwendungen und 35 Prozent für kleine und mittlere Unternehmen."
+    },
+    {
+      "bezeichnung": "grantonomy.de – „Forschungszulage – Faktenblatt für KI & Suche“",
+      "url": "https://www.grantonomy.de/llms",
+      "abgerufen": "2026-09-14",
+      "belegt": "Für ab dem 31. Dezember 2025 beginnende Vorhaben gilt eine Gemeinkostenpauschale von 20 Prozent auf direkte Projektkosten."
+    },
+    {
+      "bezeichnung": "grantonomy.de – „Forschungszulage – Faktenblatt für KI & Suche“",
+      "url": "https://www.grantonomy.de/llms",
+      "abgerufen": "2026-09-14",
+      "belegt": "Die maximale Bemessungsgrundlage beträgt ab 1. Januar 2026 12 Millionen Euro pro Wirtschaftsjahr und Unternehmensgruppe."
+    },
+    {
+      "bezeichnung": "grantonomy.de – „Forschungszulage – Faktenblatt für KI & Suche“",
+      "url": "https://www.grantonomy.de/llms",
+      "abgerufen": "2026-09-14",
+      "belegt": "Für kleine und mittlere Unternehmen liegt die maximale Zulage bei bis zu 4,2 Millionen Euro pro Jahr."
+    },
+    {
+      "bezeichnung": "grantonomy.de – „Forschungszulage – Faktenblatt für KI & Suche“",
+      "url": "https://www.grantonomy.de/llms",
+      "abgerufen": "2026-09-14",
+      "belegt": "Die Forschungszulage ist ein steuerlicher Rechtsanspruch und kein wettbewerbliches Förderprogramm."
+    },
+    {
+      "bezeichnung": "grantonomy.de – „Forschungszulage – Faktenblatt für KI & Suche“",
+      "url": "https://www.grantonomy.de/llms",
+      "abgerufen": "2026-09-14",
+      "belegt": "Eine rückwirkende Beantragung ist bis zu vier Jahre möglich."
+    },
+    {
+      "bezeichnung": "steinbeis-beratungszentrum.com – „KI-Forschungszulage: Was die BSFZ wirklich prüft“",
+      "url": "https://steinbeis-beratungszentrum.com/ki-foerdermittel/",
+      "abgerufen": "2026-09-14",
+      "belegt": "Die Bescheinigungsstelle Forschungszulage prüft KI-Vorhaben nach vier Kriterien."
+    },
+    {
+      "bezeichnung": "steinbeis-beratungszentrum.com – „KI-Forschungszulage: Was die BSFZ wirklich prüft“",
+      "url": "https://steinbeis-beratungszentrum.com/ki-foerdermittel/",
+      "abgerufen": "2026-09-14",
+      "belegt": "Die Bescheinigungsstelle Forschungszulage entscheidet spätestens drei Monate nach der Eingangsbestätigung."
+    }
+  ],
+  "interneLinks": [
+    {
+      "ziel": "/gratis-wissen/thema/foerderung-und-finanzierung",
+      "ankertext": "Förderlandschaft",
+      "abschnitt": 0
+    },
+    {
+      "ziel": "/glossar",
+      "ankertext": "Bemessungsgrundlage",
+      "abschnitt": 5
+    },
+    {
+      "ziel": "/leistungen",
+      "ankertext": "praktische Prüfung, Dokumentation oder Antragserstellung",
+      "abschnitt": 4
+    },
+    {
+      "ziel": "/kontakt",
+      "ankertext": "konkreten Projekt eine Einzelfrage",
+      "abschnitt": 6
+    }
+  ],
+  "substanz": {
+    "art": "primaerquelle",
+    "beschreibung": "Das Instrument, das von den Digitalisierungsprogrammen übrig geblieben ist: Steuergutschrift statt Zuschuss, zweistufig über Bescheinigungsstelle und Finanzamt — und die Frage, welcher Teil einer Softwareentwicklung überhaupt als Forschung zählt.",
+    "herkunft": "Forschungszulagengesetz im Wortlaut: 25 Prozent im Grundsatz, 35 Prozent für kleine und mittlere Unternehmen, zweistufiges Verfahren. Eigene Auswertung, Stand 19.08.2026."
+  },
+  "cta": {
+    "heading": "Das war die Theorie.",
+    "text": "Dann bekommt ihr eine fachliche Einschätzung zu Antrag, Aufwand und Nachweisen für euer Vorhaben."
+  },
+  "status": "veroeffentlicht",
+  "freigabe": {
+    "von": "Ayham Alkhalil",
+    "am": "2026-09-14"
+  }
+}

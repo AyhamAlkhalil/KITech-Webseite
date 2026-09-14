@@ -2,7 +2,7 @@
 
 > Automatisierungen und individuelle Softwarelösungen für den deutschen Mittelstand. Sitz in Hannover. Gebaut wird, was im Tagesgeschäft läuft — betrieben in europäischer Region über AWS oder Azure mit Auftragsverarbeitungsvertrag oder auf eigener Hardware.
 
-Stand: 08.09.2026. Diese Datei wird aus den Datenquellen der Website erzeugt (`npm run llms`) und beschreibt deshalb denselben Stand wie die Seiten.
+Stand: 14.09.2026. Diese Datei wird aus den Datenquellen der Website erzeugt (`npm run llms`) und beschreibt deshalb denselben Stand wie die Seiten.
 
 ## Unternehmen
 
@@ -66,6 +66,7 @@ Diese Website liefert ihren eigenen Inhalt maschinenlesbar aus — diese Datei i
 
 - [Prozesse automatisieren](https://kitech-software.de/gratis-wissen/thema/prozessautomatisierung) — Welche Abläufe sich automatisieren lassen, was das kostet, und woran die meisten Automatisierungen im Betrieb scheitern. (1 Artikel)
 - [KI und Datenschutz](https://kitech-software.de/gratis-wissen/thema/ki-und-datenschutz) — Nicht was im Gesetz steht, sondern wie es im System umgesetzt wird: Löschpfade, Berechtigungen, Anonymisierung vor dem Prompt. (1 Artikel)
+- [Förderung für Digitalisierung und KI](https://kitech-software.de/gratis-wissen/thema/foerderung-und-finanzierung) — Was es 2026 noch gibt, was ausgelaufen ist, und welches Instrument zu welchem Projekt passt. (1 Artikel)
 - [Softwareentwicklung mit KI](https://kitech-software.de/gratis-wissen/thema/ki-gestuetzte-entwicklung) — Wie ein KI-Assistent ein gewachsenes Firmenprojekt versteht: Projektdokumentation, Agenten, Prüfschritte — aus dem täglichen Einsatz. (1 Artikel)
 - [KI-Betrieb: Cloud, eigene Hardware, Souveränität](https://kitech-software.de/gratis-wissen/thema/ki-betrieb) — Wo ein Modell laufen soll, wenn Betriebsgeheimnisse im Spiel sind — und was die drei Wege tatsächlich kosten. (1 Artikel)
 - [KI-Strategie und warum Projekte scheitern](https://kitech-software.de/gratis-wissen/thema/ki-strategie) — Die Muster, an denen KI-Vorhaben regelmäßig hängenbleiben — und was die erfolgreichen anders gemacht haben. (2 Artikel)
@@ -75,6 +76,7 @@ Diese Website liefert ihren eigenen Inhalt maschinenlesbar aus — diese Datei i
 
 ## Artikel
 
+- [Forschungszulage für KI-Projekte hängt am Forschungsanteil](https://kitech-software.de/gratis-wissen/forschungszulage-ki-projekt) — Bei KI-Projekten entscheidet nicht der Modellname, sondern der technische Unsicherheitsanteil. Der Text trennt Fördersatz, Entwicklung, Umsetzung und Nachweise für die Forschungszulage im Antrag sauber voneinander. (Ayham Alkhalil, 14.09.2026)
 - [Reasoning Modell Kosten werden beim Umstieg oft falsch kalkuliert](https://kitech-software.de/gratis-wissen/reasoning-modell-kosten-token-budget) — Dasselbe Token-Budget trägt bei OpenAI und Anthropic nicht gleich weit. Wer sichtbaren Text kalkuliert, übersieht Denk-Token — und bezahlt abgebrochene Läufe oft erst nachts im Betrieb. (Ayham Alkhalil, 08.09.2026)
 - [KI-Beratung in Hannover: wie ein Erstgespräch abläuft](https://kitech-software.de/gratis-wissen/ki-beratung-hannover-wie-ein-erstgespraech-ablaeuft) — 30 Minuten, fünf Plätze in der Woche, immer donnerstags. Was darin geprüft wird, in welcher Reihenfolge — und woran man merkt, dass es nicht passt. (Ayham Alkhalil, 26.08.2026)
 - [E-Rechnung ab 1.1.2027: wer versenden muss und was bis dahin zu tun ist](https://kitech-software.de/gratis-wissen/e-rechnung-ab-1-1-2027-wer-versenden-muss-und-was-bis-dahin-zu-tun-ist) — Zum Stichtag beginnt keine Pflicht, es endet eine Erlaubnis. Was der Gesetzestext an drei Stellen genauer sagt als die Ratgeber darüber — und was bis dahin stehen muss. (Ayham Alkhalil, 24.08.2026)

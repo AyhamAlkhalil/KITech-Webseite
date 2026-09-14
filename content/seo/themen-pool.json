@@ -42,7 +42,8 @@
       "herkunft": "Offizielle Einstellungsmeldung zu Digital Jetzt, Abschaltung des Förderportals zum 31.03.2026; eigener Abgleich der verbliebenen Instrumente, Stand 19.08.2026."
     },
     "prioritaet": 3,
-    "notiz": "Bestandsartikel im Netz beschreiben überwiegend noch Antragswege, die es nicht mehr gibt — die Aktualität ist hier das ganze Argument."
+    "notiz": "Bestandsartikel im Netz beschreiben überwiegend noch Antragswege, die es nicht mehr gibt — die Aktualität ist hier das ganze Argument.",
+    "erledigt": "digital-jetzt-alternative"
   },
   {
     "id": "rag-system-unternehmen",
@@ -66,7 +67,8 @@
       "herkunft": "Eigene Website: Ereignis-Route unter src/app/api/ereignis/route.ts und der exportierte Workflow deploy/n8n-benachrichtigung.json im selben Repo — vier Knoten, importierbar statt nachbaubar."
     },
     "prioritaet": 5,
-    "notiz": "Kein Ideenkatalog. Der Artikel führt einen einzigen, vollständig belegten Ablauf vor und leitet daraus die Bauregeln ab."
+    "notiz": "Kein Ideenkatalog. Der Artikel führt einen einzigen, vollständig belegten Ablauf vor und leitet daraus die Bauregeln ab.",
+    "erledigt": "prozesse-automatisieren-unternehmen-ohne-it"
   },
   {
     "id": "ki-beratung-hannover",
@@ -95,7 +97,8 @@
       "herkunft": "Forschungszulagengesetz im Wortlaut: 25 Prozent im Grundsatz, 35 Prozent für kleine und mittlere Unternehmen, zweistufiges Verfahren. Eigene Auswertung, Stand 19.08.2026."
     },
     "prioritaet": 7,
-    "notiz": "Prozentsätze und Bemessungsgrenzen vor der Veröffentlichung am Gesetzestext gegenprüfen. Kein Antragsstichtag, deshalb ganzjährig tragfähig."
+    "notiz": "Prozentsätze und Bemessungsgrenzen vor der Veröffentlichung am Gesetzestext gegenprüfen. Kein Antragsstichtag, deshalb ganzjährig tragfähig.",
+    "erledigt": "forschungszulage-ki-projekt"
   },
   {
     "id": "claude-md-richtig-schreiben",

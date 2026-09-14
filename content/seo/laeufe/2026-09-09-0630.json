@@ -1,0 +1,28 @@
+{
+  "id": "2026-09-09-0630",
+  "gestartet": "2026-09-09T06:30:02.540Z",
+  "modus": "auto",
+  "themen": [
+    "digital-jetzt-alternative"
+  ],
+  "artikel": [
+    {
+      "slug": "digital-jetzt-alternative",
+      "titel": "Eine digital jetzt alternative muss wirklich offen sein",
+      "status": "entwurf",
+      "durchgaenge": 1,
+      "harteFehler": 0,
+      "warnungen": 5
+    }
+  ],
+  "fehler": [
+    "Tests oder Build nach dem Ablegen fehlgeschlagen"
+  ],
+  "kosten": {
+    "dataforseoUsd": 0.13019,
+    "firecrawlCredits": 6,
+    "claudeTokenEin": 35659,
+    "claudeTokenAus": 12283
+  },
+  "beendet": "2026-09-09T06:33:13.682Z"
+}

@@ -2,7 +2,7 @@
 
 > Automatisierungen und individuelle Softwarelösungen für den deutschen Mittelstand.
 
-Stand: 08.09.2026. Erzeugt aus den Datenquellen der Website (`npm run llms`). Was hier steht, steht auch auf einer Seite.
+Stand: 14.09.2026. Erzeugt aus den Datenquellen der Website (`npm run llms`). Was hier steht, steht auch auf einer Seite.
 
 ---
 
@@ -233,7 +233,7 @@ Zehn Jahre Konzernerfahrung und sieben Jahre Praxiserfahrung in der Entwicklung 
 - Profil: https://kitech-software.de/autoren/ayham-alkhalil
 - LinkedIn: https://www.linkedin.com/in/ayham-alkhalil-66bb451b5
 - Themen: Prozessautomatisierung, KI-Integration in bestehende Systeme, RAG-Systeme auf Unternehmensdaten, KI-Betrieb unter DSGVO und EU AI Act, Individualsoftware mit Next.js und Supabase, KI-gestützte Softwareentwicklung
-- Artikel: 9
+- Artikel: 10
 
 ### Leon Battel — Technischer Manager
 
@@ -258,6 +258,12 @@ Welche Abläufe sich automatisieren lassen, was das kostet, und woran die meiste
 Nicht was im Gesetz steht, sondern wie es im System umgesetzt wird: Löschpfade, Berechtigungen, Anonymisierung vor dem Prompt.
 
 - **[Besucher melden, ohne am Cookie-Banner vorbeizugehen](https://kitech-software.de/gratis-wissen/besucher-melden-ohne-cookie-banner)** — Wer wissen will, wer gerade auf der Seite ist, landet schnell bei einem Cookie-Banner. Es gibt eine Ebene darunter — und die verläuft an einer anderen Grenze. (Ayham Alkhalil, 21.08.2026)
+
+### Förderung für Digitalisierung und KI
+
+Was es 2026 noch gibt, was ausgelaufen ist, und welches Instrument zu welchem Projekt passt.
+
+- **[Forschungszulage für KI-Projekte hängt am Forschungsanteil](https://kitech-software.de/gratis-wissen/forschungszulage-ki-projekt)** — Bei KI-Projekten entscheidet nicht der Modellname, sondern der technische Unsicherheitsanteil. Der Text trennt Fördersatz, Entwicklung, Umsetzung und Nachweise für die Forschungszulage im Antrag sauber voneinander. (Ayham Alkhalil, 14.09.2026)
 
 ### Softwareentwicklung mit KI
 
