@@ -160,7 +160,38 @@ export default function Datenschutz() {
             </div>
 
             <div>
-              <h2 className="text-xl font-semibold mb-3">6. Ihre Rechte</h2>
+              <h2 className="text-xl font-semibold mb-3">6. Selbstcheck zum EU AI Act</h2>
+              <p className="text-muted-foreground mb-4">
+                Auf der Seite „Selbstcheck EU AI Act" beantworten Sie acht Fragen zum Stand Ihrer
+                KI-Pflichten. Senden Sie den Check ab, übermitteln wir Ihre Angaben
+                (<strong>Name, Unternehmen, E-Mail-Adresse</strong>), Ihre acht Antworten sowie
+                die Seite, von der Sie kamen, und eine etwaige Kampagnenkennung an uns. Ihre
+                IP-Adresse steht weder in der Auswertung noch in der E-Mail; der Server hält
+                sie für wenige Minuten im Arbeitsspeicher, um Missbrauch des Formulars
+                abzuwehren, und verwirft sie danach.
+              </p>
+              <p className="text-muted-foreground mb-4">
+                Aus den Antworten erstellen wir eine Auswertung als PDF und senden sie an ein
+                internes Postfach. <strong>Das Ergebnis wird Ihnen auf der Seite nicht
+                angezeigt</strong> — wir sehen es uns an und melden uns bei Ihnen unter der
+                angegebenen E-Mail-Adresse. Bis zum Absenden bleiben Ihre Antworten in Ihrem
+                Browser; ohne Absenden erfahren wir nichts davon.
+              </p>
+              <p className="text-muted-foreground mb-4">
+                Versand und Postfach laufen über Microsoft 365 (Microsoft Ireland Operations
+                Limited, One Microsoft Place, South County Business Park, Leopardstown, Dublin
+                18, Irland) als Auftragsverarbeiter. Wir speichern Ihre Angaben, solange die
+                Anfrage bearbeitet wird und gesetzliche Aufbewahrungsfristen es verlangen.
+              </p>
+              <p className="text-muted-foreground">
+                Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO (Einwilligung), die Sie im Formular
+                erteilen. Sie können sie jederzeit für die Zukunft widerrufen — eine formlose
+                Nachricht an die unter „Verantwortliche Stelle" genannte Adresse genügt.
+              </p>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-semibold mb-3">7. Ihre Rechte</h2>
               <p className="text-muted-foreground">
                 Sie haben jederzeit das Recht, unentgeltlich Auskunft über Herkunft, Empfänger und Zweck Ihrer
                 gespeicherten personenbezogenen Daten zu erhalten. Sie haben außerdem ein Recht, die Berichtigung oder
@@ -170,7 +201,7 @@ export default function Datenschutz() {
             </div>
 
             <div>
-              <h2 className="text-xl font-semibold mb-3">7. SSL-Verschlüsselung</h2>
+              <h2 className="text-xl font-semibold mb-3">8. SSL-Verschlüsselung</h2>
               <p className="text-muted-foreground">
                 Diese Seite nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte eine
                 SSL-Verschlüsselung. Eine verschlüsselte Verbindung erkennen Sie daran, dass die Adresszeile des

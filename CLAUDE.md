@@ -545,6 +545,33 @@ eigenes Vorschaubild ohne Logo; `buildMetadata({ ogImage: null, siteName: null }
 Nennungen von „KITech". Ausnahmen mit Grund: Rechtstexte klein in der Fußzeile
 (§ 5 DDG), CTA auf `/lass-uns-reden`, Domain bleibt `kitech-software.de`.
 
+**Der Ausfüllende sieht sein Ergebnis nicht** (Ansage 18.09.2026). Nach der
+achten Frage kommen Name, Unternehmen und E-Mail als Pflichtfelder, dann baut
+`/api/selbstcheck` ein PDF (`lib/selbstcheck-pdf.ts`, reines `pdf-lib` — im
+`node:22-alpine` steckt kein Chrome) und schickt es über Microsoft Graph an
+`joerg.kratzat@kitech-software.de` (`SELBSTCHECK_MAIL_AN` ändert das ohne
+Deploy). Fragen und Auswertung stehen in `data/selbstcheck.ts`, weil View,
+Route und PDF dieselbe Zahl brauchen.
+
+⚠️ **Diese Route darf keinen Fehler verschlucken.** `/api/ereignis` antwortet
+immer 204, weil dort nur eine Benachrichtigung verloren geht; hier ist die Mail
+das einzige Exemplar. Fehlt der Graph-Zugang, kommt **503**, scheitert der
+Versand, **502** — und das Formular zeigt es an. Eine Bestätigung ohne Versand
+verliert einen Interessenten lautlos.
+
+⚠️ **Die Reihenfolge der Fragen ist ein Datenvertrag.** Der Client schickt nur
+die Antworten als Liste, kein Label. Wer eine Frage einschiebt, verschiebt die
+Zuordnung in jeder PDF danach — und niemand merkt es, weil niemand mehr das
+Ergebnis auf dem Schirm sieht. Neue Fragen ans Ende, `selbstcheck.test.ts` hält
+die acht bekannten fest.
+
+⚠️ **Fünf Textstellen hängen am Versand.** „keine E-Mail-Adresse, kein
+Datenversand", „Die Antworten bleiben in Ihrem Browser", „die Auswertung sehen
+Sie sofort auf dieser Seite" — alle drei standen dort, solange der Check im
+Browser blieb, und wären jetzt die Unwahrheit auf der Seite, die Sorgfalt
+verkauft. Wer den Versand zurückbaut, nimmt die Texte mit. Der Datenschutz
+führt die Verarbeitung unter Abschnitt 6.
+
 ⚠️ Wer hier Logo oder die normale Fußzeile einbaut, nimmt der Seite genau die
 Eigenschaft, für die sie gebaut wurde. Ebenso: Die alte Adresse
 `/eu-ai-act-selbstcheck` liefert auf Ansage **404, keine Weiterleitung** — eine
@@ -635,6 +662,7 @@ Environment-Variablen.
 | `src/app/api/ereignis/route.ts` + `lib/ereignis.ts` | Sofortmeldung an `EREIGNIS_WEBHOOK_URL` (Besuch, Termin geöffnet, Popup/Telefon/E-Mail geklickt, Selbstcheck fertig) |
 | `src/app/api/tagesbericht/route.ts` | Zahlen des Vortags aus der Plausible-Query-API, geschützt mit `TAGESBERICHT_SECRET` |
 | `scripts/tagesbericht/sende_tagesbericht.py` | Der tatsächlich laufende Weg: Cron 8:00 Europe/Berlin, Microsoft Graph. Fragt Plausible **direkt** ab, damit Erweiterungen keinen Deploy kosten |
+| `src/app/api/selbstcheck/route.ts` + `lib/selbstcheck-pdf.ts` | Die Auswertung des Selbstchecks als PDF per Microsoft Graph — der einzige Weg, auf dem sie ankommt, deshalb mit echtem Fehlercode statt 204 |
 | `src/app/api/funnel-besuch/route.ts` | Dasselbe für `/funnel` und `/fokus` (älter; gehört mittelfristig zusammengelegt) |
 
 `meldeEreignis()` klingelt, `trackEvent()` (Plausible) zählt — nicht verwechseln.
@@ -701,7 +729,10 @@ aus, was gerade in `main` liegt. Welcher Commit läuft, verrät der Image-Tag:
 `docker ps | grep j9vencbq`.
 
 **Env in Coolify:** gesetzt ist nur `NIXPACKS_NODE_VERSION` (Altlast, ohne
-Wirkung). Offen: `LOGTO_*` (eingeloggter Bereich, noch nicht freigeschaltet).
+Wirkung). Offen: `LOGTO_*` (eingeloggter Bereich, noch nicht freigeschaltet)
+und ⚠️ `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, `MAIL_VON`
+— **ohne sie verschickt der Selbstcheck nichts** und antwortet mit 503. Es ist
+dieselbe App-Registrierung wie beim Tagesbericht (`Mail.Send`).
 Runtime-Variablen brauchen nur einen Neustart, `NEXT_PUBLIC_*` einen Rebuild.
 
 **Domains:** `kitech-software.de` (+ `www` per 308 auf Apex),
