@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { PDFDocument } from "pdf-lib";
 import { ohneKommentare } from "./quelltext";
 import { FRAGEN, MAX_PUNKTE, werteAus, type Antwort } from "../../data/selbstcheck";
@@ -157,6 +157,23 @@ describe("Versandweg", () => {
     expect(graph).not.toMatch(/NEXT_PUBLIC_/);
     const view = ohneKommentare(readFileSync("src/views/EuAiActSelbstcheck.tsx", "utf-8"));
     expect(view).not.toMatch(/AZURE_|MAIL_VON|graph\.microsoft\.com/);
+  });
+});
+
+describe("Wer die Ergebnisse bekommt", () => {
+  /**
+   * Die Bestätigung nennt Jörg und zeigt sein Foto; die Mail geht an ihn.
+   * Beides muss dieselbe Person bleiben — und das Foto muss es geben, sonst
+   * entfällt der Block still (`BERATER?.photo`).
+   */
+  it("findet Jörg samt Foto im Team und schickt die Mail an ihn", async () => {
+    const { teamRoster } = await import("../../data/team");
+    const berater = teamRoster.find((m) => m.name === "Jörg Kratzat");
+    expect(berater?.photo).toBeTruthy();
+    expect(existsSync(`public${berater!.photo}`)).toBe(true);
+
+    const route = readFileSync("src/app/api/selbstcheck/route.ts", "utf-8");
+    expect(route).toContain("joerg.kratzat@kitech-software.de");
   });
 });
 

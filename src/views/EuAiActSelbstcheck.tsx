@@ -9,6 +9,7 @@ import { SITE_CONTAINER } from "@/components/layout/site-container";
 import { trackEvent } from "@/lib/plausible";
 import { meldeEreignis } from "@/lib/ereignis";
 import { ANTWORT_OPTIONEN, FRAGEN, type Antwort } from "@/data/selbstcheck";
+import { teamRoster } from "@/data/team";
 
 /*
  * ⚠️ **Der Ausfüllende sieht seine Auswertung nicht, und er wird nicht nach
@@ -31,6 +32,14 @@ import { ANTWORT_OPTIONEN, FRAGEN, type Antwort } from "@/data/selbstcheck";
 
 type Stufe = "intro" | "check" | "abschluss";
 type Versand = "laeuft" | "ok" | "fehler";
+
+/**
+ * Wer die Ergebnisse bekommt — dieselbe Person, an die `/api/selbstcheck` das
+ * PDF schickt. Name, Rolle und Foto aus `data/team.ts`, damit die Angaben mit
+ * der Startseite übereinstimmen. Fehlt der Eintrag, entfällt der Block, statt
+ * ein leeres Bild zu zeigen; `selbstcheck.test.ts` hält ihn fest.
+ */
+const BERATER = teamRoster.find((mitglied) => mitglied.name === "Jörg Kratzat");
 
 const ANTWORT_FARBE: Record<Antwort, string> = {
   yes: "hsl(var(--success))",
@@ -496,15 +505,37 @@ function Abschluss({
         <p className="text-sm text-muted-foreground" role="status">
           Eingegangen
         </p>
+        {/* Überschrift wörtlich nach Ansage vom 18.09.2026. */}
         <h1 ref={ueberschrift} tabIndex={-1} className={h1}>
-          Ihre Antworten sind bei uns.
+          Danke – die Ergebnisse liegen unserem Berater Jörg vor.
         </h1>
+
+        {BERATER?.photo && (
+          <div className="mt-8 flex items-center gap-4">
+            {/* Fester, quadratischer Rahmen wie in `Gruenderwort`: die
+                Portraits sind unterschiedlich geschnitten. */}
+            <div className="h-20 w-20 shrink-0 overflow-hidden border border-border bg-surface sm:h-24 sm:w-24">
+              <img
+                src={BERATER.photo}
+                alt={`${BERATER.name}, ${BERATER.role}`}
+                width={96}
+                height={96}
+                className="h-full w-full object-cover object-top"
+              />
+            </div>
+            <div className="min-w-0">
+              <p className="text-base font-semibold leading-tight text-foreground">{BERATER.name}</p>
+              <p className="mt-1 text-sm leading-tight text-muted-foreground">{BERATER.role}</p>
+            </div>
+          </div>
+        )}
+
         {/* Keine Rückmeldung versprechen: Ohne Adresse kann sich niemand melden,
             und wer auf eine Mail wartet, die nicht kommt, ist verloren. */}
-        <p className="mt-5 max-w-2xl text-base font-light leading-relaxed text-foreground/85">
-          Eine Auswertung auf dem Bildschirm gibt es nicht, und ohne Kontaktdaten können wir uns
-          nicht bei Ihnen melden. Wenn Sie wissen wollen, wo Ihr Unternehmen steht, gehen wir die
-          acht Punkte in einem Termin mit Ihnen durch.
+        <p className="mt-8 max-w-2xl text-base font-light leading-relaxed text-foreground/85">
+          Eine Auswertung auf dem Bildschirm gibt es nicht, und ohne Kontaktdaten kann er sich nicht
+          bei Ihnen melden. Wenn Sie wissen wollen, wo Ihr Unternehmen steht, gehen wir die acht
+          Punkte in einem Termin mit Ihnen durch.
         </p>
 
         <Link

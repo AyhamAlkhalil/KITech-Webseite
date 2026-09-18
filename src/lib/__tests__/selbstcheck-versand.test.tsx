@@ -28,6 +28,9 @@ vi.mock("next/link", () => ({
   ),
 }));
 
+/** Die Überschrift der Bestätigung, wörtlich nach Ansage. */
+const BESTAETIGUNG = "Danke – die Ergebnisse liegen unserem Berater Jörg vor.";
+
 type Antwortkoerper = { antworten: string[] };
 let selbstcheckAufrufe: Antwortkoerper[] = [];
 
@@ -88,7 +91,7 @@ describe("Versand im Browser", () => {
     render(<EuAiActSelbstcheck />);
     await allesMitJaBeantworten();
 
-    await screen.findByText("Ihre Antworten sind bei uns.");
+    await screen.findByText(BESTAETIGUNG);
     expect(selbstcheckAufrufe).toHaveLength(1);
     expect(selbstcheckAufrufe[0].antworten).toEqual(Array(8).fill("yes"));
     /* Keine Kontaktdaten im Versand. */
@@ -106,7 +109,7 @@ describe("Versand im Browser", () => {
     render(<EuAiActSelbstcheck />);
     await allesMitJaBeantworten();
 
-    await screen.findByText("Ihre Antworten sind bei uns.");
+    await screen.findByText(BESTAETIGUNG);
     expect(screen.queryByRole("alert")).toBeNull();
     expect(screen.queryByRole("button", { name: /Noch einmal senden/ })).toBeNull();
     expect(selbstcheckAufrufe).toHaveLength(1);
@@ -124,7 +127,7 @@ describe("Versand im Browser", () => {
 
     const meldung = await screen.findByRole("alert");
     expect(meldung.textContent).toMatch(/nicht erreichbar/);
-    expect(screen.queryByText("Ihre Antworten sind bei uns.")).toBeNull();
+    expect(screen.queryByText(BESTAETIGUNG)).toBeNull();
     expect(screen.getByRole("button", { name: /Noch einmal senden/ })).toBeTruthy();
   });
 
@@ -137,7 +140,7 @@ describe("Versand im Browser", () => {
 
     vi.stubGlobal("fetch", fetchMit(200, { ok: true }));
     fireEvent.click(screen.getByRole("button", { name: /Noch einmal senden/ }));
-    await screen.findByText("Ihre Antworten sind bei uns.");
+    await screen.findByText(BESTAETIGUNG);
 
     expect(selbstcheckAufrufe).toHaveLength(2);
     expect(selbstcheckAufrufe[1].antworten).toEqual(selbstcheckAufrufe[0].antworten);
@@ -148,7 +151,7 @@ describe("Versand im Browser", () => {
     render(<EuAiActSelbstcheck />);
     await allesMitJaBeantworten();
 
-    const ueberschrift = await screen.findByText("Ihre Antworten sind bei uns.");
+    const ueberschrift = await screen.findByText(BESTAETIGUNG);
     expect(document.activeElement).toBe(ueberschrift);
   });
 });
