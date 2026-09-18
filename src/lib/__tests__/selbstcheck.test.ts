@@ -84,9 +84,6 @@ describe("Fragen als Datenvertrag", () => {
 
 describe("PDF", () => {
   const basis = {
-    name: "Änne Müller",
-    firma: "Mustermann & Söhne GmbH",
-    email: "aenne@example.de",
     zeitpunkt: new Date("2026-09-18T09:41:00+02:00"),
   };
 
@@ -105,19 +102,17 @@ describe("PDF", () => {
 
   /**
    * Die Standardschriften können nur WinAnsi, und `pdf-lib` **wirft** bei einem
-   * Zeichen ausserhalb davon. Firmenname und Name sind fremde Eingabe: Ein
-   * Emoji in der Signatur eines Interessenten würde sonst den Versand
-   * abbrechen — und mit ihm den einzigen Weg, auf dem seine Antworten ankommen.
+   * Zeichen ausserhalb davon. Referrer und Kampagnenkennung sind fremde
+   * Eingabe: Ein Emoji in einer UTM-Kennung würde sonst den Versand abbrechen
+   * — und mit ihm den einzigen Weg, auf dem die Antworten ankommen.
    */
   it("verträgt Zeichen, die keine Standardschrift setzen kann", async () => {
     const antworten = ALLE_JA;
     const bytes = await erzeugeSelbstcheckPdf({
       ...basis,
-      name: "Θεοδώρα 🙂 Şahin",
-      firma: "株式会社テスト ✓ GmbH",
       antworten,
       auswertung: werteAus(antworten),
-      herkunft: "example.com/ü?x=1 · utm_campaign=🚀",
+      herkunft: "example.com/ü?x=Θεοδώρα · utm_campaign=🚀株式会社✓",
     });
     expect(Buffer.from(bytes.slice(0, 5)).toString()).toBe("%PDF-");
   });
@@ -144,6 +139,19 @@ describe("Versandweg", () => {
     expect(quelle).toContain("SELBSTCHECK_MAIL_AN");
   });
 
+  /**
+   * Die erste Fassung vom 18.09.2026 verlangte Name, Firma und E-Mail; auf
+   * Ansage ist das am selben Tag wieder herausgefallen. Nimmt die Route die
+   * Felder wieder an, braucht es auch wieder Einwilligung, Datenschutztext und
+   * die Zusage einer Rückmeldung — dann soll das hier auffallen.
+   */
+  it("nimmt keine Kontaktdaten entgegen", () => {
+    const quelle = ohneKommentare(readFileSync("src/app/api/selbstcheck/route.ts", "utf-8"));
+    expect(quelle).not.toMatch(/\b(email|firma|einwilligung)\s*:/);
+    expect(quelle).not.toMatch(/name:\s*z\./);
+    expect(quelle).not.toMatch(/antwortAn/);
+  });
+
   it("hält die Zugangsdaten aus dem Client-Bündel heraus", () => {
     const graph = ohneKommentare(readFileSync("src/lib/graph-mail.ts", "utf-8"));
     expect(graph).not.toMatch(/NEXT_PUBLIC_/);
@@ -157,7 +165,8 @@ describe("Was die Seite verspricht", () => {
    * Die Zusagen „nichts wird übertragen“ und „die Auswertung sehen Sie sofort
    * auf dieser Seite" standen wörtlich in der View, solange der Check im
    * Browser blieb. Seit dem Versand sind sie die Unwahrheit — auf der Seite,
-   * die Sorgfalt im Umgang mit Regeln verkauft.
+   * die Sorgfalt im Umgang mit Regeln verkauft. Dasselbe gilt für jede Zusage
+   * einer Rückmeldung: Ohne Kontaktdaten kann sich niemand melden.
    */
   const view = ohneKommentare(readFileSync("src/views/EuAiActSelbstcheck.tsx", "utf-8"));
 
@@ -168,20 +177,27 @@ describe("Was die Seite verspricht", () => {
     expect(view).not.toMatch(/Antworten bleiben in Ihrem Browser/);
   });
 
-  it("sagt vor dem ersten Klick, dass das Ergebnis nicht angezeigt wird", () => {
-    const intro = view.slice(view.indexOf("function Intro"), view.indexOf("function Fragen"));
-    expect(intro).toMatch(/sehen Sie sie nicht/);
+  it("verspricht keine Rückmeldung, die ohne Adresse nicht kommen kann", () => {
+    expect(view).not.toMatch(/melden uns (per E-Mail|bei Ihnen)/);
+    expect(view).not.toMatch(/Auswertung kommt von uns/);
   });
 
-  it("holt die Einwilligung ein und verlinkt den Datenschutz", () => {
-    expect(view).toContain('href="/datenschutz"');
-    expect(view).toMatch(/einverstanden/);
+  it("sagt vor dem ersten Klick, dass das Ergebnis nicht angezeigt wird", () => {
+    const intro = view.slice(view.indexOf("function Intro"), view.indexOf("function Fragen"));
+    expect(intro).toMatch(/Auswertung auf dem Bildschirm gibt es nicht/);
+    expect(intro).toMatch(/anonym/);
+  });
+
+  it("fragt keine Kontaktdaten ab", () => {
+    expect(view).not.toMatch(/type="email"/);
+    expect(view).not.toMatch(/selbstcheck-(name|firma|email)/);
   });
 
   it("wird vom Datenschutz gedeckt", () => {
     const datenschutz = readFileSync("src/views/Datenschutz.tsx", "utf-8");
     expect(datenschutz).toMatch(/Selbstcheck/);
-    expect(datenschutz).toMatch(/Art\. 6 Abs\. 1 lit\. a DSGVO/);
+    expect(datenschutz).toMatch(/Art\. 6 Abs\. 1 lit\. f DSGVO/);
+    expect(datenschutz).toMatch(/Kontaktdaten werden dabei nicht\s+abgefragt/);
     /* Der auffälligste Teil der Ansage gehört ausdrücklich in die Erklärung. */
     expect(datenschutz).toMatch(/nicht\s*\n?\s*angezeigt|nicht angezeigt/);
   });

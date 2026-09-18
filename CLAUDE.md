@@ -545,18 +545,21 @@ eigenes Vorschaubild ohne Logo; `buildMetadata({ ogImage: null, siteName: null }
 Nennungen von „KITech". Ausnahmen mit Grund: Rechtstexte klein in der Fußzeile
 (§ 5 DDG), CTA auf `/lass-uns-reden`, Domain bleibt `kitech-software.de`.
 
-**Der Ausfüllende sieht sein Ergebnis nicht** (Ansage 18.09.2026). Nach der
-achten Frage kommen Name, Unternehmen und E-Mail als Pflichtfelder, dann baut
-`/api/selbstcheck` ein PDF (`lib/selbstcheck-pdf.ts`, reines `pdf-lib` — im
-`node:22-alpine` steckt kein Chrome) und schickt es über Microsoft Graph an
+**Der Ausfüllende sieht sein Ergebnis nicht und wird nicht nach sich gefragt**
+(Ansage 18.09.2026). Mit der achten Antwort baut `/api/selbstcheck` ein PDF
+(`lib/selbstcheck-pdf.ts`, reines `pdf-lib` — im `node:22-alpine` steckt kein
+Chrome) und schickt es **anonym** über Microsoft Graph an
 `joerg.kratzat@kitech-software.de` (`SELBSTCHECK_MAIL_AN` ändert das ohne
-Deploy). Fragen und Auswertung stehen in `data/selbstcheck.ts`, weil View,
-Route und PDF dieselbe Zahl brauchen.
+Deploy). Kein Name, keine Firma, keine E-Mail — die Fassung mit Pflichtfeldern
+kam nie live. Zurückschreiben kann also niemand; der Weg zum Gespräch ist der
+Termin-Knopf auf der Bestätigung. Fragen und Auswertung stehen in
+`data/selbstcheck.ts`, weil View, Route und PDF dieselbe Zahl brauchen.
 
 ⚠️ **Diese Route darf keinen Fehler verschlucken.** `/api/ereignis` antwortet
 immer 204, weil dort nur eine Benachrichtigung verloren geht; hier ist die Mail
 das einzige Exemplar. Fehlt der Graph-Zugang, kommt **503**, scheitert der
-Versand, **502** — und das Formular zeigt es an. Eine Bestätigung ohne Versand
+Versand, **502** — und die Seite zeigt es an, mit Knopf zum erneuten Senden.
+Eine Bestätigung ohne Versand
 verliert einen Interessenten lautlos.
 
 ⚠️ **Die Reihenfolge der Fragen ist ein Datenvertrag.** Der Client schickt nur
@@ -565,12 +568,14 @@ Zuordnung in jeder PDF danach — und niemand merkt es, weil niemand mehr das
 Ergebnis auf dem Schirm sieht. Neue Fragen ans Ende, `selbstcheck.test.ts` hält
 die acht bekannten fest.
 
-⚠️ **Fünf Textstellen hängen am Versand.** „keine E-Mail-Adresse, kein
-Datenversand", „Die Antworten bleiben in Ihrem Browser", „die Auswertung sehen
-Sie sofort auf dieser Seite" — alle drei standen dort, solange der Check im
-Browser blieb, und wären jetzt die Unwahrheit auf der Seite, die Sorgfalt
-verkauft. Wer den Versand zurückbaut, nimmt die Texte mit. Der Datenschutz
-führt die Verarbeitung unter Abschnitt 6.
+⚠️ **Die Texte hängen am Versand.** „kein Datenversand", „Die Antworten
+bleiben in Ihrem Browser", „die Auswertung sehen Sie sofort auf dieser Seite"
+standen dort, solange der Check im Browser blieb, und wären jetzt die
+Unwahrheit auf der Seite, die Sorgfalt verkauft. Ebenso jede Zusage einer
+Rückmeldung — ohne Adresse kommt keine. `selbstcheck.test.ts` hält beides
+fest. Wer Kontaktfelder zurückholt, braucht wieder Einwilligung und einen
+neuen Datenschutztext; Abschnitt 6 stützt sich heute nur auf lit. f für die
+kurze IP-Sperre.
 
 ⚠️ Wer hier Logo oder die normale Fußzeile einbaut, nimmt der Seite genau die
 Eigenschaft, für die sie gebaut wurde. Ebenso: Die alte Adresse

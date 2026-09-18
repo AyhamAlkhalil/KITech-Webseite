@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { ArrowRight, ArrowLeft, Send, Check, Minus, X } from "lucide-react";
+import { ArrowRight, ArrowLeft, RotateCw } from "lucide-react";
 import { CheckShell } from "@/components/layout/CheckShell";
 import { SITE_CONTAINER } from "@/components/layout/site-container";
 import { trackEvent } from "@/lib/plausible";
@@ -11,62 +11,102 @@ import { meldeEreignis } from "@/lib/ereignis";
 import { ANTWORT_OPTIONEN, FRAGEN, type Antwort } from "@/data/selbstcheck";
 
 /*
- * ⚠️ **Der Ausfüllende sieht seine Auswertung nicht** (Ansage 18.09.2026).
- * Sie entsteht als PDF auf dem Server und geht per Mail an das Postfach, das
- * sie bearbeitet — `src/app/api/selbstcheck/route.ts`.
+ * ⚠️ **Der Ausfüllende sieht seine Auswertung nicht, und er wird nicht nach
+ * sich gefragt** (Ansage 18.09.2026, zwei Schritte am selben Tag). Mit der
+ * achten Antwort geht alles anonym an `/api/selbstcheck`; dort entsteht das
+ * PDF und geht per Mail an das Postfach, das es bearbeitet.
  *
  * Bis dahin lief der Check vollständig im Browser: keine Übertragung, Ergebnis
- * sofort auf der Seite, optional ein `mailto:`-Entwurf. Davon ist hier nichts
- * mehr übrig, und das ist der Grund, warum an fünf Stellen Text geändert
- * wurde, der technisch nichts tut: „Die Antworten bleiben in Ihrem Browser",
- * „kein Datenversand", „die Auswertung sehen Sie sofort auf dieser Seite" —
- * jeder dieser Sätze wäre jetzt die Unwahrheit, und zwar auf der Seite, die
- * Sorgfalt im Umgang mit Regeln verkauft.
+ * sofort auf der Seite. Die erste Fassung des Umbaus fragte danach Name, Firma
+ * und E-Mail ab; auf Ansage ist auch das wieder draußen.
+ *
+ * Daraus folgen die Texte, die technisch nichts tun: „Die Antworten bleiben in
+ * Ihrem Browser", „kein Datenversand", „die Auswertung sehen Sie sofort" wären
+ * jetzt die Unwahrheit, und „wir melden uns per E-Mail" wäre es auch — ohne
+ * Adresse kann sich niemand melden. Der Weg zum Gespräch ist der Termin-Knopf.
  *
  * ⚠️ Wer den Versand wieder herausnimmt, nimmt die Texte mit zurück. Was der
  * Besucher vor dem ersten Klick liest, muss beschreiben, was danach passiert.
  */
 
-type Stufe = "intro" | "check" | "kontakt" | "gesendet";
+type Stufe = "intro" | "check" | "abschluss";
+type Versand = "laeuft" | "ok" | "fehler";
 
-const ANTWORT_ANZEIGE: Record<Antwort, { icon: typeof Check; color: string; label: string }> = {
-  yes: { icon: Check, color: "hsl(var(--success))", label: "Erfüllt" },
-  unsure: { icon: Minus, color: "hsl(var(--solo-accent))", label: "Unklar" },
-  no: { icon: X, color: "hsl(var(--destructive))", label: "Offen" },
+const ANTWORT_FARBE: Record<Antwort, string> = {
+  yes: "hsl(var(--success))",
+  unsure: "hsl(var(--solo-accent))",
+  no: "hsl(var(--destructive))",
 };
 
 export default function EuAiActSelbstcheck() {
   const [stufe, setStufe] = useState<Stufe>("intro");
   const [antworten, setAntworten] = useState<Record<number, Antwort>>({});
   const [index, setIndex] = useState(0);
+  const [versand, setVersand] = useState<Versand>("laeuft");
+  const [fehler, setFehler] = useState<string | null>(null);
+  /* Gegen den Doppelklick auf die letzte Antwort: Zwei Klicks im selben Takt
+     sähen beide noch die Frage und schickten den Check zweimal. */
+  const sendetGerade = useRef(false);
   const reduceMotion = useReducedMotion();
+
+  function nachOben() {
+    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+  }
 
   function start() {
     setAntworten({});
     setIndex(0);
     setStufe("check");
     trackEvent("CTA_Klick", { position: "selbstcheck-start" });
-    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+    nachOben();
+  }
+
+  async function sende(alle: Record<number, Antwort>) {
+    if (sendetGerade.current) return;
+    sendetGerade.current = true;
+    setVersand("laeuft");
+    setFehler(null);
+
+    const ergebnis = await uebermittle(alle);
+    sendetGerade.current = false;
+
+    /* `in` statt `!ergebnis.ok`: Ohne `strict` verengt TypeScript die Union
+       über das Boolean nicht. */
+    if ("fehler" in ergebnis) {
+      /* ⚠️ Keine Bestätigung ohne Versand. Der Ausfüllende sieht sein
+         Ergebnis nicht — meldete die Seite „eingegangen", wären seine
+         Antworten verloren, und niemand erführe es. */
+      setFehler(ergebnis.fehler);
+      setVersand("fehler");
+      return;
+    }
+
+    setVersand("ok");
+    /* ⚠️ Erst nach dem Erfolg und abgeschirmt: `trackEvent` ruft
+       `window.plausible` ungeschützt auf. Stand es im selben `try` wie der
+       Versand, machte ein Fehler der Statistik aus einer angekommenen Mail
+       einen angezeigten Fehlschlag — und „Noch einmal senden" schickte sie
+       ein zweites Mal. */
+    try {
+      trackEvent("Lead_Qualifier_abgeschlossen", { position: "selbstcheck" });
+    } catch {
+      /* Statistik ist Beiwerk; der Versand ist gelungen. */
+    }
+    /* Wer den Check zu Ende macht, beschäftigt sich ernsthaft mit dem Thema —
+       das ist eine Sofortmeldung wert. Fängt seine Fehler selbst. */
+    meldeEreignis("selbstcheck_fertig");
   }
 
   function antworte(wert: Antwort) {
-    setAntworten((vorher) => ({ ...vorher, [index]: wert }));
+    const alle = { ...antworten, [index]: wert };
+    setAntworten(alle);
     if (index + 1 < FRAGEN.length) {
-      setIndex((vorher) => vorher + 1);
+      setIndex(index + 1);
       return;
     }
-    setStufe("kontakt");
-    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
-  }
-
-  function gesendet() {
-    setStufe("gesendet");
-    trackEvent("Lead_Qualifier_abgeschlossen", { position: "selbstcheck" });
-    /* Wer den Check zu Ende macht, beschäftigt sich ernsthaft mit dem Thema —
-       das ist eine Sofortmeldung wert. Ohne Antworten, ohne Ergebniswert: die
-       stehen im PDF, das gleichzeitig ins Postfach geht. */
-    meldeEreignis("selbstcheck_fertig");
-    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+    setStufe("abschluss");
+    nachOben();
+    void sende(alle);
   }
 
   return (
@@ -88,7 +128,7 @@ export default function EuAiActSelbstcheck() {
         shortLabel: "Entgelttransparenz",
         trackingPosition: "selbstcheck-klargehalt",
       }}
-      note="Orientierung auf Basis Ihrer Angaben, keine Rechtsberatung. Die Auswertung schicken wir Ihnen persönlich."
+      note="Orientierung auf Basis Ihrer Angaben, keine Rechtsberatung. Die Antworten gehen anonym an uns."
     >
       <>
         {stufe === "intro" && <Intro onStart={start} />}
@@ -100,20 +140,51 @@ export default function EuAiActSelbstcheck() {
             onZurueck={() => setIndex((vorher) => Math.max(0, vorher - 1))}
           />
         )}
-        {stufe === "kontakt" && (
-          <Kontakt
-            antworten={antworten}
-            onZurueck={() => {
-              setStufe("check");
-              setIndex(FRAGEN.length - 1);
-            }}
-            onGesendet={gesendet}
+        {stufe === "abschluss" && (
+          <Abschluss
+            versand={versand}
+            fehler={fehler}
+            onErneut={() => void sende(antworten)}
+            onNeustart={start}
           />
         )}
-        {stufe === "gesendet" && <Gesendet onNeustart={start} />}
       </>
     </CheckShell>
   );
+}
+
+/* --------------------------------------------------------------- Versand */
+
+type Ergebnis = { ok: true } | { ok: false; fehler: string };
+
+/**
+ * Schickt die Antworten an die Route. **Wirft nie** — jeder Ausgang ist ein
+ * Ergebnis, damit der Aufrufer die Sperre gegen Doppelklicks sicher löst und
+ * nichts anderes als der Versand über Erfolg oder Fehlschlag entscheidet.
+ */
+async function uebermittle(alle: Record<number, Antwort>): Promise<Ergebnis> {
+  const params = new URLSearchParams(window.location.search);
+  try {
+    const antwort = await fetch("/api/selbstcheck", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        antworten: FRAGEN.map((_, i) => alle[i] ?? "no"),
+        referrer: document.referrer || null,
+        utmSource: params.get("utm_source"),
+        utmMedium: params.get("utm_medium"),
+        utmCampaign: params.get("utm_campaign"),
+      }),
+    });
+    if (antwort.ok) return { ok: true };
+    const rumpf = (await antwort.json().catch(() => null)) as { fehler?: string } | null;
+    return { ok: false, fehler: rumpf?.fehler ?? "Die Übermittlung hat nicht geklappt." };
+  } catch {
+    return {
+      ok: false,
+      fehler: "Keine Verbindung. Bitte prüfen Sie Ihr Netz und versuchen es noch einmal.",
+    };
+  }
 }
 
 /* ------------------------------------------------------------------ Intro */
@@ -139,7 +210,7 @@ function Intro({ onStart }: { onStart: () => void }) {
             {/* Ohne blauen Marker (Vorgabe 14.08.2026) — dieselbe Änderung
                 wie auf allen anderen Seiten. */}
             <h1 className="kinetic-display kinetic-morph-in max-w-2xl text-balance text-4xl leading-[1.35] text-foreground sm:text-5xl sm:leading-[1.25] lg:text-6xl">
-              Acht Fragen. Die Auswertung kommt von uns.
+              Acht Fragen. Die Auswertung gibt es im Gespräch.
             </h1>
 
             <p className="mt-8 max-w-xl text-balance text-base font-light leading-relaxed text-foreground/85">
@@ -149,9 +220,9 @@ function Intro({ onStart }: { onStart: () => void }) {
             {/* Steht bewusst vor dem Knopf: Wer nach acht Fragen erfährt, dass
                 er sein Ergebnis nicht zu sehen bekommt, fühlt sich vorgeführt. */}
             <p className="mt-4 max-w-xl text-balance text-sm leading-relaxed text-muted-foreground sm:text-base">
-              Zwei Minuten. Am Ende tragen Sie Ihre Kontaktdaten ein, Ihre Auswertung geht als PDF
-              an unser Team — auf dem Bildschirm sehen Sie sie nicht. Wir gehen sie durch und melden
-              uns bei Ihnen.
+              Zwei Minuten, ohne Namen und ohne E-Mail-Adresse. Mit der letzten Antwort gehen Ihre
+              Angaben anonym an unser Team. Eine Auswertung auf dem Bildschirm gibt es nicht; wo Sie
+              stehen, klären wir im Gespräch.
             </p>
 
             <button
@@ -162,7 +233,7 @@ function Intro({ onStart }: { onStart: () => void }) {
               <span className="text-left">
                 <span className="block text-base font-medium sm:text-lg">Check starten</span>
                 <span className="mt-1 block text-xs font-light text-primary-foreground/70 sm:text-sm">
-                  Acht Fragen, danach Ihre Kontaktdaten
+                  Acht Fragen, anonym
                 </span>
               </span>
               <ArrowRight
@@ -306,7 +377,7 @@ function Fragen({
             Zurück
           </button>
           <p className="text-xs text-muted-foreground">
-            Übertragen wird nichts, bis Sie am Ende absenden.
+            Mit der letzten Antwort gehen Ihre Angaben anonym an uns.
           </p>
         </div>
       </div>
@@ -336,7 +407,7 @@ function Fortschritt({
       <div className="mt-3 flex gap-1" aria-hidden="true">
         {FRAGEN.map((frage, i) => {
           const antwort = antworten[i];
-          const background = antwort ? ANTWORT_ANZEIGE[antwort].color : undefined;
+          const background = antwort ? ANTWORT_FARBE[antwort] : undefined;
           return (
             <span
               key={frage.label}
@@ -353,266 +424,87 @@ function Fortschritt({
   );
 }
 
-/* ---------------------------------------------------------------- Kontakt */
 
-/**
- * Die letzte Stufe vor dem Versand. Sie zeigt, **was** übermittelt wird — die
- * acht Antworten in Klartext, ohne Punktzahl und ohne Einstufung.
- *
- * Das ist die Grenze, die diese Seite zieht: Der Ausfüllende darf sehen, was
- * er über sich preisgibt. Die Bewertung daraus bekommt er im Gespräch. Ohne
- * diese Liste wäre der Versand eine Blackbox, und eine Einwilligung in etwas,
- * das man nicht sieht, ist keine informierte Einwilligung.
- */
-function Kontakt({
-  antworten,
-  onZurueck,
-  onGesendet,
+/* -------------------------------------------------------------- Abschluss */
+
+function Abschluss({
+  versand,
+  fehler,
+  onErneut,
+  onNeustart,
 }: {
-  antworten: Record<number, Antwort>;
-  onZurueck: () => void;
-  onGesendet: () => void;
+  versand: Versand;
+  fehler: string | null;
+  onErneut: () => void;
+  onNeustart: () => void;
 }) {
-  const [name, setName] = useState("");
-  const [firma, setFirma] = useState("");
-  const [email, setEmail] = useState("");
-  const [einwilligung, setEinwilligung] = useState(false);
-  /** Honigtopf — für Menschen unsichtbar, siehe Route. */
-  const [webseite, setWebseite] = useState("");
-  const [laeuft, setLaeuft] = useState(false);
-  const [fehler, setFehler] = useState<string | null>(null);
+  /* Nach der letzten Antwort verschwindet der fokussierte Knopf; ohne das
+     hier fiele der Fokus auf <body>, und ein Screenreader erführe nicht, ob
+     der Versand läuft, geklappt hat oder gescheitert ist. Die Überschrift
+     jedes Zustands bekommt ihn, sobald der Zustand wechselt. */
+  const ueberschrift = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    ueberschrift.current?.focus({ preventScroll: true });
+  }, [versand]);
 
-  const vollstaendig =
-    name.trim().length >= 2 && firma.trim().length >= 2 && email.includes("@") && einwilligung;
+  const h1 =
+    "kinetic-display mt-3 max-w-2xl text-balance text-3xl leading-tight text-foreground focus:outline-none sm:text-4xl";
 
-  async function onSubmit(event: React.FormEvent) {
-    event.preventDefault();
-    if (!vollstaendig || laeuft) return;
-    setLaeuft(true);
-    setFehler(null);
+  if (versand === "laeuft") {
+    return (
+      <section className={`${SITE_CONTAINER} w-full py-14 sm:py-20`}>
+        <div className="mx-auto max-w-3xl" role="status">
+          <p className="text-sm text-muted-foreground">Einen Moment</p>
+          <h1 ref={ueberschrift} tabIndex={-1} className={h1}>
+            Ihre Antworten werden übermittelt.
+          </h1>
+        </div>
+      </section>
+    );
+  }
 
-    const params = new URLSearchParams(window.location.search);
-
-    try {
-      const antwort = await fetch("/api/selbstcheck", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: name.trim(),
-          firma: firma.trim(),
-          email: email.trim(),
-          antworten: FRAGEN.map((_, i) => antworten[i] ?? "no"),
-          einwilligung: true,
-          webseite,
-          referrer: document.referrer || null,
-          utmSource: params.get("utm_source"),
-          utmMedium: params.get("utm_medium"),
-          utmCampaign: params.get("utm_campaign"),
-        }),
-      });
-
-      if (!antwort.ok) {
-        const rumpf = (await antwort.json().catch(() => null)) as { fehler?: string } | null;
-        /* ⚠️ Hier wird nicht stillschweigend weitergeklickt. Der Ausfüllende
-           sieht sein Ergebnis nicht — eine Bestätigung ohne Versand wäre eine
-           Lüge, und seine Antworten wären verloren. */
-        setFehler(rumpf?.fehler ?? "Die Übermittlung hat nicht geklappt.");
-        setLaeuft(false);
-        return;
-      }
-
-      trackEvent("Kontaktformular_gesendet", { position: "selbstcheck" });
-      onGesendet();
-    } catch {
-      setFehler("Keine Verbindung. Bitte prüfen Sie Ihr Netz und versuchen es noch einmal.");
-      setLaeuft(false);
-    }
+  if (versand === "fehler") {
+    return (
+      <section className={`${SITE_CONTAINER} w-full py-14 sm:py-20`}>
+        <div className="mx-auto max-w-3xl">
+          <p className="text-sm text-muted-foreground">Nicht übermittelt</p>
+          <h1 ref={ueberschrift} tabIndex={-1} className={h1}>
+            Ihre Antworten sind noch nicht bei uns.
+          </h1>
+          <p
+            role="alert"
+            className="mt-6 max-w-2xl border border-destructive/40 bg-destructive/5 px-4 py-3 text-sm text-destructive"
+          >
+            {fehler ?? "Die Übermittlung hat nicht geklappt."}
+          </p>
+          <button
+            type="button"
+            onClick={onErneut}
+            className="mt-8 inline-flex min-h-[3.5rem] w-full items-center justify-between gap-6 bg-primary px-6 py-4 text-primary-foreground transition-colors hover:bg-primary/90 sm:w-auto"
+          >
+            <span className="text-base font-medium">Noch einmal senden</span>
+            <RotateCw className="h-4 w-4 shrink-0" aria-hidden="true" />
+          </button>
+        </div>
+      </section>
+    );
   }
 
   return (
     <section className={`${SITE_CONTAINER} w-full py-14 sm:py-20`}>
       <div className="mx-auto max-w-3xl">
-        <p className="text-sm text-muted-foreground">Letzter Schritt</p>
-        <h1 className="kinetic-display mt-3 max-w-2xl text-balance text-3xl leading-tight text-foreground sm:text-4xl">
-          Wohin sollen wir die Auswertung schicken?
-        </h1>
-        <p className="mt-5 max-w-2xl text-base font-light leading-relaxed text-foreground/85">
-          Ihre acht Antworten gehen als PDF an unser Team. Wir sehen sie uns an und melden uns mit
-          dem, was bei Ihnen zuerst ansteht.
+        <p className="text-sm text-muted-foreground" role="status">
+          Eingegangen
         </p>
-
-        <form onSubmit={onSubmit} className="mt-10 border border-border bg-surface">
-          <div className="grid gap-5 px-5 py-6 sm:px-6 sm:py-7">
-            <Feld
-              id="selbstcheck-name"
-              label="Name"
-              value={name}
-              onChange={setName}
-              autoComplete="name"
-              placeholder="Vor- und Nachname"
-            />
-            <Feld
-              id="selbstcheck-firma"
-              label="Unternehmen"
-              value={firma}
-              onChange={setFirma}
-              autoComplete="organization"
-              placeholder="Firmenname"
-            />
-            <Feld
-              id="selbstcheck-email"
-              label="E-Mail"
-              type="email"
-              value={email}
-              onChange={setEmail}
-              autoComplete="email"
-              placeholder="name@ihrunternehmen.de"
-            />
-
-            {/* Honigtopf: aus dem Fluss genommen, für Screenreader versteckt. */}
-            <div className="hidden" aria-hidden="true">
-              <label htmlFor="selbstcheck-webseite">Webseite (bitte frei lassen)</label>
-              <input
-                id="selbstcheck-webseite"
-                type="text"
-                tabIndex={-1}
-                autoComplete="off"
-                value={webseite}
-                onChange={(event) => setWebseite(event.target.value)}
-              />
-            </div>
-
-            <label className="flex items-start gap-3 text-xs font-light leading-relaxed text-muted-foreground">
-              <input
-                type="checkbox"
-                checked={einwilligung}
-                onChange={(event) => setEinwilligung(event.target.checked)}
-                className="mt-0.5 h-4 w-4 shrink-0 accent-primary"
-                required
-              />
-              {/* Ohne Firmennamen, weil die Seite markenfrei laeuft — wer die
-                  Angaben erhaelt und verantwortet, steht in der verlinkten
-                  Erklaerung. */}
-              <span>
-                Ich bin einverstanden, dass meine Angaben und meine Antworten übermittelt,
-                ausgewertet und für die Rückmeldung verwendet werden. Empfänger, Verantwortlicher
-                und Widerruf stehen im{" "}
-                <Link
-                  href="/datenschutz"
-                  className="underline underline-offset-2 hover:text-foreground"
-                >
-                  Datenschutz
-                </Link>
-                .
-              </span>
-            </label>
-
-            {fehler && (
-              <p
-                role="alert"
-                className="border border-destructive/40 bg-destructive/5 px-4 py-3 text-sm text-destructive"
-              >
-                {fehler}
-              </p>
-            )}
-
-            <button
-              type="submit"
-              disabled={!vollstaendig || laeuft}
-              className="group inline-flex min-h-[3.5rem] w-full items-center justify-between gap-6 bg-primary px-6 py-4 text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:bg-border disabled:text-muted-foreground sm:w-auto"
-            >
-              <span className="text-base font-medium">
-                {laeuft ? "Wird übermittelt …" : "Auswertung anfordern"}
-              </span>
-              <Send className="h-4 w-4 shrink-0" aria-hidden="true" />
-            </button>
-          </div>
-
-          <div className="border-t border-border px-5 py-5 sm:px-6">
-            <p className="text-sm font-medium text-foreground">Das wird übermittelt</p>
-            <ul className="mt-3 divide-y divide-border border-y border-border">
-              {FRAGEN.map((frage, i) => {
-                const antwort = antworten[i] ?? "no";
-                const anzeige = ANTWORT_ANZEIGE[antwort];
-                const Icon = anzeige.icon;
-                return (
-                  <li key={frage.label} className="flex items-center gap-3 py-2.5">
-                    <Icon
-                      className="h-4 w-4 shrink-0"
-                      style={{ color: anzeige.color }}
-                      aria-hidden="true"
-                    />
-                    <span className="text-sm font-light text-foreground/90">{frage.label}</span>
-                    <span className="ml-auto text-xs text-muted-foreground">{anzeige.label}</span>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </form>
-
-        <button
-          type="button"
-          onClick={onZurueck}
-          className="-mx-2 mt-6 inline-flex min-h-[2.75rem] items-center gap-2 px-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
-        >
-          <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-          Antworten ändern
-        </button>
-      </div>
-    </section>
-  );
-}
-
-function Feld({
-  id,
-  label,
-  value,
-  onChange,
-  type = "text",
-  autoComplete,
-  placeholder,
-}: {
-  id: string;
-  label: string;
-  value: string;
-  onChange: (wert: string) => void;
-  type?: string;
-  autoComplete?: string;
-  placeholder?: string;
-}) {
-  return (
-    <div>
-      <label htmlFor={id} className="block text-sm font-medium text-foreground">
-        {label}
-      </label>
-      <input
-        id={id}
-        type={type}
-        required
-        value={value}
-        autoComplete={autoComplete}
-        placeholder={placeholder}
-        onChange={(event) => onChange(event.target.value)}
-        className="mt-2 h-12 w-full border border-input bg-background px-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
-      />
-    </div>
-  );
-}
-
-/* --------------------------------------------------------------- Gesendet */
-
-function Gesendet({ onNeustart }: { onNeustart: () => void }) {
-  return (
-    <section className={`${SITE_CONTAINER} w-full py-14 sm:py-20`}>
-      <div className="mx-auto max-w-3xl">
-        <p className="text-sm text-muted-foreground">Eingegangen</p>
-        <h1 className="kinetic-display mt-3 max-w-2xl text-balance text-3xl leading-tight text-foreground sm:text-4xl">
+        <h1 ref={ueberschrift} tabIndex={-1} className={h1}>
           Ihre Antworten sind bei uns.
         </h1>
+        {/* Keine Rückmeldung versprechen: Ohne Adresse kann sich niemand melden,
+            und wer auf eine Mail wartet, die nicht kommt, ist verloren. */}
         <p className="mt-5 max-w-2xl text-base font-light leading-relaxed text-foreground/85">
-          Wir gehen die acht Punkte durch und melden uns per E-Mail mit der Auswertung und dem, was
-          bei Ihnen zuerst ansteht. In der Regel noch am selben Werktag.
+          Eine Auswertung auf dem Bildschirm gibt es nicht, und ohne Kontaktdaten können wir uns
+          nicht bei Ihnen melden. Wenn Sie wissen wollen, wo Ihr Unternehmen steht, gehen wir die
+          acht Punkte in einem Termin mit Ihnen durch.
         </p>
 
         <Link
@@ -621,7 +513,7 @@ function Gesendet({ onNeustart }: { onNeustart: () => void }) {
           className="group mt-10 inline-flex w-full items-center justify-between gap-6 bg-primary px-6 py-5 text-primary-foreground transition-colors hover:bg-primary/90 sm:w-auto"
         >
           <span className="text-left">
-            <span className="block text-base font-medium sm:text-lg">Lieber gleich sprechen</span>
+            <span className="block text-base font-medium sm:text-lg">Auswertung besprechen</span>
             <span className="mt-1 block text-xs font-light text-primary-foreground/70 sm:text-sm">
               Kostenloser 1:1-KI-Check, 30 Minuten, ohne Verpflichtung
             </span>
@@ -634,7 +526,7 @@ function Gesendet({ onNeustart }: { onNeustart: () => void }) {
 
         <div className="mt-12 border-t border-border pt-6">
           <p className="max-w-2xl text-xs leading-relaxed text-muted-foreground">
-            Die Auswertung ist eine Orientierung auf Basis Ihrer Angaben und keine Aussage über die
+            Der Check ist eine Orientierung auf Basis Ihrer Angaben und keine Aussage über die
             Rechtskonformität Ihres Unternehmens im Einzelfall. Für rechtliche Würdigungen wenden
             Sie sich an eine Rechtsanwältin oder einen Rechtsanwalt.
           </p>

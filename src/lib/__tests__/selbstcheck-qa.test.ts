@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { PDFDocument, StandardFonts } from "pdf-lib";
+import { PDFDocument } from "pdf-lib";
 import { FRAGEN, MAX_PUNKTE, werteAus, type Antwort } from "@/data/selbstcheck";
 import { erzeugeSelbstcheckPdf } from "@/lib/selbstcheck-pdf";
 import { graphKonfiguration } from "@/lib/graph-mail";
@@ -134,9 +134,6 @@ describe("werteAus — unvollstaendige und ueberzaehlige Eingaben", () => {
 
 describe("PDF — Seitenumbruch", () => {
   const basis = {
-    name: "Test Person",
-    firma: "Test GmbH",
-    email: "person@example.de",
     zeitpunkt: new Date("2026-09-18T09:00:00+02:00"),
   };
 
@@ -174,15 +171,11 @@ describe("PDF — Randfaelle bei den Eingabewerten", () => {
   const antwortenAlleJa = ALLE_JA;
   const auswertung = werteAus(antwortenAlleJa);
 
-  it("erzeugt trotz leerer Pflichtfelder ein gueltiges PDF, statt zu werfen", async () => {
-    // `erzeugeSelbstcheckPdf` validiert selbst nicht — das Mindestlaenge-Gate
-    // sitzt im Zod-Schema der Route. Die Funktion muss trotzdem robust sein,
-    // falls sie je aus einem anderen Aufrufer ohne dieses Gate benutzt wird.
+  it("erzeugt ohne Herkunft ein gueltiges PDF", async () => {
+    /* Direkter Aufruf ohne Referrer und ohne Kampagne — der Normalfall, wenn
+       jemand die Adresse eintippt. Der Herkunftsblock entfaellt dann ganz. */
     const bytes = await erzeugeSelbstcheckPdf({
       ...basis,
-      name: "",
-      firma: "",
-      email: "",
       antworten: antwortenAlleJa,
       auswertung,
     });
@@ -197,81 +190,24 @@ describe("PDF — Randfaelle bei den Eingabewerten", () => {
     const kurz = antwortenAlleJa.slice(0, 3) as Antwort[];
     const bytes = await erzeugeSelbstcheckPdf({
       ...basis,
-      name: "Kurz Test",
-      firma: "Kurz GmbH",
-      email: "kurz@example.de",
       antworten: kurz,
       auswertung: werteAus(kurz),
     });
     expect(Buffer.from(bytes.slice(0, 5)).toString()).toBe("%PDF-");
   });
 
-  it("generiert weiterhin ein gueltiges PDF bei einem sehr langen Firmennamen (500 Zeichen)", async () => {
-    const firma = "Beispiel-Handelsgesellschaft-mit-sehr-langem-Namen-".repeat(10).slice(0, 500);
+  it("generiert ein gueltiges PDF bei einer Herkunft von 500 Zeichen ohne Leerzeichen", async () => {
+    /* So viel laesst das Schema fuer den Referrer zu. Seit die Kontaktdaten
+       weg sind, ist die Herkunft die einzige fremde Eingabe im Dokument. */
     const bytes = await erzeugeSelbstcheckPdf({
       ...basis,
-      name: "Test Person",
-      firma,
-      email: "person@example.de",
       antworten: antwortenAlleJa,
       auswertung,
+      herkunft: `https://example.com/${"x".repeat(480)}`,
     });
     expect(Buffer.from(bytes.slice(0, 5)).toString()).toBe("%PDF-");
     const geladen = await PDFDocument.load(bytes);
     expect(geladen.getPageCount()).toBeGreaterThanOrEqual(1);
-  });
-
-  it("bricht einen ueberlangen Firmennamen im Kopfbereich um, statt ihn aus der Seite laufen zu lassen", async () => {
-    /* Der "Wer"-Block zeichnete bis zum 18.09.2026 direkt per `drawText` in
-       einer Zeile, ohne `umbrechen()`. `pdf-lib` beschneidet nicht — der Wert
-       lief rechts aus der Seite, lautlos und ausgerechnet im einzigen
-       Dokument, das die Angaben des Interessenten traegt.
-
-       Gemessen statt geraten: Ein Name, der die Wertespalte um ein Vielfaches
-       ueberschreitet, muss die Seite waschsen lassen. */
-    const RAND = 56;
-    const SEITENBREITE = 595.28;
-    const verfuegbareBreite = SEITENBREITE - RAND - (RAND + 92);
-
-    const dokument = await PDFDocument.create();
-    const fett = await dokument.embedFont(StandardFonts.HelveticaBold);
-    const langerName = "Beispiel-Handelsgesellschaft-mit-sehr-langem-Namen-".repeat(10);
-    expect(fett.widthOfTextAtSize(langerName, 10)).toBeGreaterThan(verfuegbareBreite * 5);
-
-    const kurz = await erzeugeSelbstcheckPdf({
-      ...basis,
-      name: "Test Person",
-      firma: "Test GmbH",
-      email: "person@example.de",
-      antworten: antwortenAlleJa,
-      auswertung,
-    });
-    const lang = await erzeugeSelbstcheckPdf({
-      ...basis,
-      name: "Test Person",
-      firma: langerName,
-      email: "person@example.de",
-      antworten: antwortenAlleJa,
-      auswertung,
-    });
-    expect(Buffer.from(lang.slice(0, 5)).toString()).toBe("%PDF-");
-    expect(lang.length).toBeGreaterThan(kurz.length);
-
-    /* Der harte Nachweis geht ueber die Seitenzahl. Gemessen: 460 und 2760
-       Zeichen bleiben bei zwei Seiten, weil die zweite Seite Reserve hat —
-       erst bei rund 9000 Zeichen kommen Seiten hinzu. Bliebe der Name eine
-       einzige Zeile, aenderte sich an der Seitenzahl nie etwas. */
-    const sehrLang = await erzeugeSelbstcheckPdf({
-      ...basis,
-      name: "Test Person",
-      firma: "Beispiel-Handelsgesellschaft-mit-sehr-langem-Namen-".repeat(200),
-      email: "person@example.de",
-      antworten: antwortenAlleJa,
-      auswertung,
-    });
-    expect((await PDFDocument.load(sehrLang)).getPageCount()).toBeGreaterThan(
-      (await PDFDocument.load(kurz)).getPageCount()
-    );
   });
 
   it("bricht auch eine lange URL ohne Leerzeichen um — sie ist ein einziges Wort", async () => {
@@ -280,18 +216,12 @@ describe("PDF — Randfaelle bei den Eingabewerten", () => {
        Rand. */
     const kurz = await erzeugeSelbstcheckPdf({
       ...basis,
-      name: "Test Person",
-      firma: "Test GmbH",
-      email: "person@example.de",
       antworten: antwortenAlleJa,
       auswertung,
       herkunft: "example.com",
     });
     const lang = await erzeugeSelbstcheckPdf({
       ...basis,
-      name: "Test Person",
-      firma: "Test GmbH",
-      email: "person@example.de",
       antworten: antwortenAlleJa,
       auswertung,
       herkunft: `https://example.com/${"a".repeat(400)}?utm_campaign=${"b".repeat(200)}`,
@@ -305,18 +235,12 @@ describe("PDF — Randfaelle bei den Eingabewerten", () => {
        Dokuments erschlaegt — gekuerzt steht wenigstens die Domain da. */
     const bytes = await erzeugeSelbstcheckPdf({
       ...basis,
-      name: "Test Person",
-      firma: "Test GmbH",
-      email: "person@example.de",
       antworten: antwortenAlleJa,
       auswertung,
       herkunft: "wort ".repeat(2000),
     });
     const massvoll = await erzeugeSelbstcheckPdf({
       ...basis,
-      name: "Test Person",
-      firma: "Test GmbH",
-      email: "person@example.de",
       antworten: antwortenAlleJa,
       auswertung,
       herkunft: "wort ".repeat(60),
@@ -334,9 +258,6 @@ describe("PDF — Randfaelle bei den Eingabewerten", () => {
     // kommt hier nicht an; wichtig ist nur, dass das nicht crasht.
     const bytes = await erzeugeSelbstcheckPdf({
       ...basis,
-      name: "Test Person",
-      firma: "Test GmbH",
-      email: "person@example.de",
       antworten: antwortenAlleJa,
       auswertung,
       herkunft: "erste-zeile\nzweite-zeile\ndritte-zeile",
