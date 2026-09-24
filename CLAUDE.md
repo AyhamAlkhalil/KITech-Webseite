@@ -545,15 +545,31 @@ eigenes Vorschaubild ohne Logo; `buildMetadata({ ogImage: null, siteName: null }
 Nennungen von „KITech". Ausnahmen mit Grund: Rechtstexte klein in der Fußzeile
 (§ 5 DDG), CTA auf `/lass-uns-reden`, Domain bleibt `kitech-software.de`.
 
-**Der Ausfüllende sieht sein Ergebnis nicht und wird nicht nach sich gefragt**
-(Ansage 18.09.2026). Mit der achten Antwort baut `/api/selbstcheck` ein PDF
-(`lib/selbstcheck-pdf.ts`, reines `pdf-lib` — im `node:22-alpine` steckt kein
-Chrome) und schickt es **anonym** über Microsoft Graph an
-`joerg.kratzat@kitech-software.de` (`SELBSTCHECK_MAIL_AN` ändert das ohne
-Deploy). Kein Name, keine Firma, keine E-Mail — die Fassung mit Pflichtfeldern
-kam nie live. Zurückschreiben kann also niemand; der Weg zum Gespräch ist der
-Termin-Knopf auf der Bestätigung. Fragen und Auswertung stehen in
-`data/selbstcheck.ts`, weil View, Route und PDF dieselbe Zahl brauchen.
+**Der Ausfüllende sieht sein Ergebnis nicht** (Ansage 18.09.2026), **nennt
+aber Namen und Unternehmen** (Ansage 24.09.2026: „wir wissen nicht wer den
+Selbstcheck macht"). Nach der achten Frage kommen die beiden Felder, dann baut
+`/api/selbstcheck` ein PDF (`lib/selbstcheck-pdf.ts`, reines `pdf-lib` — im
+`node:22-alpine` steckt kein Chrome) und schickt es über Microsoft Graph.
+**Eine E-Mail-Adresse wird nicht abgefragt** (Ansage 18.09.2026): Der Empfänger
+weiß, *wer* geantwortet hat, erreichen muss er ihn über die Firma. Deshalb
+verspricht die Bestätigung keine Rückmeldung, sondern führt auf den Termin.
+Fragen und Auswertung stehen in `data/selbstcheck.ts`, weil View, Route und PDF
+dieselbe Zahl brauchen.
+
+⚠️ **Zwei Empfänger über zwei Wege** (`lib/selbstcheck-empfaenger.ts`):
+`joerg.kratzat@kitech-software.de` **und** `jk@sipenti.de`.
+Zwischen dem 18. und 22.09.2026 nahm Graph drei Auswertungen an — HTTP 202 —
+und zugestellt wurde keine: nichts im Postfach, keine Unzustellbarkeitsmeldung,
+und weil nichts gespeichert wird, waren die drei PDFs weg. Die zweite Adresse
+liegt außerhalb des Mandanten, dazu legt `graph-mail.ts` eine **Kopie im
+Gesendet-Ordner** des Absenders ab. `SELBSTCHECK_MAIL_AN` überschreibt die
+Liste ohne Deploy — dann aber mit **beiden** Adressen, sonst fällt der zweite
+Weg weg. ⚠️ Die Annahme durch Graph beweist die Annahme, nicht die Zustellung.
+
+⚠️ **Die Weitergabe geht aus dem Haus.** `jk@sipenti.de` ist die Adresse des
+Handelsvertreters (Sipenti UG). Datenschutz Abschnitt 6 benennt Empfänger und
+Rechtsgrundlage (Art. 6 Abs. 1 lit. b, für Weitergabe und IP-Sperre lit. f);
+wer den Empfängerkreis ändert, ändert den Abschnitt mit.
 
 ⚠️ **Diese Route darf keinen Fehler verschlucken.** `/api/ereignis` antwortet
 immer 204, weil dort nur eine Benachrichtigung verloren geht; hier ist die Mail
@@ -570,12 +586,11 @@ die acht bekannten fest.
 
 ⚠️ **Die Texte hängen am Versand.** „kein Datenversand", „Die Antworten
 bleiben in Ihrem Browser", „die Auswertung sehen Sie sofort auf dieser Seite"
-standen dort, solange der Check im Browser blieb, und wären jetzt die
-Unwahrheit auf der Seite, die Sorgfalt verkauft. Ebenso jede Zusage einer
-Rückmeldung — ohne Adresse kommt keine. `selbstcheck.test.ts` hält beides
-fest. Wer Kontaktfelder zurückholt, braucht wieder Einwilligung und einen
-neuen Datenschutztext; Abschnitt 6 stützt sich heute nur auf lit. f für die
-kurze IP-Sperre.
+standen dort, solange der Check im Browser blieb; „ohne Namen und ohne
+E-Mail-Adresse" stand dort die knappe Woche, in der er anonym lief. Jeder
+dieser Sätze wäre heute die Unwahrheit auf der Seite, die Sorgfalt verkauft —
+ebenso jede Zusage einer Rückmeldung, denn ohne Adresse kommt keine.
+`selbstcheck.test.ts` und `selbstcheck-versand.test.tsx` halten das fest.
 
 ⚠️ Wer hier Logo oder die normale Fußzeile einbaut, nimmt der Seite genau die
 Eigenschaft, für die sie gebaut wurde. Ebenso: Die alte Adresse

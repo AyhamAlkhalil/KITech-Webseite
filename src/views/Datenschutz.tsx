@@ -163,27 +163,33 @@ export default function Datenschutz() {
               <h2 className="text-xl font-semibold mb-3">6. Selbstcheck zum EU AI Act</h2>
               <p className="text-muted-foreground mb-4">
                 Auf der Seite „Selbstcheck EU AI Act" beantworten Sie acht Fragen zum Stand Ihrer
-                KI-Pflichten. Name, E-Mail-Adresse oder andere Kontaktdaten werden dabei nicht
-                abgefragt. Mit der letzten Antwort übermittelt Ihr Browser die acht Antworten, die
-                Seite, von der Sie kamen, und eine etwaige Kampagnenkennung an uns.
+                KI-Pflichten. Am Ende tragen Sie <strong>Namen und Unternehmen</strong> ein; beide
+                Angaben übermitteln wir zusammen mit Ihren acht Antworten, der Seite, von der Sie
+                kamen, und einer etwaigen Kampagnenkennung. Eine E-Mail-Adresse oder Telefonnummer
+                fragen wir nicht ab.
               </p>
               <p className="text-muted-foreground mb-4">
-                Aus den Antworten erstellen wir eine Auswertung als PDF und senden sie an ein
-                internes Postfach. <strong>Das Ergebnis wird Ihnen auf der Seite nicht
-                angezeigt.</strong> Die Auswertung enthält keine Angaben, die Sie direkt
-                identifizieren. Ihre IP-Adresse steht weder in der Auswertung noch in der E-Mail;
-                der Server hält sie für wenige Minuten im Arbeitsspeicher, um Missbrauch des
-                Formulars abzuwehren, und verwirft sie danach.
+                Aus den Antworten erstellen wir eine Auswertung als PDF. <strong>Das Ergebnis wird
+                Ihnen auf der Seite nicht angezeigt</strong> — es geht an unseren Berater, der es
+                sichtet. Empfänger sind ein internes Postfach und ein für uns im Vertrieb tätiger
+                Partner (Sipenti UG (haftungsbeschränkt), vertreten durch Jörg Kratzat). Ihre
+                IP-Adresse steht weder in der Auswertung noch in der E-Mail; der Server hält sie
+                für wenige Minuten im Arbeitsspeicher, um Missbrauch des Formulars abzuwehren, und
+                verwirft sie danach.
               </p>
               <p className="text-muted-foreground mb-4">
                 Versand und Postfach laufen über Microsoft 365 (Microsoft Ireland Operations
                 Limited, One Microsoft Place, South County Business Park, Leopardstown, Dublin
-                18, Irland) als Auftragsverarbeiter.
+                18, Irland) als Auftragsverarbeiter. Wir speichern Ihre Angaben, solange die
+                Anfrage bearbeitet wird und gesetzliche Aufbewahrungsfristen es verlangen.
               </p>
               <p className="text-muted-foreground">
-                Rechtsgrundlage für die kurzzeitige Verarbeitung der IP-Adresse ist unser
-                berechtigtes Interesse an einem Formular, das sich nicht massenhaft missbrauchen
-                lässt (Art. 6 Abs. 1 lit. f DSGVO).
+                Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO: Sie fordern die Auswertung an, und
+                wir verarbeiten Ihre Angaben, um sie zu erstellen und mit Ihnen zu besprechen. Für
+                die kurzzeitige Verarbeitung der IP-Adresse und die Weitergabe an unseren
+                Vertriebspartner stützen wir uns auf unser berechtigtes Interesse an einem
+                funktionsfähigen Formular und an der Bearbeitung Ihrer Anfrage (Art. 6 Abs. 1
+                lit. f DSGVO). Sie können der Verarbeitung jederzeit widersprechen.
               </p>
             </div>
 

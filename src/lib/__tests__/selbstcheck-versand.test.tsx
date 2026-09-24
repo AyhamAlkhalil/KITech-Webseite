@@ -31,7 +31,10 @@ vi.mock("next/link", () => ({
 /** Die Überschrift der Bestätigung, wörtlich nach Ansage. */
 const BESTAETIGUNG = "Danke – die Ergebnisse liegen unserem Berater Jörg vor.";
 
-type Antwortkoerper = { antworten: string[] };
+type Antwortkoerper = { antworten: string[]; name: string; firma: string };
+
+const NAME = "Änne Müller";
+const FIRMA = "Mustermann & Söhne GmbH";
 let selbstcheckAufrufe: Antwortkoerper[] = [];
 
 function fetchMit(status: number, rumpf: unknown) {
@@ -53,6 +56,12 @@ async function allesMitJaBeantworten() {
     const ja = [...gruppe.querySelectorAll("button")].find((b) => b.textContent?.startsWith("Ja"));
     fireEvent.click(ja!);
   }
+  /* Nach der achten Antwort kommt seit dem 24.09.2026 die Frage, wer geantwortet
+     hat. Ohne Namen und Unternehmen geht nichts raus. */
+  await screen.findByText("Wer hat den Check gemacht?");
+  fireEvent.change(screen.getByLabelText("Name"), { target: { value: NAME } });
+  fireEvent.change(screen.getByLabelText("Unternehmen"), { target: { value: FIRMA } });
+  fireEvent.click(screen.getByRole("button", { name: /Auswertung abschicken/ }));
 }
 
 beforeEach(() => {
@@ -95,8 +104,10 @@ describe("Versand im Browser", () => {
     expect(selbstcheckAufrufe).toHaveLength(1);
     expect(selbstcheckAufrufe[0].antworten).toEqual(Array(8).fill("yes"));
     /* Keine Kontaktdaten im Versand. */
+    expect(selbstcheckAufrufe[0].name).toBe(NAME);
+    expect(selbstcheckAufrufe[0].firma).toBe(FIRMA);
     expect(Object.keys(selbstcheckAufrufe[0]).sort()).toEqual(
-      ["antworten", "referrer", "utmCampaign", "utmMedium", "utmSource"].sort()
+      ["antworten", "firma", "name", "referrer", "utmCampaign", "utmMedium", "utmSource"].sort()
     );
   });
 
@@ -115,6 +126,28 @@ describe("Versand im Browser", () => {
     expect(selbstcheckAufrufe).toHaveLength(1);
     /* Die Gegenprobe: Plausible wurde nach dem Versand wirklich gerufen. */
     expect(plausible).toHaveBeenCalledWith("Lead_Qualifier_abgeschlossen", expect.anything());
+  });
+
+  it("schickt nichts ab, solange Name oder Unternehmen fehlen", async () => {
+    vi.stubGlobal("fetch", fetchMit(200, { ok: true }));
+    render(<EuAiActSelbstcheck />);
+    fireEvent.click(screen.getByRole("button", { name: /Check starten/ }));
+    for (let n = 1; n <= 8; n++) {
+      await screen.findByText(new RegExp(`Frage ${n} von 8`));
+      const gruppe = screen.getByRole("group", { name: "Antwort auswählen" });
+      fireEvent.click([...gruppe.querySelectorAll("button")][0]);
+    }
+    await screen.findByText("Wer hat den Check gemacht?");
+
+    const knopf = screen.getByRole("button", { name: /Auswertung abschicken/ }) as HTMLButtonElement;
+    expect(knopf.disabled).toBe(true);
+    fireEvent.change(screen.getByLabelText("Name"), { target: { value: NAME } });
+    expect(knopf.disabled).toBe(true);
+    fireEvent.click(knopf);
+    expect(selbstcheckAufrufe).toHaveLength(0);
+
+    fireEvent.change(screen.getByLabelText("Unternehmen"), { target: { value: FIRMA } });
+    expect(knopf.disabled).toBe(false);
   });
 
   it("zeigt einen abgelehnten Versand als Fehler, nie als Bestätigung", async () => {
@@ -144,6 +177,8 @@ describe("Versand im Browser", () => {
 
     expect(selbstcheckAufrufe).toHaveLength(2);
     expect(selbstcheckAufrufe[1].antworten).toEqual(selbstcheckAufrufe[0].antworten);
+    expect(selbstcheckAufrufe[1].name).toBe(NAME);
+    expect(selbstcheckAufrufe[1].firma).toBe(FIRMA);
   });
 
   it("legt den Fokus auf die Überschrift des neuen Zustands", async () => {

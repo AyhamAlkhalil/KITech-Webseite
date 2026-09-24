@@ -133,7 +133,12 @@ export async function sendeMail(konfig: GraphKonfiguration, auftrag: MailAuftrag
             contentBytes: Buffer.from(anhang.inhalt).toString("base64"),
           })),
         },
-        saveToSentItems: false,
+        /* ⚠️ Kopie im Gesendet-Ordner des Absenders — Absicht, kein Versehen.
+         Zwischen dem 18. und 22.09.2026 nahm Graph drei Auswertungen an
+         (HTTP 202), zugestellt wurde keine, eine Unzustellbarkeitsmeldung gab
+         es nicht, und weil nichts gespeichert wird, waren die PDFs weg. Die
+         Kopie ist die einzige Spur, die unabhängig vom Empfänger existiert. */
+      saveToSentItems: true,
       }),
       signal: AbortSignal.timeout(20000),
     }

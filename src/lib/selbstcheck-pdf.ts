@@ -154,11 +154,14 @@ function kuerzen(wert: string, laenge: number): string {
 /* ---------------------------------------------------------------- Inhalt -- */
 
 /**
- * Was ins PDF kommt. **Keine Kontaktdaten** — der Check fragt seit der zweiten
- * Ansage vom 18.09.2026 weder Name noch Firma noch E-Mail ab. Wer das PDF
- * liest, weiss also nur, *was* geantwortet wurde, nicht *wer*.
+ * Was ins PDF kommt. Name und Unternehmen sind seit dem 24.09.2026 wieder
+ * dabei („wir wissen nicht wer den Selbstcheck macht"), eine E-Mail-Adresse
+ * nicht. Wer das PDF liest, weiss also, *wer* geantwortet hat — erreichen muss
+ * er ihn über die Firma.
  */
 export interface SelbstcheckPdfDaten {
+  name: string;
+  firma: string;
   antworten: Antwort[];
   auswertung: Auswertung;
   zeitpunkt: Date;
@@ -171,9 +174,7 @@ export async function erzeugeSelbstcheckPdf(daten: SelbstcheckPdfDaten): Promise
   const normal = await dokument.embedFont(StandardFonts.Helvetica);
   const fett = await dokument.embedFont(StandardFonts.HelveticaBold);
 
-  dokument.setTitle(
-    `EU-AI-Act-Selbstcheck vom ${daten.zeitpunkt.toLocaleDateString("de-DE", { timeZone: "Europe/Berlin" })}`
-  );
+  dokument.setTitle(`EU-AI-Act-Selbstcheck - ${winAnsi(daten.firma)}`);
   dokument.setSubject("Auswertung eines ausgefuellten Selbstchecks");
   dokument.setCreationDate(daten.zeitpunkt);
 
@@ -238,24 +239,31 @@ export async function erzeugeSelbstcheckPdf(daten: SelbstcheckPdfDaten): Promise
   linie(16);
   luft(18);
 
-  /* -- Herkunft -------------------------------------------------------- */
+  /* -- Wer ------------------------------------------------------------- */
 
-  text("Anonym ausgefüllt, ohne Name und ohne Kontaktdaten.", { groesse: 10, font: fett });
-
-  /* ⚠️ Umbrechen, nicht nur zeichnen: `herkunft` setzt sich aus Referrer und
-     drei UTM-Feldern zusammen und ist fremde Eingabe. Eine einzige
-     `drawText`-Zeile lief bei einer langen URL rechts aus der Seite — und zwar
-     lautlos. Gekuerzt wird trotzdem, 500 Zeichen Kampagnen-URL liest niemand. */
-  if (daten.herkunft) {
-    luft(4);
-    const WERT_X = RAND + 92;
-    umbrechen(kuerzen(daten.herkunft, 240), normal, 9.5, SPALTE - 92).forEach((zeile, i) => {
-      const ziel = platz(14);
-      y -= 14;
+  /* ⚠️ Umbrechen, nicht nur zeichnen: Alle drei Werte sind fremde Eingabe und
+     duerfen lang sein — `firma` bis 160 Zeichen, `herkunft` setzt sich aus
+     Referrer und drei UTM-Feldern zusammen. Eine einzige `drawText`-Zeile lief
+     bei so etwas rechts aus der Seite, und zwar lautlos. */
+  const WERT_X = RAND + 92;
+  for (const [beschriftung, wert, groesse] of [
+    ["Name", daten.name, 10],
+    ["Unternehmen", daten.firma, 10],
+    ...(daten.herkunft ? [["Herkunft", kuerzen(daten.herkunft, 240), 9.5]] : []),
+  ] as [string, string, number][]) {
+    umbrechen(wert, fett, groesse, SPALTE - 92).forEach((zeile, i) => {
+      const ziel = platz(15);
+      y -= 15;
       if (i === 0) {
-        ziel.drawText("Herkunft", { x: RAND, y, size: 9, font: normal, color: FARBE.gedaempft });
+        ziel.drawText(winAnsi(beschriftung), {
+          x: RAND,
+          y,
+          size: 9,
+          font: normal,
+          color: FARBE.gedaempft,
+        });
       }
-      ziel.drawText(zeile, { x: WERT_X, y, size: 9.5, font: normal, color: FARBE.text });
+      ziel.drawText(zeile, { x: WERT_X, y, size: groesse, font: fett, color: FARBE.text });
     });
   }
 

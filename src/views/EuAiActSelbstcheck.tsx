@@ -3,12 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { ArrowRight, ArrowLeft, RotateCw } from "lucide-react";
+import { ArrowRight, ArrowLeft, RotateCw, Send } from "lucide-react";
 import { CheckShell } from "@/components/layout/CheckShell";
 import { SITE_CONTAINER } from "@/components/layout/site-container";
 import { trackEvent } from "@/lib/plausible";
 import { meldeEreignis } from "@/lib/ereignis";
-import { ANTWORT_OPTIONEN, FRAGEN, type Antwort } from "@/data/selbstcheck";
+import { ANTWORT_LABEL, ANTWORT_OPTIONEN, FRAGEN, type Antwort } from "@/data/selbstcheck";
 import { teamRoster } from "@/data/team";
 
 /*
@@ -17,9 +17,11 @@ import { teamRoster } from "@/data/team";
  * achten Antwort geht alles anonym an `/api/selbstcheck`; dort entsteht das
  * PDF und geht per Mail an das Postfach, das es bearbeitet.
  *
- * Bis dahin lief der Check vollständig im Browser: keine Übertragung, Ergebnis
- * sofort auf der Seite. Die erste Fassung des Umbaus fragte danach Name, Firma
- * und E-Mail ab; auf Ansage ist auch das wieder draußen.
+ * ⚠️ **Name und Unternehmen sind seit dem 24.09.2026 wieder Pflicht** („wir
+ * wissen nicht wer den Selbstcheck macht — ein Name + Firma reicht"). Die
+ * E-Mail-Adresse bleibt draußen: Jörg erfährt, *wer* geantwortet hat, aber
+ * zurückschreiben kann er nur über die Firma. Wer ein Kontaktfeld ergänzt,
+ * ergänzt auch den Datenschutztext.
  *
  * Daraus folgen die Texte, die technisch nichts tun: „Die Antworten bleiben in
  * Ihrem Browser", „kein Datenversand", „die Auswertung sehen Sie sofort" wären
@@ -30,7 +32,10 @@ import { teamRoster } from "@/data/team";
  * Besucher vor dem ersten Klick liest, muss beschreiben, was danach passiert.
  */
 
-type Stufe = "intro" | "check" | "abschluss";
+type Stufe = "intro" | "check" | "kontakt" | "abschluss";
+
+/** Wer den Check ausgefüllt hat. Ohne E-Mail — siehe Kopfkommentar. */
+type Angaben = { name: string; firma: string };
 type Versand = "laeuft" | "ok" | "fehler";
 
 /**
@@ -51,6 +56,7 @@ export default function EuAiActSelbstcheck() {
   const [stufe, setStufe] = useState<Stufe>("intro");
   const [antworten, setAntworten] = useState<Record<number, Antwort>>({});
   const [index, setIndex] = useState(0);
+  const [angaben, setAngaben] = useState<Angaben>({ name: "", firma: "" });
   const [versand, setVersand] = useState<Versand>("laeuft");
   const [fehler, setFehler] = useState<string | null>(null);
   /* Gegen den Doppelklick auf die letzte Antwort: Zwei Klicks im selben Takt
@@ -70,13 +76,13 @@ export default function EuAiActSelbstcheck() {
     nachOben();
   }
 
-  async function sende(alle: Record<number, Antwort>) {
+  async function sende(alle: Record<number, Antwort>, wer: Angaben) {
     if (sendetGerade.current) return;
     sendetGerade.current = true;
     setVersand("laeuft");
     setFehler(null);
 
-    const ergebnis = await uebermittle(alle);
+    const ergebnis = await uebermittle(alle, wer);
     sendetGerade.current = false;
 
     /* `in` statt `!ergebnis.ok`: Ohne `strict` verengt TypeScript die Union
@@ -113,9 +119,15 @@ export default function EuAiActSelbstcheck() {
       setIndex(index + 1);
       return;
     }
+    setStufe("kontakt");
+    nachOben();
+  }
+
+  function abschicken(wer: Angaben) {
+    setAngaben(wer);
     setStufe("abschluss");
     nachOben();
-    void sende(alle);
+    void sende(antworten, wer);
   }
 
   return (
@@ -137,7 +149,7 @@ export default function EuAiActSelbstcheck() {
         shortLabel: "Entgelttransparenz",
         trackingPosition: "selbstcheck-klargehalt",
       }}
-      note="Orientierung auf Basis Ihrer Angaben, keine Rechtsberatung. Die Antworten gehen anonym an uns."
+      note="Orientierung auf Basis Ihrer Angaben, keine Rechtsberatung. Die Auswertung geht an unseren Berater."
     >
       <>
         {stufe === "intro" && <Intro onStart={start} />}
@@ -149,11 +161,21 @@ export default function EuAiActSelbstcheck() {
             onZurueck={() => setIndex((vorher) => Math.max(0, vorher - 1))}
           />
         )}
+        {stufe === "kontakt" && (
+          <Kontakt
+            antworten={antworten}
+            onZurueck={() => {
+              setStufe("check");
+              setIndex(FRAGEN.length - 1);
+            }}
+            onAbschicken={abschicken}
+          />
+        )}
         {stufe === "abschluss" && (
           <Abschluss
             versand={versand}
             fehler={fehler}
-            onErneut={() => void sende(antworten)}
+            onErneut={() => void sende(antworten, angaben)}
             onNeustart={start}
           />
         )}
@@ -171,13 +193,15 @@ type Ergebnis = { ok: true } | { ok: false; fehler: string };
  * Ergebnis, damit der Aufrufer die Sperre gegen Doppelklicks sicher löst und
  * nichts anderes als der Versand über Erfolg oder Fehlschlag entscheidet.
  */
-async function uebermittle(alle: Record<number, Antwort>): Promise<Ergebnis> {
+async function uebermittle(alle: Record<number, Antwort>, wer: Angaben): Promise<Ergebnis> {
   const params = new URLSearchParams(window.location.search);
   try {
     const antwort = await fetch("/api/selbstcheck", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        name: wer.name.trim(),
+        firma: wer.firma.trim(),
         antworten: FRAGEN.map((_, i) => alle[i] ?? "no"),
         referrer: document.referrer || null,
         utmSource: params.get("utm_source"),
@@ -229,9 +253,9 @@ function Intro({ onStart }: { onStart: () => void }) {
             {/* Steht bewusst vor dem Knopf: Wer nach acht Fragen erfährt, dass
                 er sein Ergebnis nicht zu sehen bekommt, fühlt sich vorgeführt. */}
             <p className="mt-4 max-w-xl text-balance text-sm leading-relaxed text-muted-foreground sm:text-base">
-              Zwei Minuten, ohne Namen und ohne E-Mail-Adresse. Mit der letzten Antwort gehen Ihre
-              Angaben anonym an unser Team. Eine Auswertung auf dem Bildschirm gibt es nicht; wo Sie
-              stehen, klären wir im Gespräch.
+              Zwei Minuten. Am Ende tragen Sie Namen und Unternehmen ein, dann geht Ihre Auswertung
+              an unseren Berater. Auf dem Bildschirm sehen Sie sie nicht; wo Sie stehen, klären wir
+              im Gespräch.
             </p>
 
             <button
@@ -242,7 +266,7 @@ function Intro({ onStart }: { onStart: () => void }) {
               <span className="text-left">
                 <span className="block text-base font-medium sm:text-lg">Check starten</span>
                 <span className="mt-1 block text-xs font-light text-primary-foreground/70 sm:text-sm">
-                  Acht Fragen, anonym
+                  Acht Fragen, danach Name und Unternehmen
                 </span>
               </span>
               <ArrowRight
@@ -386,7 +410,7 @@ function Fragen({
             Zurück
           </button>
           <p className="text-xs text-muted-foreground">
-            Mit der letzten Antwort gehen Ihre Angaben anonym an uns.
+            Übertragen wird erst, wenn Sie am Ende absenden.
           </p>
         </div>
       </div>
@@ -433,6 +457,158 @@ function Fortschritt({
   );
 }
 
+
+/* ---------------------------------------------------------------- Kontakt */
+
+/**
+ * Die letzte Stufe vor dem Versand: **Name und Unternehmen**, sonst nichts.
+ *
+ * Ansage vom 24.09.2026: „Wir wissen nicht, wer den Selbstcheck macht." Ohne
+ * die beiden Angaben ist die Auswertung für den, der sie liest, ein Blatt ohne
+ * Absender. Eine E-Mail-Adresse steht bewusst nicht dabei — sie war am
+ * 18.09.2026 ausdrücklich herausgenommen worden.
+ *
+ * Die Liste darunter zeigt, was mitgeht. Wer gleich seinen Namen dazugibt,
+ * darf vorher sehen, woran er ihn hängt.
+ */
+function Kontakt({
+  antworten,
+  onZurueck,
+  onAbschicken,
+}: {
+  antworten: Record<number, Antwort>;
+  onZurueck: () => void;
+  onAbschicken: (wer: Angaben) => void;
+}) {
+  const [name, setName] = useState("");
+  const [firma, setFirma] = useState("");
+  const vollstaendig = name.trim().length >= 2 && firma.trim().length >= 2;
+
+  function onSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    if (!vollstaendig) return;
+    onAbschicken({ name, firma });
+  }
+
+  return (
+    <section className={`${SITE_CONTAINER} w-full py-14 sm:py-20`}>
+      <div className="mx-auto max-w-3xl">
+        <p className="text-sm text-muted-foreground">Letzter Schritt</p>
+        <h1 className="kinetic-display mt-3 max-w-2xl text-balance text-3xl leading-tight text-foreground sm:text-4xl">
+          Wer hat den Check gemacht?
+        </h1>
+        <p className="mt-5 max-w-2xl text-base font-light leading-relaxed text-foreground/85">
+          Unser Berater Jörg sieht sich Ihre Antworten an. Damit er weiß, zu wem sie gehören,
+          braucht er Ihren Namen und Ihr Unternehmen.
+        </p>
+
+        <form onSubmit={onSubmit} className="mt-10 border border-border bg-surface">
+          <div className="grid gap-5 px-5 py-6 sm:px-6 sm:py-7">
+            <Feld
+              id="selbstcheck-name"
+              label="Name"
+              value={name}
+              onChange={setName}
+              autoComplete="name"
+              placeholder="Vor- und Nachname"
+            />
+            <Feld
+              id="selbstcheck-firma"
+              label="Unternehmen"
+              value={firma}
+              onChange={setFirma}
+              autoComplete="organization"
+              placeholder="Firmenname"
+            />
+
+            <p className="text-xs font-light leading-relaxed text-muted-foreground">
+              Mit dem Absenden gehen diese beiden Angaben und Ihre acht Antworten an uns. Wofür wir
+              sie verwenden, steht im{" "}
+              <Link href="/datenschutz" className="underline underline-offset-2 hover:text-foreground">
+                Datenschutz
+              </Link>
+              .
+            </p>
+
+            <button
+              type="submit"
+              disabled={!vollstaendig}
+              className="group inline-flex min-h-[3.5rem] w-full items-center justify-between gap-6 bg-primary px-6 py-4 text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:bg-border disabled:text-muted-foreground sm:w-auto"
+            >
+              <span className="text-base font-medium">Auswertung abschicken</span>
+              <Send className="h-4 w-4 shrink-0" aria-hidden="true" />
+            </button>
+          </div>
+
+          <div className="border-t border-border px-5 py-5 sm:px-6">
+            <p className="text-sm font-medium text-foreground">Das wird übermittelt</p>
+            <ul className="mt-3 divide-y divide-border border-y border-border">
+              {FRAGEN.map((frage, i) => {
+                const antwort = antworten[i] ?? "no";
+                return (
+                  <li key={frage.label} className="flex items-center gap-3 py-2.5">
+                    <span
+                      className="h-2 w-2 shrink-0"
+                      style={{ backgroundColor: ANTWORT_FARBE[antwort] }}
+                      aria-hidden="true"
+                    />
+                    <span className="text-sm font-light text-foreground/90">{frage.label}</span>
+                    <span className="ml-auto text-xs text-muted-foreground">
+                      {ANTWORT_LABEL[antwort]}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </form>
+
+        <button
+          type="button"
+          onClick={onZurueck}
+          className="-mx-2 mt-6 inline-flex min-h-[2.75rem] items-center gap-2 px-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+        >
+          <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+          Antworten ändern
+        </button>
+      </div>
+    </section>
+  );
+}
+
+function Feld({
+  id,
+  label,
+  value,
+  onChange,
+  autoComplete,
+  placeholder,
+}: {
+  id: string;
+  label: string;
+  value: string;
+  onChange: (wert: string) => void;
+  autoComplete?: string;
+  placeholder?: string;
+}) {
+  return (
+    <div>
+      <label htmlFor={id} className="block text-sm font-medium text-foreground">
+        {label}
+      </label>
+      <input
+        id={id}
+        type="text"
+        required
+        value={value}
+        autoComplete={autoComplete}
+        placeholder={placeholder}
+        onChange={(event) => onChange(event.target.value)}
+        className="mt-2 h-12 w-full border border-input bg-background px-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+      />
+    </div>
+  );
+}
 
 /* -------------------------------------------------------------- Abschluss */
 
@@ -533,9 +709,8 @@ function Abschluss({
         {/* Keine Rückmeldung versprechen: Ohne Adresse kann sich niemand melden,
             und wer auf eine Mail wartet, die nicht kommt, ist verloren. */}
         <p className="mt-8 max-w-2xl text-base font-light leading-relaxed text-foreground/85">
-          Eine Auswertung auf dem Bildschirm gibt es nicht, und ohne Kontaktdaten kann er sich nicht
-          bei Ihnen melden. Wenn Sie wissen wollen, wo Ihr Unternehmen steht, gehen wir die acht
-          Punkte in einem Termin mit Ihnen durch.
+          Eine Auswertung auf dem Bildschirm gibt es nicht. Wenn Sie wissen wollen, wo Ihr
+          Unternehmen steht, gehen wir die acht Punkte in einem Termin mit Ihnen durch.
         </p>
 
         <Link

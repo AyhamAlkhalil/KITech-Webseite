@@ -84,6 +84,8 @@ describe("Fragen als Datenvertrag", () => {
 
 describe("PDF", () => {
   const basis = {
+    name: "Änne Müller",
+    firma: "Mustermann & Söhne GmbH",
     zeitpunkt: new Date("2026-09-18T09:41:00+02:00"),
   };
 
@@ -133,23 +135,50 @@ describe("Versandweg", () => {
     expect(quelle).not.toMatch(/status:\s*204/);
   });
 
-  it("schickt an die festgelegte Adresse, solange nichts anderes gesetzt ist", () => {
+  it("lässt den Empfänger ohne Deploy ändern", () => {
     const quelle = readFileSync("src/app/api/selbstcheck/route.ts", "utf-8");
-    expect(quelle).toContain("joerg.kratzat@kitech-software.de");
     expect(quelle).toContain("SELBSTCHECK_MAIL_AN");
   });
 
   /**
-   * Die erste Fassung vom 18.09.2026 verlangte Name, Firma und E-Mail; auf
-   * Ansage ist das am selben Tag wieder herausgefallen. Nimmt die Route die
-   * Felder wieder an, braucht es auch wieder Einwilligung, Datenschutztext und
-   * die Zusage einer Rückmeldung — dann soll das hier auffallen.
+   * Name und Unternehmen sind seit dem 24.09.2026 Pflicht („wir wissen nicht
+   * wer den Selbstcheck macht"), eine E-Mail-Adresse bleibt draußen. Wer das
+   * dritte Feld ergänzt, ergänzt auch den Datenschutztext und die Frage, ob
+   * die Seite dann eine Rückmeldung verspricht.
    */
-  it("nimmt keine Kontaktdaten entgegen", () => {
+  it("verlangt Name und Unternehmen, aber keine E-Mail-Adresse", () => {
     const quelle = ohneKommentare(readFileSync("src/app/api/selbstcheck/route.ts", "utf-8"));
-    expect(quelle).not.toMatch(/\b(email|firma|einwilligung)\s*:/);
-    expect(quelle).not.toMatch(/name:\s*z\./);
+    expect(quelle).toMatch(/name:\s*z\.string\(\)/);
+    expect(quelle).toMatch(/firma:\s*z\.string\(\)/);
+    expect(quelle).not.toMatch(/\bemail\s*:/);
     expect(quelle).not.toMatch(/antwortAn/);
+  });
+
+  /**
+   * ⚠️ Beide Adressen zusammen sind die Lehre aus dem 18.–22.09.2026: Graph
+   * nahm drei Auswertungen an, zugestellt wurde keine, und es gab keine
+   * Unzustellbarkeitsmeldung. `jk@sipenti.de` liegt außerhalb des Mandanten
+   * und hängt deshalb nicht an derselben Störung.
+   */
+  it("schickt an zwei Empfänger über zwei Wege", async () => {
+    const { STANDARD_EMPFAENGER, empfaengerAus } = await import("../selbstcheck-empfaenger");
+    expect([...STANDARD_EMPFAENGER]).toEqual([
+      "joerg.kratzat@kitech-software.de",
+      "jk@sipenti.de",
+    ]);
+    /* ⚠️ Der Standard sind zwei Adressen. Wird er nicht am Komma geteilt,
+       entsteht daraus eine einzige, ungültige Adresse — und nichts kommt an. */
+    expect(empfaengerAus(undefined)).toHaveLength(2);
+    expect(empfaengerAus("")).toEqual([...STANDARD_EMPFAENGER]);
+    expect(empfaengerAus("  ,  , ")).toEqual([...STANDARD_EMPFAENGER]);
+    expect(empfaengerAus("kein-at-zeichen")).toEqual([...STANDARD_EMPFAENGER]);
+    expect(empfaengerAus(" a@b.de , c@d.de ")).toEqual(["a@b.de", "c@d.de"]);
+    for (const adresse of empfaengerAus(undefined)) expect(adresse).toContain("@");
+  });
+
+  it("legt eine Kopie im Gesendet-Ordner ab", () => {
+    const graph = ohneKommentare(readFileSync("src/lib/graph-mail.ts", "utf-8"));
+    expect(graph).toMatch(/saveToSentItems:\s*true/);
   });
 
   it("hält die Zugangsdaten aus dem Client-Bündel heraus", () => {
@@ -172,8 +201,8 @@ describe("Wer die Ergebnisse bekommt", () => {
     expect(berater?.photo).toBeTruthy();
     expect(existsSync(`public${berater!.photo}`)).toBe(true);
 
-    const route = readFileSync("src/app/api/selbstcheck/route.ts", "utf-8");
-    expect(route).toContain("joerg.kratzat@kitech-software.de");
+    const { STANDARD_EMPFAENGER } = await import("../selbstcheck-empfaenger");
+    expect(STANDARD_EMPFAENGER).toContain("joerg.kratzat@kitech-software.de");
   });
 });
 
@@ -201,20 +230,25 @@ describe("Was die Seite verspricht", () => {
 
   it("sagt vor dem ersten Klick, dass das Ergebnis nicht angezeigt wird", () => {
     const intro = view.slice(view.indexOf("function Intro"), view.indexOf("function Fragen"));
-    expect(intro).toMatch(/Auswertung auf dem Bildschirm gibt es nicht/);
-    expect(intro).toMatch(/anonym/);
+    expect(intro).toMatch(/Auf dem Bildschirm sehen Sie sie nicht/);
+    expect(intro).toMatch(/Namen und Unternehmen/);
   });
 
-  it("fragt keine Kontaktdaten ab", () => {
+  it("fragt Name und Unternehmen ab, sonst nichts", () => {
+    expect(view).toContain('id="selbstcheck-name"');
+    expect(view).toContain('id="selbstcheck-firma"');
     expect(view).not.toMatch(/type="email"/);
-    expect(view).not.toMatch(/selbstcheck-(name|firma|email)/);
+    expect(view).not.toMatch(/selbstcheck-email/);
   });
 
   it("wird vom Datenschutz gedeckt", () => {
     const datenschutz = readFileSync("src/views/Datenschutz.tsx", "utf-8");
     expect(datenschutz).toMatch(/Selbstcheck/);
-    expect(datenschutz).toMatch(/Art\. 6 Abs\. 1 lit\. f DSGVO/);
-    expect(datenschutz).toMatch(/Kontaktdaten werden dabei nicht\s+abgefragt/);
+    expect(datenschutz).toMatch(/Art\. 6 Abs\. 1\s+lit\. b DSGVO/);
+    expect(datenschutz).toMatch(/Art\. 6 Abs\. 1\s+lit\. f DSGVO/);
+    expect(datenschutz).toMatch(/Namen und Unternehmen/);
+    /* Der Empfänger außerhalb des Hauses gehört ausdrücklich benannt. */
+    expect(datenschutz).toMatch(/Sipenti/);
     /* Der auffälligste Teil der Ansage gehört ausdrücklich in die Erklärung. */
     expect(datenschutz).toMatch(/nicht\s*\n?\s*angezeigt|nicht angezeigt/);
   });

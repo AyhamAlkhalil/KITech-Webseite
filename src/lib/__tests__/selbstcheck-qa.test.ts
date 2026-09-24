@@ -134,6 +134,8 @@ describe("werteAus — unvollstaendige und ueberzaehlige Eingaben", () => {
 
 describe("PDF — Seitenumbruch", () => {
   const basis = {
+    name: "Test Person",
+    firma: "Test GmbH",
     zeitpunkt: new Date("2026-09-18T09:00:00+02:00"),
   };
 
@@ -166,6 +168,8 @@ describe("PDF — Seitenumbruch", () => {
 
 describe("PDF — Randfaelle bei den Eingabewerten", () => {
   const basis = {
+    name: "Test Person",
+    firma: "Test GmbH",
     zeitpunkt: new Date("2026-09-18T09:00:00+02:00"),
   };
   const antwortenAlleJa = ALLE_JA;

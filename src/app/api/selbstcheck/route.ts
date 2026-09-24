@@ -3,21 +3,22 @@ import { z } from "zod";
 import { darfMelden, kennungVon } from "@/lib/melde-sperre";
 import { graphKonfiguration, sendeMail } from "@/lib/graph-mail";
 import { erzeugeSelbstcheckPdf } from "@/lib/selbstcheck-pdf";
+import { empfaengerAus } from "@/lib/selbstcheck-empfaenger";
 import { ANTWORT_LABEL, BAENDER, FRAGEN, werteAus } from "@/data/selbstcheck";
 
 /**
  * Nimmt einen ausgefüllten EU-AI-Act-Selbstcheck entgegen und schickt die
  * Auswertung als PDF an das Postfach, das sie bearbeitet.
  *
- * **Auf Ansage (18.09.2026):** Das Ergebnis geht an
- * `joerg.kratzat@kitech-software.de`, und der Ausfüllende bekommt es nicht
- * zu sehen. Am selben Tag nachgeschärft: **keine Kontaktdaten** — kein Name,
- * keine Firma, keine E-Mail. Die erste Fassung hatte alle drei als Pflicht;
- * sie kam nie live.
+ * **Auf Ansage (18.09.2026):** Das Ergebnis geht an einen Berater, und der
+ * Ausfüllende bekommt es nicht zu sehen.
  *
- * Die Folge muss man kennen: Das PDF sagt, *was* geantwortet wurde, nicht
- * *wer*. Zurückschreiben kann niemand. Der Weg vom Check zum Gespräch ist der
- * Termin-Knopf auf der Bestätigungsseite, nicht diese Mail.
+ * **Nachgeschärft am 24.09.2026:** „Wir wissen nicht, wer den Selbstcheck
+ * macht — ein Name + Firma reicht." Beide sind wieder Pflicht und stehen im
+ * **Betreff**, damit die Liste im Postfach schon alles sagt: wer und wie viel.
+ * Die E-Mail-Adresse des Ausfüllenden bleibt draußen (Ansage 18.09.2026), also
+ * führt der Weg zum Gespräch weiter über den Termin-Knopf und nicht über eine
+ * Antwort auf diese Mail.
  *
  * ⚠️ **Der Unterschied zu `/api/ereignis` ist der Grund für jede Entscheidung
  * in dieser Datei.** Dort bestätigt die Route immer mit 204, weil eine
@@ -47,7 +48,6 @@ export const dynamic = "force-dynamic";
 /** Wer mehr als das schafft, füllt keinen Check aus. */
 const MAX_PRO_FENSTER = 5;
 
-const STANDARD_EMPFAENGER = "joerg.kratzat@kitech-software.de";
 
 /* eslint-disable-next-line no-control-regex --
    Die Regel warnt vor Steuerzeichen im Muster, weil sie dort meist ein
@@ -58,6 +58,9 @@ const sauber = (wert: string) => wert.replace(/[\u0000-\u001f\u007f]+/g, " ").tr
 const freitext = (laenge: number) => z.string().max(laenge).transform(sauber).nullable().optional();
 
 const EingabeSchema = z.object({
+  /** Wer geantwortet hat. Ohne die beiden ist die Auswertung ein Blatt ohne Absender. */
+  name: z.string().trim().min(2).max(120).transform(sauber),
+  firma: z.string().trim().min(2).max(160).transform(sauber),
   /** Genau so viele Antworten wie Fragen, in der Reihenfolge von `FRAGEN`. */
   antworten: z.array(z.enum(["yes", "no", "unsure"])).length(FRAGEN.length),
   referrer: freitext(500),
@@ -65,6 +68,21 @@ const EingabeSchema = z.object({
   utmMedium: freitext(120),
   utmCampaign: freitext(120),
 });
+
+/** Macht aus dem Firmennamen einen Dateinamen, der jedes Postfach überlebt. */
+function dateiname(firma: string): string {
+  return (
+    firma
+      .toLowerCase()
+      .replace(/ä/g, "ae")
+      .replace(/ö/g, "oe")
+      .replace(/ü/g, "ue")
+      .replace(/ß/g, "ss")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "")
+      .slice(0, 48) || "unbekannt"
+  );
+}
 
 export async function POST(request: NextRequest) {
   if (!darfMelden("selbstcheck", kennungVon(request), MAX_PRO_FENSTER)) {
@@ -103,20 +121,15 @@ export async function POST(request: NextRequest) {
     .filter(Boolean)
     .join(" · ");
 
-  /* Ein `SELBSTCHECK_MAIL_AN`, das nur aus Kommas oder Leerzeichen besteht,
-     ergäbe sonst eine leere Empfängerliste — ein Tippfehler in Coolify wäre
-     damit ein stiller Totalausfall. */
-  const eingetragen = (process.env.SELBSTCHECK_MAIL_AN ?? "")
-    .split(",")
-    .map((adresse) => adresse.trim())
-    .filter(Boolean);
-  const empfaenger = eingetragen.length > 0 ? eingetragen : [STANDARD_EMPFAENGER];
+  const empfaenger = empfaengerAus(process.env.SELBSTCHECK_MAIL_AN);
 
   const berlin = { timeZone: "Europe/Berlin" } as const;
   const band = BAENDER[auswertung.band].label;
 
   try {
     const pdf = await erzeugeSelbstcheckPdf({
+      name: daten.name,
+      firma: daten.firma,
       antworten: daten.antworten,
       auswertung,
       zeitpunkt,
@@ -129,8 +142,10 @@ export async function POST(request: NextRequest) {
       an: empfaenger,
       /* Ergebnis im Betreff, damit die Liste im Postfach schon sortierbar ist,
          ohne das PDF zu öffnen. Keine Nutzereingabe darin. */
-      betreff: `Selbstcheck EU AI Act: ${auswertung.prozent}/100 (${band})`,
+      betreff: `Selbstcheck EU AI Act: ${daten.firma} — ${auswertung.prozent}/100 (${band})`,
       text: [
+        `${daten.name}, ${daten.firma}`,
+        "",
         `Ergebnis: ${auswertung.prozent} von 100 — ${band}`,
         offen.length > 0
           ? `Offen: ${offen.map((i) => `${FRAGEN[i].label} (${ANTWORT_LABEL[daten.antworten[i]]})`).join(", ")}`
@@ -140,13 +155,13 @@ export async function POST(request: NextRequest) {
         `Ausgefüllt: ${zeitpunkt.toLocaleString("de-DE", berlin)} Uhr`,
         "",
         "Die vollständige Auswertung steht im PDF im Anhang.",
-        "Anonym ausgefüllt: kein Name, keine Kontaktdaten. Der Ausfüllende hat das Ergebnis nicht gesehen.",
+        "Eine E-Mail-Adresse wird nicht abgefragt; der Ausfüllende hat das Ergebnis nicht gesehen.",
       ].join("\n"),
       anhaenge: [
         {
-          /* Datum und Uhrzeit statt Firmenname — den gibt es nicht mehr. Die
-             Uhrzeit trennt zwei Checks vom selben Tag. */
-          name: `selbstcheck-${zeitpunkt.toLocaleDateString("sv-SE", berlin)}-${zeitpunkt
+          /* Firma plus Datum: So heißt die Datei im Postfach wie der Fall, um
+             den es geht. Die Uhrzeit trennt zwei Checks derselben Firma. */
+          name: `selbstcheck-${dateiname(daten.firma)}-${zeitpunkt.toLocaleDateString("sv-SE", berlin)}-${zeitpunkt
             .toLocaleTimeString("de-DE", { ...berlin, hour: "2-digit", minute: "2-digit" })
             .replace(":", "")}.pdf`,
           typ: "application/pdf",
