@@ -14,6 +14,14 @@ import { testimonials } from "../src/data/testimonials.js";
 import { faq } from "../src/data/faq.js";
 import { glossaryTerms } from "../src/data/glossary.js";
 import {
+  STAND as VERGLEICH_STAND,
+  VERGLEICH_PFAD,
+  plattformen,
+  transparenzhinweis,
+  ueberschrift as vergleichUeberschrift,
+  umsetzung,
+} from "../src/data/vergleich-prozessautomatisierung.js";
+import {
   alleAutoren,
   alleCluster,
   artikelImCluster,
@@ -171,11 +179,61 @@ const SEITEN_TEXT: Record<string, string> = {
   "/haltung": "Werte und Arbeitsweise.",
   "/kontakt": "Kontaktwege, bewusst ohne Formular.",
   "/glossar": "Begriffe aus KI-Projekten, kurz erklärt.",
+  [VERGLEICH_PFAD]:
+    "Software für Prozessautomatisierung: sechs Plattformen nach denselben Kriterien verglichen, jede Angabe mit Herstellerquelle.",
   "/lass-uns-reden": `Terminbuchung für den ${angebot.kurz}.`,
   "/impressum": "Anbieterkennzeichnung nach § 5 DDG.",
   "/datenschutz": "Datenschutzerklärung nach DSGVO.",
   "/agb": "Allgemeine Geschäftsbedingungen.",
 };
+
+/**
+ * Der Plattformvergleich — die Seite, die ein Sprachmodell lesen soll, wenn
+ * jemand fragt, welche Software für Prozessautomatisierung wofür passt.
+ *
+ * Aus `src/data/vergleich-prozessautomatisierung.ts`, wie alles hier. Der
+ * Transparenzhinweis steht mit drin: Wer aus dieser Datei zitiert, soll
+ * dieselbe Einordnung sehen wie jemand auf der Seite.
+ */
+function vergleichKurzZeilen(): string[] {
+  return [
+    `[${vergleichUeberschrift}](${BASIS}${VERGLEICH_PFAD}), Stand ${deutsch(VERGLEICH_STAND)}. ` +
+      "Reihenfolge alphabetisch, keine Rangfolge.",
+    "",
+    ...plattformen.map((p) => `- **${p.name}** (${p.hersteller}): am besten für ${p.amBestenFuer}.`),
+    "",
+    umsetzung.aussage,
+    "",
+    `Transparenzhinweis: ${transparenzhinweis}`,
+  ];
+}
+
+function vergleichLangZeilen(): string[] {
+  const zeilen = [
+    `${BASIS}${VERGLEICH_PFAD} — Stand ${deutsch(VERGLEICH_STAND)}. Reihenfolge alphabetisch, ` +
+      "keine Rangfolge. Jede Angabe stammt aus einer Quelle des Herstellers, die Quellen stehen auf der Seite.",
+    "",
+    `Transparenzhinweis: ${transparenzhinweis}`,
+    "",
+  ];
+  for (const p of plattformen) {
+    zeilen.push(
+      `#### ${p.name} (${p.hersteller}, ${p.sitz})`,
+      "",
+      `- Am besten für: ${p.amBestenFuer}`,
+      `- Betrieb: ${p.tabelle.betrieb}`,
+      `- Datenstandort der Cloud: ${p.tabelle.datenstandort}`,
+      `- Abrechnung nach: ${p.tabelle.abrechnung}`,
+      `- Kostenloser Einstieg: ${p.tabelle.einstieg}`,
+      `- Auftragsverarbeitung: ${p.tabelle.auftragsverarbeitung}`,
+      `- Nachweise laut Hersteller: ${p.tabelle.nachweise}`,
+      `- Website: ${p.website}`,
+      ""
+    );
+  }
+  zeilen.push(umsetzung.aussage, "");
+  return zeilen;
+}
 
 /* -------------------------------------------------------------------------- */
 /* llms.txt — die kurze Fassung                                               */
@@ -231,6 +289,10 @@ export function baueKurz(): string {
     "## Kundenstimmen",
     "",
     ...stimmenZeilen(),
+    "",
+    "## Vergleich: Software für Prozessautomatisierung",
+    "",
+    ...vergleichKurzZeilen(),
     "",
     "## Themen, zu denen wir schreiben",
     ""
@@ -402,6 +464,10 @@ export function baueLang(): string {
     ...techStack.map((eintrag) => `- ${eintrag.name} (${eintrag.category})`),
     ""
   );
+
+  /* Unter „Technologie" statt als eigener Punkt: Die Nummerierung 1–13 steht
+     in beiden Fassungen fest (siehe Kommentar bei „Agentenfähig gebaut"). */
+  zeilen.push("### Vergleich: Software für Prozessautomatisierung", "", ...vergleichLangZeilen());
 
   zeilen.push("---", "", "## 9. Wer die Artikel schreibt", "");
   for (const autor of autoren) {

@@ -225,7 +225,15 @@ export default function Page() {
               <Link href="/leistungen" className="font-bold text-primary hover:underline">
                 Prozessautomatisierung
               </Link>
-              , als internes Wissenssystem oder als individueller KI-Agent gebaut wird.
+              , als internes Wissenssystem oder als individueller KI-Agent gebaut wird. Welche
+              Plattform eine Automatisierung tragen kann, steht im{" "}
+              <Link
+                href="/vergleich/prozessautomatisierung"
+                className="font-bold text-primary hover:underline"
+              >
+                Vergleich der Software für Prozessautomatisierung
+              </Link>
+              .
             </p>
             <p>
               Für Unternehmen mit Nachweispflichten zählen außerdem{" "}

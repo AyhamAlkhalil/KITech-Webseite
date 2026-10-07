@@ -10,6 +10,7 @@ import type { Artikel, Autor, Cluster } from "@/lib/wissen/schema";
 import { blogPostingSchema, autorUrl } from "@/lib/wissen/schema-org";
 import { AbsaetzeMitLinks, verlinkeAbsatz } from "@/lib/wissen/verlinken";
 import { DEFAULT_OG_IMAGE } from "@/lib/metadata";
+import { datumKurz, datumLang } from "@/lib/datum";
 
 /**
  * Ein Artikel unter `/gratis-wissen/<slug>`.
@@ -473,37 +474,4 @@ function ankerId(heading: string, index: number): string {
     .slice(0, 60);
 
   return `${basis || "abschnitt"}-${index + 1}`;
-}
-
-const MONATE = [
-  "Januar",
-  "Februar",
-  "März",
-  "April",
-  "Mai",
-  "Juni",
-  "Juli",
-  "August",
-  "September",
-  "Oktober",
-  "November",
-  "Dezember",
-];
-
-/**
- * `2026-08-19` → `19. August 2026`.
- *
- * Bewusst von Hand statt über `toLocaleDateString`: Die Ausgabe muss auf Server
- * und Client identisch sein, sonst wirft React einen Hydrations-Fehler — und die
- * Zeitzonen-/Locale-Einstellung eines Containers ist nichts, worauf man sich
- * dafür verlassen sollte.
- */
-function datumLang(iso: string): string {
-  const [jahr, monat, tag] = iso.split("-");
-  return `${Number(tag)}. ${MONATE[Number(monat) - 1]} ${jahr}`;
-}
-
-function datumKurz(iso: string): string {
-  const [jahr, monat, tag] = iso.split("-");
-  return `${tag}.${monat}.${jahr}`;
 }

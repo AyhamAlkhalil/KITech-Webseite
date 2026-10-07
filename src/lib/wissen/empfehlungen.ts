@@ -82,6 +82,16 @@ export function empfehlungenFuer(pfad: string, anzahl = 3): ArtikelTeaser[] {
   const themen = THEMEN_JE_SEITE[pfad];
   if (!themen) return [];
 
+  return empfehlungenNachThemen(themen, anzahl);
+}
+
+/**
+ * Dieselbe Auswahl für eine Seite, die ihre Themen selbst mitbringt statt in
+ * `THEMEN_JE_SEITE` zu stehen — derzeit `/vergleich/prozessautomatisierung`.
+ * Der Unterschied ist nur der Eintrag: Die Hauptseiten oben stehen unter einem
+ * Test, der für jeden Schlüssel eine View mit Empfehlungsblock verlangt.
+ */
+export function empfehlungenNachThemen(themen: string[], anzahl = 3): ArtikelTeaser[] {
   const alle = veroeffentlichteArtikel();
   const gewaehlt: ArtikelTeaser[] = [];
   const vergeben = new Set<string>();

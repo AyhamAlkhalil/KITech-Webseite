@@ -2,7 +2,7 @@
 
 > Automatisierungen und individuelle Softwarelösungen für den deutschen Mittelstand.
 
-Stand: 14.09.2026. Erzeugt aus den Datenquellen der Website (`npm run llms`). Was hier steht, steht auch auf einer Seite.
+Stand: 06.10.2026. Erzeugt aus den Datenquellen der Website (`npm run llms`). Was hier steht, steht auch auf einer Seite.
 
 ---
 
@@ -222,6 +222,80 @@ Europäische Region mit Auftragsverarbeitungsvertrag oder eure eigene Hardware. 
 - Docker (Container)
 - Kubernetes (Betrieb)
 
+### Vergleich: Software für Prozessautomatisierung
+
+https://kitech-software.de/vergleich/prozessautomatisierung — Stand 06.10.2026. Reihenfolge alphabetisch, keine Rangfolge. Jede Angabe stammt aus einer Quelle des Herstellers, die Quellen stehen auf der Seite.
+
+Transparenzhinweis: KITech Software ist Hersteller keiner dieser Plattformen. Wir setzen aber Automatisierungen für Kunden um, vor allem mit Power Automate und n8n, und verdienen an dieser Arbeit. Deshalb gelten für alle sechs Plattformen dieselben Kriterien, und jede Angabe über einen Hersteller ist mit dessen eigener Seite belegt.
+
+#### Camunda (Camunda Services GmbH, Berlin, Deutschland)
+
+- Am besten für: lange, in BPMN modellierte Prozesse über Abteilungen hinweg, mit eigenem Entwicklerteam
+- Betrieb: Cloud (SaaS) oder eigener Server mit Kubernetes, auch ohne Verbindung nach außen
+- Datenstandort der Cloud: Regionen wählbar, in der EU Frankfurt am Main, Paris und Belgien
+- Abrechnung nach: Prozessinstanzen und Mandanten
+- Kostenloser Einstieg: Selbst betrieben kostenlos für Entwicklung und Test. 30 Tage Test der SaaS.
+- Auftragsverarbeitung: Ja, Data Processing Agreement, Übermittlung in Drittländer über Standardvertragsklauseln
+- Nachweise laut Hersteller: ISO/IEC 27001, SOC 2 Type 2 und TISAX laut Camunda
+- Website: https://camunda.com/
+
+#### Make (Celonis, München, Deutschland)
+
+- Am besten für: visuell gebaute Abläufe in der Cloud mit wählbarer EU-Region
+- Betrieb: Cloud des Herstellers. Lokale Systeme im Enterprise-Plan über den On-prem Agent.
+- Datenstandort der Cloud: EU oder USA, beim Anlegen wählbar. EU bei AWS in Irland, Enterprise in Deutschland.
+- Abrechnung nach: Credits, ein Credit je Modulaktion
+- Kostenloser Einstieg: Gratisplan ohne Zeitlimit
+- Auftragsverarbeitung: Ja, öffentlich als PDF, mit Standardvertragsklauseln
+- Nachweise laut Hersteller: ISO/IEC 27001 (Zertifikat der Celonis SE), SOC 2 Type 2
+- Website: https://www.make.com/en
+
+#### n8n (n8n GmbH, Berlin, Deutschland)
+
+- Am besten für: Unternehmen, die Abläufe auf eigenen Servern betreiben wollen
+- Betrieb: Cloud von n8n oder eigener Server, auch im eigenen Rechenzentrum
+- Datenstandort der Cloud: EU, Server in Frankfurt am Main. Selbst betrieben: eigener Standort.
+- Abrechnung nach: Workflow-Ausführungen in der Cloud, Lizenz für Business und Enterprise
+- Kostenloser Einstieg: Community Edition kostenlos selbst betreiben. 14 Tage Testphase in der Cloud.
+- Auftragsverarbeitung: Ja, vorunterschrieben, mit Standardvertragsklauseln
+- Nachweise laut Hersteller: SOC 2 Type 2 und SOC 3 laut Trust Center
+- Website: https://n8n.io/
+
+#### Power Automate (Microsoft, Redmond, USA)
+
+- Am besten für: Unternehmen, die bereits mit Microsoft 365 arbeiten
+- Betrieb: Nur Microsoft-Cloud. Desktop-Flows laufen auf eigenen Windows-Rechnern, lokale Systeme über ein Datengateway.
+- Datenstandort der Cloud: Region der Umgebung, darunter EU und EFTA innerhalb der EU Data Boundary
+- Abrechnung nach: Nutzer, Bot oder Prozess, alternativ Flow-Lauf über Azure
+- Kostenloser Einstieg: Testphase. Standard-Konnektoren in vielen Microsoft-365-Lizenzen. Developer Plan ohne Produktivbetrieb.
+- Auftragsverarbeitung: Ja, Microsoft Products and Services Data Protection Addendum
+- Nachweise laut Hersteller: ISO/IEC 27001, 27017, 27018, 27701, SOC 1 und SOC 2 Type 2 für die Microsoft-Cloud
+- Website: https://www.microsoft.com/de-de/power-platform/products/power-automate
+
+#### UiPath (UiPath, Inc., New York, USA)
+
+- Am besten für: Anwendungen ohne Schnittstelle, die sich nur über ihre Oberfläche bedienen lassen
+- Betrieb: Cloud, dedizierte Cloud oder selbst betrieben mit der Automation Suite
+- Datenstandort der Cloud: Regionen wählbar, darunter EU und Schweiz. Basic und Community nur EU.
+- Abrechnung nach: Nutzer- und Roboterlizenzen, dazu Platform Units für den Verbrauch
+- Kostenloser Einstieg: Community-Plan kostenlos, im laufenden Betrieb nur für kleine Unternehmen. 60 Tage Test des Standard-Plans.
+- Auftragsverarbeitung: Ja, Vertrag zum Download, mit Standardvertragsklauseln
+- Nachweise laut Hersteller: ISO/IEC 27001, 27017, 27018, 42001, SOC 1 und SOC 2 Type 2, C5 laut Trust Center
+- Website: https://www.uipath.com/de
+
+#### Zapier (Zapier, Inc., San Francisco, USA)
+
+- Am besten für: den schnellen Einstieg ohne IT, mit mehr als 9.000 fertig angebundenen Apps
+- Betrieb: Nur Cloud von Zapier. Im Enterprise-Plan Zugang zu eigenen Systemen per VPC Peering bei AWS.
+- Datenstandort der Cloud: USA (AWS). Eine Speicherung nur in der EU bietet Zapier nicht an.
+- Abrechnung nach: Tasks, also erfolgreiche Aktionen
+- Kostenloser Einstieg: Gratisplan, 14 Tage Test des Professional-Plans
+- Auftragsverarbeitung: Ja, mit Standardvertragsklauseln, dazu EU-U.S. Data Privacy Framework
+- Nachweise laut Hersteller: SOC 2 Type 2 und SOC 3, jährlich geprüft
+- Website: https://zapier.com/
+
+KITech Software eignet sich für mittelständische Unternehmen, die Abläufe mit Power Automate oder n8n umsetzen lassen und danach selbst betreiben wollen.
+
 ---
 
 ## 9. Wer die Artikel schreibt
@@ -327,6 +401,7 @@ Was ein neues Modell im laufenden Betrieb tatsächlich ändert: Kosten, Grenzen,
 - [/autoren](https://kitech-software.de/autoren): Wer die Artikel schreibt.
 - [/haltung](https://kitech-software.de/haltung): Werte und Arbeitsweise.
 - [/glossar](https://kitech-software.de/glossar): Begriffe aus KI-Projekten, kurz erklärt.
+- [/vergleich/prozessautomatisierung](https://kitech-software.de/vergleich/prozessautomatisierung): Software für Prozessautomatisierung: sechs Plattformen nach denselben Kriterien verglichen, jede Angabe mit Herstellerquelle.
 - [/kontakt](https://kitech-software.de/kontakt): Kontaktwege, bewusst ohne Formular.
 - [/lass-uns-reden](https://kitech-software.de/lass-uns-reden): Terminbuchung für den 1:1-KI-Check.
 - [/impressum](https://kitech-software.de/impressum): Anbieterkennzeichnung nach § 5 DDG.

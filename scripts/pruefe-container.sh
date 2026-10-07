@@ -29,6 +29,7 @@ ROUTEN=(
   /datenschutz /agb /gratis-wissen /autoren /autoren/ayham-alkhalil
   /gratis-wissen/rss.xml /gratis-wissen/thema/ki-strategie /llms.txt
   /images/og/standard.png /glossar/ki-audit /sitemap.xml
+  /vergleich/prozessautomatisierung
 )
 # Muss 404 liefern. Eine Website, die auf alles 200 sagt, hat keine 404-Seite.
 ROUTE_404=/gibt-es-nicht

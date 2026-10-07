@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
 import { SITE_CONTAINER } from "@/components/layout/site-container";
 import { PageHeading } from "@/components/sections/PageHeading";
@@ -165,6 +166,19 @@ export default function Leistungen({ wissen = [] }: { wissen?: ArtikelTeaser[] }
             </li>
           ))}
         </ul>
+        {/* Der Weg von der Werkzeugliste zum Vergleich (06.10.2026): Wer hier
+            Power Automate liest, fragt als Nächstes, was gegen n8n oder Make
+            spricht. Die Antwort steht mit Herstellerquellen auf einer eigenen
+            Seite, statt hier als zweite Liste. */}
+        <p className="mt-6 text-pretty text-fliess text-muted-foreground">
+          Wie Power Automate und n8n neben Make, Zapier, UiPath und Camunda dastehen:{" "}
+          <Link
+            href="/vergleich/prozessautomatisierung"
+            className="font-bold text-primary hover:underline"
+          >
+            Software für Prozessautomatisierung im Vergleich
+          </Link>
+        </p>
       </section>
 
       <WeiterlesenBlock

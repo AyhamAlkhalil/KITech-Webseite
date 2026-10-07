@@ -180,6 +180,7 @@ Dockerfile          Multi-Stage, node:22-alpine, standalone, Port 3000 — der a
 | `/gratis-wissen` + `[slug]`, `/gratis-wissen/thema/[cluster]`, `/gratis-wissen/rss.xml` | ja | Content-Bereich, Server Components. ⚠️ Alle drei liegen **unter** `/gratis-wissen` — `/rss.xml` und `/thema/…` an der Wurzel sind 404 |
 | `/autoren`, `/autoren/[slug]` | ja | `ProfilePage`, Inhalt `content/seo/autoren.json` |
 | `/haltung`, `/kontakt`, `/glossar` + `[slug]` | ja | |
+| `/vergleich/prozessautomatisierung` | ja | Plattformvergleich, siehe Regel „Vergleichsseiten" unten. `/vergleich` selbst hat keine Seite, bis es einen zweiten Vergleich gibt |
 | `/karriere` + `[slug]` | **nein** | Platzhalterstellen — siehe Regel unten |
 | `/lass-uns-reden` (Alias `/termin`) | ja | Calendly-Embed, consent-gated. Ziel **aller** Termin-CTAs |
 | `/selbstcheck_eu_ai_act` (Alias `/selbstcheck`) | **nein** | Markenfrei, siehe Sonderseiten |
@@ -274,6 +275,17 @@ Prüfzeichen kommen nach `public/images/siegel/` (README dort: drei Bedingungen)
 solange die Liste `siegel` leer ist, rendert der Block den Bereich gar nicht —
 **kein Platzhalter**, eine angedeutete Zertifizierung wirkt wie eine vorhandene.
 
+**Vergleichsseiten sind vergleichende Werbung (§ 6 UWG).** Sobald wir Mitbewerber
+nennen, liegt die Darlegungslast für jede Angabe über sie bei uns (§ 5 Abs. 1 UWG).
+Für `/vergleich/prozessautomatisierung` heißt das: jede Herstellerangabe mit einer
+Quelle **des Herstellers** und Abrufdatum, keine Beträge, alphabetisch statt
+Rangliste, „Grenzen" statt „Nachteile", KITech nicht als siebte Plattform in der
+Tabelle, Transparenzhinweis vor dem ersten Inhalt. Eigene Erfahrung nur, wo ein
+Kundenfall oder der eigene Betrieb sie belegt — derzeit Power Automate und n8n.
+Wer eine Angabe ändert, ruft die Quelle neu ab und setzt `STAND` und
+`lastModified` auf dasselbe Datum; `vergleich-prozessautomatisierung.test.ts`
+prüft das, dazu Hausstil, Beträge und Superlative.
+
 **Naming:** Dateien kebab-case, Komponenten PascalCase, TS-Variablen camelCase,
 Konstanten UPPER_SNAKE.
 
@@ -339,7 +351,7 @@ Zod-Validierung in `lib/schema-validators.ts`.
 - **Verweise per `@id`, keine ausgeschriebenen Zweitknoten.** Eine anonyme
   zweite `Organization` in `publisher`/`author`/`worksFor` liest sich als
   zweite Firma.
-- `npm run pruefe:jsonld` prüft das **ausgelieferte HTML** (19 Seiten): kein
+- `npm run pruefe:jsonld` prüft das **ausgelieferte HTML** (20 Seiten): kein
   Typ doppelt, jede `@id` aufgelöst. Nötig, weil Schemas an drei Orten entstehen
   (Views, Sammelfunktionen, `PageShell`) — was am Ende auf einer Seite steht,
   sieht man erst am gerenderten HTML. Statisch Prüfbares zusätzlich in
@@ -737,7 +749,7 @@ Dockerfile, was hier bricht, bricht auch dort:
 
 ```bash
 npm run lint && npm test && npm run build
-bash scripts/pruefe-container.sh      # baut, ruft 25 Routen ab, prüft JSON-LD, räumt auf
+bash scripts/pruefe-container.sh      # baut, ruft 26 Routen ab, prüft JSON-LD, räumt auf
 ```
 
 `npm start` taugt wegen `output: "standalone"` nur eingeschränkt — für eine
@@ -822,3 +834,6 @@ Stand 07.09.2026.
 | `/glossar/roi-garantie` und `/glossar/computer-vision` — beide Begriffe haben **null Deckung** in den Angebotsdateien, beide Seiten sind aber „Gesendet und indexiert" bei nur **11 indexierten Seiten** der ganzen Domain. Löschen kostet also Sichtbarkeit, Stehenlassen weckt eine Erwartung, die das Angebot nicht einlöst. Dritter Weg: Inhalt auf das umschreiben, was wir tun, Adresse behalten. `/glossar/mlops` war der klare Fall (Google unbekannt, 0 Verweise) und ist am 05.09. gefallen | Ayham |
 | Sales Letter und `/funnel` tragen Platzhaltertext | Ayham |
 | `/api/funnel-besuch` und `/api/ereignis` gehören zusammengelegt | technische Schuld |
+| Transparenzhinweis auf `/vergleich/prozessautomatisierung` (06.10.2026): Er nennt die Umsetzung als Eigeninteresse. Verdient KITech zusätzlich an Microsoft-Lizenzen oder Partnervergütungen, gehört das hinein | Ayham |
+| Themen-Vorrat `n8n-vs-make-vs-zapier` überschneidet sich mit `/vergleich/prozessautomatisierung` (06.10.2026). Nur mit dem dort verlangten Eigenanteil bauen (derselbe Ablauf in allen drei Werkzeugen gemessen) und auf den Vergleich verlinken, sonst streichen | Redaktion |
+| Herstellerangaben auf `/vergleich/prozessautomatisierung` (Stand 06.10.2026) veralten — Quellen spätestens im Januar 2027 neu abrufen | Redaktion |

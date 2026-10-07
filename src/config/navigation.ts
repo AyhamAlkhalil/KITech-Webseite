@@ -143,6 +143,7 @@ export const footerNavigation: Array<{ title: string; links: NavLink[] }> = [
       // bleiben sie ueber "Warum?" und die Segmentseiten /solo und /enterprise.
       { label: "Warum?", href: "/warum" },
       { label: "Glossar", href: "/glossar" },
+      { label: "Prozessautomatisierung im Vergleich", href: "/vergleich/prozessautomatisierung" },
       { label: "Wer hier schreibt", href: "/autoren" },
     ],
   },
@@ -226,8 +227,8 @@ export const siteRoutes: RouteDefinition[] = [
     lastModified: "2026-08-05",
   },
 
-  { path: "/leistungen", indexable: true, lastModified: "2026-09-07" },
-  { path: "/ki-beratung-mittelstand", indexable: true, lastModified: "2026-09-02" },
+  { path: "/leistungen", indexable: true, lastModified: "2026-10-06" },
+  { path: "/ki-beratung-mittelstand", indexable: true, lastModified: "2026-10-06" },
   { path: "/solo", indexable: true, lastModified: "2026-09-07" },
   { path: "/enterprise", indexable: true, lastModified: "2026-09-07" },
 
@@ -250,6 +251,16 @@ export const siteRoutes: RouteDefinition[] = [
   { path: "/autoren", indexable: true, lastModified: "2026-08-19" },
   { path: "/haltung", indexable: true, lastModified: "2026-08-05" },
   { path: "/glossar", indexable: true, lastModified: "2026-08-05" },
+  /**
+   * Plattformvergleich, angelegt am 06.10.2026. `lastModified` muss mit `STAND`
+   * in `src/data/vergleich-prozessautomatisierung.ts` übereinstimmen — der
+   * Test dort prüft das. Ein Vergleich, dessen Sitemap-Datum dem sichtbaren
+   * Stand widerspricht, verliert genau das Signal, wegen dem er datiert ist.
+   *
+   * `/vergleich` selbst hat keine Seite. Eine Übersicht mit einem Eintrag wäre
+   * eine dünne Seite; sie entsteht mit dem zweiten Vergleich.
+   */
+  { path: "/vergleich/prozessautomatisierung", indexable: true, lastModified: "2026-10-06" },
   { path: "/kontakt", indexable: true, lastModified: "2026-08-05" },
 
   // Stellenanzeigen sind noch Platzhalter (isPlaceholder in jobs.ts). Bis echte

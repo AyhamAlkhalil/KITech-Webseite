@@ -34,6 +34,7 @@ const SEITEN = [
   "/gratis-wissen/was-ein-ki-setup-im-betrieb-wirklich-ausmacht",
   "/gratis-wissen/thema/ki-strategie", "/autoren", "/autoren/ayham-alkhalil",
   "/impressum", "/datenschutz", "/agb", "/lass-uns-reden",
+  "/vergleich/prozessautomatisierung",
 ];
 
 /** Alle JSON-LD-Knoten einer Seite, flach. */
